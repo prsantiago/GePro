@@ -1,0 +1,126 @@
+html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+    /** Reset para REMS - 62.5% = 10px de 16px **/
+}
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    font-size: 1.6rem;
+    line-height: 2;
+}
+
+
+/** Globales **/
+
+.contenedor {
+    width: 95%;
+    max-width: 120rem;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 3.8rem;
+}
+
+h2 {
+    font-size: 3.4rem;
+}
+
+h3 {
+    font-size: 3rem;
+}
+
+h4 {
+    font-size: 2.6rem;
+}
+
+
+/* Botones */
+
+.btn {
+    font-size: 2rem;
+    text-decoration: none;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+.btn-check {
+    color: green;
+}
+
+.btn-editar {
+    color: yellow;
+}
+
+.btn-borrar {
+    color: red;
+}
+
+
+/*Barra login */
+
+.barra,
+.login,
+.caja-login,
+.opciones-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (min-width: 992px) {
+    .barra,
+    .caja-login,
+    .opciones-login {
+        flex-direction: row;
+    }
+    .barra {
+        justify-content: space-between;
+    }
+}
+
+
+/* Contenido Login */
+
+.contenido,
+.caja-progreso,
+.campo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
+    .campo {
+        flex-direction: row;
+    }
+}
+
+.contenido h3,
+.contenido h1 {
+    text-align: center;
+}
+
+
+/* Contenido Proyectos */
+
+
+/* Footer */
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
