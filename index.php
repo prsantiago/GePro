@@ -1,31 +1,33 @@
 <?php include 'inc/templates/header.php'; ?>
 
-<div class="contenedor barra">
-    <?php include 'inc/templates/logos.php'; ?>
+<div>
+    <div class="contenedor barra">
+        <?php include 'inc/templates/logos.php'; ?>
 
-    <div class="login">
-        <form id="formulario" class="caja-login" method="post">
-            <div class="campo">
-                <label for="usuario">Correo institucional: </label>
-                <input type="text" name="usuario" id="usuario" placeholder="Correo institucional">
-            </div>
-            <div class="campo">
-                <label for="password">Password: </label>
-                <input type="password" name="password" id="password" placeholder="Password">
-            </div>
-            <div class="campo enviar">
-                <input type="hidden" id="tipo" value="login">
-                <input type="submit" class="boton" value="Iniciar sesión">
-            </div>
-        </form>
-        <div class="opciones-login">
-            <div class="campo">
-                <a href="crear-cuenta.php">Crea una cuenta nueva</a>
-            </div>
-            <div class="campo">
-                <a href="recuperar-cuenta.php">Recuperar contraseña</a>
-            </div>
-        </div> 
+        <div class="login">
+            <form id="formulario" class="caja-login" method="post">
+                <div class="campo">
+                    <label for="usuario">Correo institucional: </label>
+                    <input type="text" name="usuario" id="usuario" placeholder="Correo institucional">
+                </div>
+                <div class="campo">
+                    <label for="password">Password: </label>
+                    <input type="password" name="password" id="password" placeholder="Password">
+                </div>
+                <div class="campo enviar">
+                    <input type="hidden" id="tipo" value="login">
+                    <input type="submit" class="boton" value="Iniciar sesión">
+                </div>
+            </form>
+            <div class="opciones-login">
+                <div class="campo">
+                    <a href="crear-cuenta.php">Crea una cuenta nueva</a>
+                </div>
+                <div class="campo">
+                    <a href="recuperar-cuenta.php">Recuperar contraseña</a>
+                </div>
+            </div> 
+        </div>
     </div>
 </div>
 

@@ -5,8 +5,8 @@
 </div>
 
 <div class="contenedor-formulario">
-    <form id="formulario" class="caja-signup" method="post">
-        <p>Utilice el correo de su institución para crear la cuenta</p>
+    <p>Utilice el correo de su institución para crear la cuenta</p>
+    <form id="crear-cuenta" class="caja-signup" method="post">
         <div class="campo">
             <label for="usuario">Correo institucional: </label>
             <input type="text" name="usuario" id="usuario" placeholder="Correo institucional">

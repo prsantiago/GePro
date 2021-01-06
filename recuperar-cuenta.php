@@ -6,7 +6,7 @@
 
 <div class="contenedor-formulario">
     <p>Ingrese el correo institucional con el que se registró</p>
-    <form id="formulario" class="caja-recuperar" method="post">
+    <form id="recuperar-cuenta" class="caja-recuperar" method="post">
         <div class="campo">
             <label for="usuario">Correo institucional: </label>
             <input type="text" name="usuario" id="usuario" placeholder="Correo institucional">

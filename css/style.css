@@ -21,7 +21,7 @@ body {
 
 .contenedor {
     width: 95%;
-    max-width: 120rem;
+    /* max-width: 120rem; */
     margin: 0 auto;
 }
 
@@ -114,6 +114,25 @@ h4 {
 
 
 /* Contenido Proyectos */
+
+.contenedor-proyectos {
+    margin: 0 auto;
+}
+
+.total-proyectos {
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.listado-proyectos {
+    width: 100%;
+    margin-top: 1rem;
+    border-collapse: collapse;
+}
 
 
 /* Footer */
