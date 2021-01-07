@@ -1,6 +1,6 @@
 <?php include 'inc/templates/header.php'; ?>
 
-<div>
+<div class="bg-primario">
     <div class="contenedor barra">
         <?php include 'inc/templates/logos.php'; ?>
 
@@ -31,19 +31,21 @@
     </div>
 </div>
 
-<div class="contenedor contenido">
-    <h1>GePro</h1>
-    <h3>Sistema gestor de proyectos</h3>
-    <form id="formulario" class="caja-progreso" method="post">
-        <div class="campo">
-            <label for="usuario">Ingrese ID de pre-tesista o tesista: </label>
-            <input type="text" name="usuario" id="usuario" placeholder="ID de pre-tesista o tesista">
-        </div>
-        <div class="campo enviar">
-            <input type="hidden" id="tipo" value="progreso">
-            <input type="submit" class="boton" value="Ver progreso">
-        </div>
-    </form>
+<div class="bg-secundario">
+    <div class="contenedor bg-terciario contenido">
+        <h1>GePro</h1>
+        <h3>Sistema gestor de proyectos</h3>
+        <form id="formulario" class="caja-progreso" method="post">
+            <div class="campo">
+                <label for="usuario">Ingrese ID de pre-tesista o tesista: </label>
+                <input type="text" name="usuario" id="usuario" placeholder="ID de pre-tesista o tesista">
+            </div>
+            <div class="campo enviar">
+                <input type="hidden" id="tipo" value="progreso">
+                <input type="submit" class="boton" value="Ver progreso">
+            </div>
+        </form>
+    </div>
 </div>
 
 <?php include 'inc/templates/footer.php'; ?>
