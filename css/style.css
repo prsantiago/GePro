@@ -1,10 +1,11 @@
 /** Custom properties **/
 
 :root {
-    --primario: #0d1b2a;
-    --secundario: #1b263b;
-    --terciario: #e0e1dd;
-    --cuaternario: #415a77;
+    --primario: #ffffff;
+    --secundario: #353535;
+    --terciario: #d9d9d9;
+    --cuaternario: #3c6e71;
+    --quinto: #284b63;
 }
 
 html {
@@ -48,7 +49,7 @@ h4 {
 }
 
 
-/* .bg-primario {
+.bg-primario {
     background-color: var(--primario);
 }
 
@@ -62,7 +63,10 @@ h4 {
 
 .bg-cuaternario {
     background-color: var(--cuaternario);
-} */
+}
+.bg-quinto {
+    background-color: var(--quinto);
+}
 
 
 /* Botones */
