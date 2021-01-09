@@ -1,5 +1,7 @@
 /** Custom properties **/
-
+* {
+    margin: 0;
+}
 :root {
     --primario: #ffffff;
     --secundario: #353535;
@@ -68,7 +70,6 @@ h4 {
     background-color: var(--quinto);
 }
 
-
 /* Botones */
 
 .btn {
@@ -92,10 +93,48 @@ h4 {
     color: red;
 }
 
+/* logos */
+.logos {
+    margin: 0 auto;
+}
 
-/*Barra login */
+@media (min-width: 992px) {
+    .logos {
+        margin: 0;
+    }
+}
 
-.barra,
+/* barra */
+.contenedor-barra {
+    /* border-bottom: 5px solid lightgray; */
+}
+
+.barra {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center;
+    align-items: center; */
+    padding: 20px 0px;
+}
+
+@media (min-width: 992px) {
+    .barra {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+/* main */
+.contenedor-main {
+    padding: 20px 0px;
+}
+
+.contenido {
+    padding: 20px 0px;
+}
+
+/* index */
+
 .login,
 .caja-login,
 .opciones-login {
@@ -106,18 +145,11 @@ h4 {
 }
 
 @media (min-width: 992px) {
-    .barra,
     .caja-login,
     .opciones-login {
         flex-direction: row;
     }
-    .barra {
-        justify-content: space-between;
-    }
 }
-
-
-/* Contenido Login */
 
 .contenido,
 .caja-progreso,
@@ -140,7 +172,7 @@ h4 {
 }
 
 
-/* Contenido Proyectos */
+/* Contenido inicio */
 
 .contenedor-proyectos {
     margin: 0 auto;
@@ -197,4 +229,8 @@ table {
 
 .footer div {
     margin: 0 auto;
+}
+
+.contenedor-footer {
+    padding: 20px 0px;
 }

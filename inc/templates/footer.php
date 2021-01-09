@@ -1,4 +1,4 @@
-<footer class="bg-quinto">
+<footer class="bg-quinto contenedor-footer">
     <div class="contenedor footer">
         <div>
             <p># Usuarios</p>

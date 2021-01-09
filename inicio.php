@@ -1,6 +1,6 @@
 <?php include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
 
-<div class="bg-primario">
+<div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
         <?php include 'inc/templates/logos.php'; ?>
 
@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<div class="bg-secundario sombra proyectos">
+<main class="bg-secundario sombra proyectos contenedor-main">
     <div class="contenedor bg-terciario proyectos">
         <p class="total-proyectos"><span>2</span> Proyectos</p>
 
@@ -63,6 +63,6 @@
             </table>
         </div>
     </div>
-</div>
+</main>
 
 <?php include 'inc/templates/footer.php'; ?>
