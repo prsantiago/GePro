@@ -1,4 +1,4 @@
-<?php include 'inc/templates/header.php'; ?>
+<?php include 'inc/templates/header.php';?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
@@ -10,48 +10,48 @@
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
         <h1>Crear cuenta</h1>
-        <form id="crear-cuenta" class="caja-signup" action="#">
+        <form id="profesor" class="caja-signup" action="#">
             <legend>Crea una cuenta de profesor con tu correo institucional. <span>Todos los campos son obligatorios</span></legend>
             <div class="campos">
                 <div class="campo">
-                    <label for="nombre">Nombre(s): </label>
-                    <input type="text" name="nombre" id="nombre" placeholder="">
+                    <label for="nombre_profesor">Nombre(s): </label>
+                    <input type="text" id="nombre_profesor" placeholder="">
                 </div>
                 <div class="campo">
-                    <label for="apellido">Apellidos: </label>
-                    <input type="text" name="apellido" id="apellido" placeholder="">
+                    <label for="apellido_profesor">Apellidos: </label>
+                    <input type="text" id="apellido_profesor" placeholder="">
                 </div>
                 <div class="campo">
-                    <label for="matricula">Número identificador/Matricula: </label>
-                    <input type="text" name="matricula" id="matricula" placeholder="">
+                    <label for="matricula_profesor">Número identificador/Matricula: </label>
+                    <input type="text" id="matricula_profesor" placeholder="">
                 </div>
                 <div class="campo">
-                    <label for="correo">Correo institucional: </label>
-                    <input type="email" name="correo" id="correo" placeholder="">
+                    <label for="correo_profesor">Correo institucional: </label>
+                    <input type="email" id="correo_profesor" placeholder="">
                 </div>
                 <div class="campo">
-                    <label for="password">Password: </label>
-                    <input type="password" name="password" id="password" placeholder="">
+                    <label for="password_profesor">Password: </label>
+                    <input type="password" id="password_profesor" placeholder="">
                 </div>
                 <div class="campo">
-                    <label for="valpass">Validar password: </label>
-                    <input type="password" name="valpass" id="valpass" placeholder="">
+                    <label for="valpass_profesor">Validar password: </label>
+                    <input type="password" id="valpass_profesor" placeholder="">
                 </div>
                 <div class="campo">
-                    <label for="institucion">Institución a la que perteneces: </label>
-                    <input type="text" name="institucion" id="institucion" placeholder="">
+                    <label for="universidad_profesor">Institución a la que perteneces: </label>
+                    <input type="text" id="universidad_profesor" placeholder="">
                 </div>
                 <div class="campo">
-                    <label for="division">División/Facultad a la que perteneces: </label>
-                    <input type="text" name="division" id="division" placeholder="">
+                    <label for="division_profesor">División/Facultad a la que perteneces: </label>
+                    <input type="text" id="division_profesor" placeholder="">
                 </div>
                 <div class="campo">
-                    <label for="carrera">Departamento al que perteneces: </label>
-                    <input type="text" name="carrera" id="carrera" placeholder="">
+                    <label for="departamento_profesor">Departamento al que perteneces: </label>
+                    <input type="text" id="departamento_profesor" placeholder="">
                 </div>
             </div>
             <div class="campo enviar">
-                <input type="hidden" id="tipo" value="signup">
+                <input type="hidden" id="accion" value="crear">
                 <input type="submit" class="boton" value="Crear cuenta">
             </div>
         </form>
