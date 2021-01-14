@@ -1,7 +1,7 @@
 <?php include 'inc/templates/header.php'; ?>
 
 <div class="bg-primario contenedor-barra">
-    <div class="contenedor barra">
+    <div class="contenedor barra-inicio-sesion">
         <?php include 'inc/templates/logos.php'; ?>
 
         <div class="login">
@@ -32,7 +32,7 @@
 </div>
 
 <main class="bg-secundario contenedor-main">
-    <div class="contenedor bg-terciario contenido">
+    <div class="contenedor bg-terciario contenido sombra">
         <h1>GePro</h1>
         <h3>Sistema gestor de proyectos</h3>
         <form id="formulario" class="caja-progreso" method="post">

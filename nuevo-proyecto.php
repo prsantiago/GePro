@@ -8,7 +8,7 @@
 </div>
 
 <main class="bg-secundario contenedor-main">
-    <div class="bg-terciario contenedor sombra">
+    <div class="bg-terciario contenedor contenido sombra">
         <form id="nuevo-proyecto" action="#">
             <legend>Nuevo Proyecto</legend>
 

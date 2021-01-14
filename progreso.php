@@ -3,11 +3,12 @@
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
         <?php include 'inc/templates/logos.php'; ?>
+        <a href="inicio.php" class="btn volver">Volver</a>
     </div>
 </div>
 
 <main class="bg-secundario contenedor-main">
-    <div class="bg-terciario contenedor progreso">
+    <div class="bg-terciario contenedor contenido sombra">
         <div class="entregas">
             <div class="entrega bg-cuaternario">
                 <p>Entrega 1</p>

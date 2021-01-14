@@ -1,7 +1,7 @@
 <?php include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
 
 <div class="bg-primario contenedor-barra">
-    <div class="contenedor barra">
+    <div class="contenedor barra-inicio">
         <?php include 'inc/templates/logos.php'; ?>
 
         <a href="nuevo-proyecto.php">Nuevo proyecto</a>
@@ -12,8 +12,8 @@
     </div>
 </div>
 
-<main class="bg-secundario sombra proyectos contenedor-main">
-    <div class="contenedor bg-terciario proyectos">
+<main class="bg-secundario contenedor-main">
+    <div class="contenedor bg-terciario contenido sombra">
         <p class="total-proyectos"><span>2</span> Proyectos</p>
 
         <div class="contenedor-tabla">

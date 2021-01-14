@@ -10,6 +10,8 @@
     --quinto: #284b63;
 }
 
+/** Globales */
+
 html {
     box-sizing: border-box;
     font-size: 62.5%;
@@ -32,6 +34,10 @@ body {
     width: 95%;
     /* max-width: 120rem; */
     margin: 0 auto;
+}
+
+input {
+    width: 100%;
 }
 
 h1 {
@@ -93,49 +99,120 @@ h4 {
     color: red;
 }
 
+.volver {
+    background-color: var(--cuaternario);
+    border-radius: 5px;
+    text-align: center;
+    color: black;
+    font-weight: 700;
+    font-size: 1.5rem;
+    padding: 1rem;
+}
+
 /* logos */
 .logos {
     margin: 0 auto;
 }
 
-@media (min-width: 992px) {
-    .logos {
+@media (min-width: 768px) {
+    .barra .logos,
+    .barra-inicio .logos {
         margin: 0;
     }
 }
 
-/* barra */
-.contenedor-barra {
-    /* border-bottom: 5px solid lightgray; */
+@media (min-width: 992px) {
+    .barra-inicio-sesion .logos {
+        margin: 0;
+    }
 }
 
-.barra {
+/* Formulario */
+
+form {
+    padding: 3rem;
+    margin-top: 2rem;
+}
+
+form legend {
+    /* font-family: var(--fuenteSecundaria); */
+    font-size: 2rem;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.campo input[type="text"],
+.campo input[type="date"],
+.campo input[type="email"],
+.campo input[type="password"] {
+    width: 100%;
+    border: none;
+    padding: .5rem;
+    height: 3rem;
+    margin-top: .5rem;
+    font-size: 1.2rem;
+}
+
+.enviar {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.campo input[type="submit"] {
+    background-color: var(--cuaternario);
+    border: none;
+    color: white;
+    padding: 1rem 4rem;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+    transition: background-color .5s ease-in-out;
+    flex: 1;
+}
+
+.campo input[type="submit"]:hover {
+    cursor: pointer;
+    background-color: var(--quinto);
+}
+
+@media (min-width: 768px) {
+    .campo input[type="submit"] {
+        flex: 0 0 auto;
+    }
+}
+
+/* barra */
+
+.barra,
+.barra-inicio,
+.barra-inicio-sesion {
     display: flex;
     flex-direction: column;
-    /* justify-content: center;
-    align-items: center; */
-    padding: 20px 0px;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 0rem;
 }
 
-@media (min-width: 992px) {
-    .barra {
+@media (min-width: 768px) {
+    .barra,
+    .barra-inicio {
         flex-direction: row;
         justify-content: space-between;
     }
 }
 
-/* main */
-.contenedor-main {
-    padding: 20px 0px;
+@media (min-width: 992px) {
+    .barra-inicio-sesion {
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
 
-.contenido {
-    padding: 20px 0px;
+/* barra index */
+
+.login {
+    width: 100%;
 }
 
-/* index */
-
-.login,
 .caja-login,
 .opciones-login {
     display: flex;
@@ -144,27 +221,70 @@ h4 {
     align-items: center;
 }
 
-@media (min-width: 992px) {
-    .caja-login,
+.caja-login {
+    margin-top: 1rem;
+}
+
+.caja-login .campo {
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
     .opciones-login {
         flex-direction: row;
     }
+
+    .opciones-login .campo:first-child {
+        margin-right: 1.5rem;
+    }
 }
 
-.contenido,
-.caja-progreso,
-.campo {
+@media (min-width: 992px) {
+    .caja-login {
+        flex-direction: row;
+    }
+
+    .caja-login .campo {
+        margin-right: 1.5rem;
+    }
+    .caja-login .campo:last-of-type {
+        margin-right: 0rem;
+    }
+
+    .caja-login,
+    .opciones-login {
+        justify-content: end;
+    }
+}
+
+/* main */
+.contenedor-main {
+    padding: 2rem 0rem;
+}
+
+.contenedor-main .contenedor {
+    width: 85%;
+    margin: 2rem auto;
+}
+
+.contenido {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 2rem 0rem;
 }
 
-@media (min-width: 768px) {
-    .campo {
-        flex-direction: row;
-    }
+.sombra {
+    box-shadow: -10px 10px 5px 0px rgba(0,0,0,0.75);
+    -webkit-box-shadow: -10px 10px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: -10px 10px 5px 0px rgba(0,0,0,0.75);
+    border-radius: 10px 10px 10px 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
 }
+
+/* main index */
 
 .contenido h3,
 .contenido h1 {
@@ -232,5 +352,5 @@ table {
 }
 
 .contenedor-footer {
-    padding: 20px 0px;
+    padding: 2rem 0rem;
 }
