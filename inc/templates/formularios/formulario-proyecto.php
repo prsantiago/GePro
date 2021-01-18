@@ -45,8 +45,8 @@
         >
     </div>
     <div class="campo">
-        <label for="observaciones">Observaciones</label><br>
-        <textarea id="observaciones" name="observaciones">
+        <label for="descripcion">Descripción</label><br>
+        <textarea id="descripcion" name="descripcion">
 
         </textarea>
     </div>

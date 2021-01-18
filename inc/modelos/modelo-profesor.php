@@ -23,9 +23,9 @@ if($_POST['accion_profesor'] == 'crear') {
     // importar la conexion
     try {
 
-        $stmt = $conn->prepare("INSERT INTO profesor (nombre_profesor, apellido_profesor, matricula_profesor, 
-                                                    correo_profesor, password_profesor, universidad_profesor,
-                                                    division_profesor, departamento_profesor) VALUES (?,?,?,?,?,?,?,?)");
+        $stmt = $conn->prepare("INSERT INTO profesor (nombre, apellido, matricula, 
+                                                    correo, contraseña, universidad,
+                                                    division, departamento) VALUES (?,?,?,?,?,?,?,?)");
         $stmt->bind_param("ssssssss", $nombre_profesor, $apellido_profesor, $matricula_profesor, $correo_profesor, 
                                         $hash_password, $universidad_profesor, $division_profesor, $departamento_profesor);
         $stmt->execute();

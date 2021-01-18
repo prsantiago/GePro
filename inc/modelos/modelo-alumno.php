@@ -14,7 +14,6 @@ if($_POST['accion_alumno'] == 'crear') {
     $division_alumno = filter_var($_POST['division_alumno'], FILTER_SANITIZE_STRING);
     $carrera_alumno = filter_var($_POST['carrera_alumno'], FILTER_SANITIZE_STRING);
     $estado_alumno = filter_var($_POST['estado_alumno'], FILTER_SANITIZE_NUMBER_INT);
-    $claveproyecto_alumno = filter_var($_POST['claveproyecto_alumno'], FILTER_SANITIZE_STRING);
 
     // hashear passwords
     $opciones = array(
@@ -23,11 +22,11 @@ if($_POST['accion_alumno'] == 'crear') {
     $hash_password = password_hash($password_alumno, PASSWORD_BCRYPT, $opciones);
 
     try {
-        $stmt = $conn->prepare("INSERT INTO alumno (nombre_alumno, apellido_alumno, matricula_alumno, 
-                                                    correo_alumno, password_alumno, universidad_alumno,
-                                                    division_alumno, carrera_alumno, estado_alumno, claveproyecto_alumno) VALUES (?,?,?,?,?,?,?,?,?,?)");
-        $stmt->bind_param("ssssssssis", $nombre_alumno, $apellido_alumno, $matricula_alumno, $correo_alumno, $hash_password,
-                                        $universidad_alumno, $division_alumno, $carrera_alumno, $estado_alumno, $claveproyecto_alumno);
+        $stmt = $conn->prepare("INSERT INTO alumno (nombre, apellido, matricula, 
+                                                    correo, contraseña, universidad,
+                                                    division, carrera, id_estado) VALUES (?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param("ssssssssi", $nombre_alumno, $apellido_alumno, $matricula_alumno, $correo_alumno, $hash_password,
+                                        $universidad_alumno, $division_alumno, $carrera_alumno, $estado_alumno);
         $stmt->execute();
 
         if($stmt->affected_rows == 1) {

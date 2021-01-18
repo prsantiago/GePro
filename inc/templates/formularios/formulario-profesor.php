@@ -75,5 +75,5 @@
 </div>
 <div class="campo enviar">
     <input type="hidden" id="accion_profesor" value="crear">
-    <input type="submit" class="boton" value="Crear cuenta">
+    <input type="submit" class="boton" value="Crear cuenta de profesor">
 </div>

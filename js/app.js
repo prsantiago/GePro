@@ -113,7 +113,6 @@ function leerFormularioAlumno(e) {
         division_alumno = document.querySelector('#division_alumno').value,
         carrera_alumno = document.querySelector('#carrera_alumno').value,
         estado_alumno = document.querySelector('#estado_alumno').value,
-        claveproyecto_alumno = generarClaveProyecto(estado_alumno, universidad_alumno, matricula_alumno),
         accion_alumno = document.querySelector('#accion_alumno').value;
 
     if (nombre_alumno === '' || apellido_alumno === '' || matricula_alumno === '' || correo_alumno === '' || valpass_alumno === '' ||
@@ -134,14 +133,12 @@ function leerFormularioAlumno(e) {
         infoContacto.append('universidad_alumno', universidad_alumno);
         infoContacto.append('division_alumno', division_alumno);
         infoContacto.append('carrera_alumno', carrera_alumno);
-        infoContacto.append('estado_alumno', estado_alumno[0]);
-        infoContacto.append('claveproyecto_alumno', claveproyecto_alumno);
+        infoContacto.append('estado_alumno', estado_alumno);
         infoContacto.append('accion_alumno', accion_alumno);
 
         // console.log(estado_alumno[0]);
         // console.log(estado_alumno[1]);
         // console.log(estado_alumno);
-        // console.log(claveproyecto_alumno, typeof claveproyecto_alumno);
         // console.log(...infoContacto);
 
         if (accion_alumno === 'crear') {
@@ -156,10 +153,6 @@ function leerFormularioAlumno(e) {
             console.log('TODO editar')
         }
     }
-}
-
-function generarClaveProyecto(estado, universidad, matricula) {
-    return estado[1] + universidad + matricula.slice(-4, matricula.length)
 }
 
 /** Inserta en la base de datos via Ajax */

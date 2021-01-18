@@ -73,10 +73,10 @@
         >
     </div>
     <div class="campo">
-        <label for="estado_alumno">Institución a la que perteneces: </label>
+        <label for="estado_alumno">Estado del alumno </label>
         <select name="estado_alumno" id="estado_alumno">
-            <option value="1P">Pre-tesista</option>
-            <option value="2T">Tesista</option>
+            <option value="1">Pre-tesista</option>
+            <option value="2">Tesista</option>
         </select>
     </div>
 </div>
