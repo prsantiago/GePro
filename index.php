@@ -27,7 +27,7 @@
             </form>
             <div class="opciones-login">
                 <div class="campo">
-                    <a href="crear-cuenta.php">Crea una cuenta nueva</a>
+                    <a href="crear-cuenta.php">Crea una cuenta de profesor nueva</a>
                 </div>
                 <div class="campo">
                     <a href="recuperar-cuenta.php">Recuperar contraseña</a>
