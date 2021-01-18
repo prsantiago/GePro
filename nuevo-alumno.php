@@ -4,18 +4,17 @@
     <div class="contenedor barra">
         <?php include 'inc/templates/logos.php'; ?> 
 
-        <a href="nuevo-alumno.php">Nuevo alumno</a>
-
-        <a href="inicio.php" class="btn volver">Volver</a>
+        <a href="nuevo-proyecto.php" class="btn volver">Volver</a>
     </div>
 </div>
 
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
-        <form id="nuevo-proyecto" action="#">
-            <legend>Nuevo Proyecto</legend>
+        <h1>Crear alumno</h1>
+        <form id="alumno" action="#">
+            <legend>Nuevo alumno</legend>
 
-            <?php include 'inc/templates/formularios/formulario-proyecto.php'; ?>
+            <?php include 'inc/templates/formularios/formulario-alumno.php'; ?>
 
         </form>
     </div>

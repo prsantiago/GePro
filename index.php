@@ -1,4 +1,10 @@
-<?php include 'inc/templates/header.php'; ?>
+<?php 
+    session_start();
+    include 'inc/templates/header.php'; 
+    if(isset($_GET['cerrar_sesion'])) {
+        $_SESSION = array();
+}
+?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra-inicio-sesion">

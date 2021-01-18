@@ -1,6 +1,6 @@
 <?php
 
-if($_POST['accion'] == 'crear') {
+if($_POST['accion_profesor'] == 'crear') {
     // Crear un nuevo registro en la base de datos
     require_once('../funciones/conexion.php');
 
@@ -14,28 +14,26 @@ if($_POST['accion'] == 'crear') {
     $division_profesor = filter_var($_POST['division_profesor'], FILTER_SANITIZE_STRING);
     $departamento_profesor = filter_var($_POST['departamento_profesor'], FILTER_SANITIZE_STRING);
 
+    // hashear passwords
+    $opciones = array(
+        'cost' => 12
+    );
+    $hash_password = password_hash($password_profesor, PASSWORD_BCRYPT, $opciones);
+
+    // importar la conexion
     try {
+
         $stmt = $conn->prepare("INSERT INTO profesor (nombre_profesor, apellido_profesor, matricula_profesor, 
                                                     correo_profesor, password_profesor, universidad_profesor,
                                                     division_profesor, departamento_profesor) VALUES (?,?,?,?,?,?,?,?)");
         $stmt->bind_param("ssssssss", $nombre_profesor, $apellido_profesor, $matricula_profesor, $correo_profesor, 
-                                        $password_profesor, $universidad_profesor, $division_profesor, $departamento_profesor);
+                                        $hash_password, $universidad_profesor, $division_profesor, $departamento_profesor);
         $stmt->execute();
 
         if($stmt->affected_rows == 1) {
             $respuesta = array(
                 'respuesta' => 'correcto',
-                'datos' => array (
-                    'id_insertado' => $stmt->insert_id,
-                    'nombre_profesor' => $nombre_profesor,
-                    'apellido_profesor' => $apellido_profesor,
-                    'matricula_profesor' => $matricula_profesor,
-                    'correo_profesor' => $correo_profesor,
-                    'password_profesor' => $password_profesor,
-                    'universidad_profesor' => $universidad_profesor,
-                    'division_profesor' => $division_profesor,
-                    'departamento_profesor' => $departamento_profesor
-                )
+                'id_insertado' => $stmt->insert_id
             );
         }
 

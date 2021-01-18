@@ -12,7 +12,7 @@
         <form id="editar-proyecto" action="#">
             <legend>Edite el Proyecto</legend>
 
-            <?php include 'inc/templates/formulario.php'; ?>
+            <?php include 'inc/templates/formularios/formulario-proyecto.php'; ?>
 
         </form>
     </div>
