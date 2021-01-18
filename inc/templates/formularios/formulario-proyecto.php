@@ -45,13 +45,10 @@
         >
     </div>
     <div class="campo">
-        <label for="observaciones">Observaciones</label>
-        <input 
-            type="text"
-            placeholder="Observaciones" 
-            id="observaciones"
-            value=""
-        >
+        <label for="observaciones">Observaciones</label><br>
+        <textarea id="observaciones" name="observaciones">
+
+        </textarea>
     </div>
 </div>
         
