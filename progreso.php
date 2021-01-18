@@ -11,47 +11,43 @@
     <div class="bg-terciario contenedor contenido sombra">
         <div class="entregas">
             <div class="entrega bg-cuaternario">
-                <p>Entrega 1</p>
-                <p>Fecha registrada: dd/mm/aaaa</p>
+                <p>Introducción</p>
+                <a href="comentarios.php" class="btn">dd/mm/aaaa</a>
             </div>
             <div class="entrega bg-cuaternario">
-                <p>Entrega 2</p>
-                <p>Fecha registrada: dd/mm/aaaa</p>
+                <p>Marco teórico</p>
+                <a href="comentarios.php" class="btn">dd/mm/aaaa</a>
             </div>
             <div class="entrega">
-                <p>Entrega 3</p>
-                <p>Fecha registrada: dd/mm/aaaa</p>
+                <p>Desarrollo</p>
+                <a href="comentarios.php" class="btn">dd/mm/aaaa</a>
             </div>
             <div class="entrega">
-                <p>Entrega 4</p>
-                <p>Fecha registrada: dd/mm/aaaa</p>
+                <p>Resultados</p>
+                <a href="comentarios.php" class="btn">dd/mm/aaaa</a>
             </div>
             <div class="entrega">
-                <p>Entrega 5</p>
-                <p>Fecha registrada: dd/mm/aaaa</p>
+                <p>Tesis integrada</p>
+                <a href="comentarios.php" class="btn">dd/mm/aaaa</a>
             </div>
         </div>
 
         <div class="procesos">
             <div class="proceso bg-cuaternario">
-                <p>Proceso 1</p>
-                <p>Fecha registrada: dd/mm/aaaa</p>
+                <p>Entrega</p>
+                <a href="comentarios.php" class="btn">dd/mm/aaaa</a>
             </div>
             <div class="proceso bg-cuaternario">
-                <p>Proceso 2</p>
-                <p>Fecha registrada: dd/mm/aaaa</p>
+                <p>Retroalimentación</p>
+                <a href="comentarios.php" class="btn">dd/mm/aaaa</a>
             </div>
             <div class="proceso bg-cuaternario">
-                <p>Proceso 3</p>
-                <p>Fecha registrada: dd/mm/aaaa</p>
+                <p>Aprobación</p>
+                <a href="comentarios.php" class="btn">dd/mm/aaaa</a>
             </div>
             <div class="proceso">
-                <p>Proceso 4</p>
-                <p>Fecha registrada: dd/mm/aaaa</p>
-            </div>
-            <div class="proceso">
-                <p>Proceso 5</p>
-                <p>Fecha registrada: dd/mm/aaaa</p>
+                <p>Presentación</p>
+                <a href="comentarios.php" class="btn">dd/mm/aaaa</a>
             </div>
         </div>
     </div>
