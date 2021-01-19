@@ -11,7 +11,7 @@
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
         <h1>Crear alumno</h1>
-        <form id="alumno" action="#">
+        <form id="alumno" action="#" method="post">
             <legend>Nuevo alumno</legend>
 
             <?php include 'inc/templates/formularios/formulario-alumno.php'; ?>

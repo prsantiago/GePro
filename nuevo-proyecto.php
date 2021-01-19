@@ -12,7 +12,7 @@
 
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
-        <form id="nuevo-proyecto" action="#">
+        <form id="nuevo-proyecto" action="#" method="post">
             <legend>Nuevo Proyecto</legend>
 
             <?php include 'inc/templates/formularios/formulario-proyecto.php'; ?>

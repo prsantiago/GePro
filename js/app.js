@@ -1,5 +1,7 @@
 const formularioProfesor = document.querySelector('#profesor'),
-        formularioAlumno = document.querySelector('#alumno');
+        formularioAlumno = document.querySelector('#alumno'),
+        loginProfesor = document.querySelector('#login'),
+        formularioProgreso = document.querySelector('#progreso');
 
 eventListeners();
 
@@ -9,6 +11,10 @@ function eventListeners() {
         formularioProfesor.addEventListener('submit', leerFormularioProfesor);
     if(formularioAlumno)
         formularioAlumno.addEventListener('submit', leerFormularioAlumno);
+    if(loginProfesor)
+        loginProfesor.addEventListener('submit', validarProfesor);
+    if(formularioProgreso)
+        formularioProgreso.addEventListener('submit', leerFormularioProgreso);
 }
 
 /* -------------------------------------------------------------------------------------------- */
@@ -30,13 +36,8 @@ function leerFormularioProfesor(e) {
         departamento_profesor = document.querySelector('#departamento_profesor').value,
         accion_profesor = document.querySelector('#accion_profesor').value;
 
-    if (nombre_profesor === '' || apellido_profesor === '' || matricula_profesor === '' || correo_profesor === '' || valpass_profesor === '' ||
-        password_profesor === '' || universidad_profesor === '' || division_profesor === '' || departamento_profesor=== '') {
-        console.log('Todos los campos son obligatorios');
-        // 2 parametros texto y clase
-        // mostrarNotificacion('Todos los campos son obligatorios', 'error');
-    } else if (valpass_profesor !== password_profesor) {
-        console.log(password_profesor, valpass_profesor)
+    if (valpass_profesor !== password_profesor) {
+        console.log(password_profesor, valpass_profesor);
         console.log('Contraseñas no coinciden');
     } else {
         // Pasa la validacion, crear llamado a Ajax
@@ -49,20 +50,13 @@ function leerFormularioProfesor(e) {
         infoContacto.append('universidad_profesor', universidad_profesor);
         infoContacto.append('division_profesor', division_profesor);
         infoContacto.append('departamento_profesor', departamento_profesor);
-        infoContacto.append('accion_profesor', accion_profesor);
-
-        // console.log(...infoContacto);
+        infoContacto.append('accion', accion_profesor);
 
         if (accion_profesor === 'crear') {
             // crearemos un nuevo contacto
             insertarProfesorBD(infoContacto);
         } else {
-            // editar el contacto
-            // leer el id
-            // const idRegistro = document.querySelector('#id').value;
-            // infoContacto.append('id', idRegistro);
-            // actualizaRegistro(infoContacto);
-            console.log('TODO editar')
+            console.log('TODO editar');
         }
     }
 }
@@ -81,13 +75,11 @@ function insertarProfesorBD(datos) {
         if (this.status === 200) {
             // Leemos la respuesta de PHP
             const respuesta = JSON.parse(xhr.responseText);
-            console.log(respuesta)
+            console.log(respuesta);
 
             //Resetear el formulario
             document.querySelector('form').reset();
 
-            // Mostar notificacion de completado
-            // mostrarNotificacion('Contacto creado correctamente', 'correcto');
         }
     }
 
@@ -115,13 +107,8 @@ function leerFormularioAlumno(e) {
         estado_alumno = document.querySelector('#estado_alumno').value,
         accion_alumno = document.querySelector('#accion_alumno').value;
 
-    if (nombre_alumno === '' || apellido_alumno === '' || matricula_alumno === '' || correo_alumno === '' || valpass_alumno === '' ||
-        password_alumno === '' || universidad_alumno === '' || division_alumno === '' || carrera_alumno=== '' || estado_alumno === '') {
-        console.log('Todos los campos son obligatorios');
-        // 2 parametros texto y clase
-        // mostrarNotificacion('Todos los campos son obligatorios', 'error');
-    } else if (valpass_alumno !== password_alumno) {
-        console.log('Contraseñas no coinciden');
+    if (valpass_alumno !== password_alumno) {
+        alert('Contraseñas no coinciden');
     } else {
         // Pasa la validacion, crear llamado a Ajax
         const infoContacto = new FormData();
@@ -136,21 +123,11 @@ function leerFormularioAlumno(e) {
         infoContacto.append('estado_alumno', estado_alumno);
         infoContacto.append('accion_alumno', accion_alumno);
 
-        // console.log(estado_alumno[0]);
-        // console.log(estado_alumno[1]);
-        // console.log(estado_alumno);
-        // console.log(...infoContacto);
-
         if (accion_alumno === 'crear') {
             // crearemos un nuevo contacto
             insertarAlumnoBD(infoContacto);
         } else {
-            // editar el contacto
-            // leer el id
-            // const idRegistro = document.querySelector('#id').value;
-            // infoContacto.append('id', idRegistro);
-            // actualizaRegistro(infoContacto);
-            console.log('TODO editar')
+            console.log('TODO editar');
         }
     }
 }
@@ -169,16 +146,106 @@ function insertarAlumnoBD(datos) {
         if (this.status === 200) {
             // Leemos la respuesta de PHP
             const respuesta = JSON.parse(xhr.responseText);
-            console.log(respuesta)
+            console.log(respuesta);
 
             //Resetear el formulario
             document.querySelector('form').reset();
 
-            // Mostar notificacion de completado
-            // mostrarNotificacion('Contacto creado correctamente', 'correcto');
         }
     }
 
     // enviar los datos
+    xhr.send(datos);
+}
+
+/* -------------------------------------------------------------------------------------------- */
+/* --------------------------------------- Log in profesor ------------------------------------------- */
+/* -------------------------------------------------------------------------------------------- */
+
+function validarProfesor(e) {
+    e.preventDefault();
+
+    const usuario = document.querySelector('#usuario').value,
+          password = document.querySelector('#password').value,
+          tipo = document.querySelector('#tipo').value;
+
+    if (usuario === '' || password === '') {
+        // la validación falló
+        console.log('Campos obligatorios');
+    } else {
+        // Ambos campos son correctos, mandar ejecutar Ajax
+
+        // datos que se envian al servidor
+        var datos = new FormData();
+        datos.append('usuario', usuario);
+        datos.append('password', password);
+        datos.append('accion', tipo);
+
+        // crear el llamado a ajax
+        var xhr = new XMLHttpRequest();
+
+        // abrir la conexión.
+        xhr.open('POST', 'inc/modelos/modelo-profesor.php', true);
+
+        // retorno de datos
+        xhr.onload = function() {
+            if (this.status === 200) {
+                var respuesta = JSON.parse(xhr.responseText);
+                console.log(respuesta);
+
+                // Si la respuesta es correcta
+                if (respuesta.respuesta === 'correcto') {  
+                    alert(respuesta.nombre);                
+                    window.location.href = 'inicio.php';
+                } else {
+                    // Hubo un error
+                    alert(respuesta.error);
+                }
+            }
+        }
+            // Enviar la petición
+        xhr.send(datos);
+    }
+}
+
+/* -------------------------------------------------------------------------------------------- */
+/* --------------------------------------- Progreso ------------------------------------------- */
+/* -------------------------------------------------------------------------------------------- */
+
+function leerFormularioProgreso(e) {
+    e.preventDefault();
+
+    const clave = document.querySelector('#clave').value,
+        accion = document.querySelector('#accion').value;
+
+    // mandar ejecutar Ajax
+    // datos que se envian al servidor
+    var datos = new FormData();
+    datos.append('clave', clave);
+    datos.append('accion', accion);
+
+    // crear el llamado a ajax
+    var xhr = new XMLHttpRequest();
+
+    // abrir la conexión.
+    xhr.open('POST', 'inc/modelos/modelo-proyecto.php', true);
+
+    // retorno de datos
+    xhr.onload = function() {
+        if (this.status === 200) {
+            var respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta);
+
+            // Si la respuesta es correcta
+            if (respuesta.respuesta === 'correcto') {  
+                alert(respuesta.nombre);                
+                window.location.href = 'progreso.php';
+            } else {
+                // Hubo un error
+                alert(respuesta.error);
+            }
+        }
+    }
+        // Enviar la petición
     xhr.send(datos);
 }

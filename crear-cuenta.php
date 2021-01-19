@@ -11,7 +11,7 @@
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
         <h1>Crear cuenta</h1>
-        <form id="profesor" class="caja-signup" action="#">
+        <form id="profesor" class="caja-signup" method="post">
             <legend>Crea una cuenta de profesor con tu correo institucional. <span>Todos los campos son obligatorios</span></legend>
             
             <?php include 'inc/templates/formularios/formulario-profesor.php'; ?>

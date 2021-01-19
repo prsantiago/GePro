@@ -5,6 +5,7 @@
             type="text" 
             id="nombre_profesor" 
             placeholder=""
+            required
         >
     </div>
     <div class="campo">
@@ -13,6 +14,7 @@
             type="text" 
             id="apellido_profesor" 
             placeholder=""
+            required
         >
     </div>
     <div class="campo">
@@ -21,6 +23,7 @@
             type="text" 
             id="matricula_profesor" 
             placeholder=""
+            required
         >
     </div>
     <div class="campo">
@@ -29,6 +32,7 @@
             type="email" 
             id="correo_profesor" 
             placeholder=""
+            required
         >
     </div>
     <div class="campo">
@@ -37,6 +41,7 @@
             type="password" 
             id="password_profesor" 
             placeholder=""
+            required
         >
     </div>
     <div class="campo">
@@ -45,6 +50,7 @@
             type="password" 
             id="valpass_profesor" 
             placeholder=""
+            required
         >
     </div>
     <div class="campo">
@@ -62,6 +68,7 @@
             type="text" 
             id="division_profesor" 
             placeholder=""
+            required
         >
     </div>
     <div class="campo">
@@ -70,6 +77,7 @@
             type="text" 
             id="departamento_profesor" 
             placeholder=""
+            required
         >
     </div>
 </div>

@@ -1,6 +1,6 @@
 <?php
 
-if($_POST['accion_profesor'] == 'crear') {
+if($_POST['accion'] == 'crear') {
     // Crear un nuevo registro en la base de datos
     require_once('../funciones/conexion.php');
 
@@ -8,7 +8,7 @@ if($_POST['accion_profesor'] == 'crear') {
     $nombre_profesor = filter_var($_POST['nombre_profesor'], FILTER_SANITIZE_STRING);
     $apellido_profesor = filter_var($_POST['apellido_profesor'], FILTER_SANITIZE_STRING);
     $matricula_profesor = filter_var($_POST['matricula_profesor'], FILTER_SANITIZE_STRING);
-    $correo_profesor = filter_var($_POST['correo_profesor'], FILTER_SANITIZE_STRING);
+    $correo_profesor = filter_var($_POST['correo_profesor'], FILTER_SANITIZE_EMAIL);
     $password_profesor = filter_var($_POST['password_profesor'], FILTER_SANITIZE_STRING);
     $universidad_profesor = filter_var($_POST['universidad_profesor'], FILTER_SANITIZE_STRING);
     $division_profesor = filter_var($_POST['division_profesor'], FILTER_SANITIZE_STRING);
@@ -22,7 +22,6 @@ if($_POST['accion_profesor'] == 'crear') {
 
     // importar la conexion
     try {
-
         $stmt = $conn->prepare("INSERT INTO profesor (nombre, apellido, matricula, 
                                                     correo, contraseña, universidad,
                                                     division, departamento) VALUES (?,?,?,?,?,?,?,?)");
@@ -45,6 +44,57 @@ if($_POST['accion_profesor'] == 'crear') {
         );
     }
 
+    echo json_encode($respuesta);
+}
+
+if($_POST['accion'] == 'login') {
+    require_once('../funciones/conexion.php');
+
+    $usuario = filter_var($_POST['usuario'], FILTER_SANITIZE_EMAIL);
+    $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+    
+    try {
+        // Seleccionar el profesor de la base de datos
+        $stmt = $conn->prepare("SELECT nombre, id, contraseña FROM profesor WHERE correo = ?");
+        $stmt->bind_param('s', $usuario);
+        $stmt->execute();
+        // Loguear el usuario
+        $stmt->bind_result($nombre_usuario, $id_usuario, $pass_usuario);
+        $stmt->fetch();
+        if($nombre_usuario){
+            // El usuario existe, verificar el password
+            if(password_verify($password,$pass_usuario)){
+                // Iniciar la sesion
+                session_start();
+                $_SESSION['nombre'] = $nombre_usuario;
+                $_SESSION['id'] = $id_usuario;
+                $_SESSION['login'] = true;
+                // Login correcto
+                $respuesta = array(
+                    'respuesta' => 'correcto',
+                    'nombre' => $nombre_usuario
+                );
+            } else {
+                // Login incorrecto, enviar error
+                $respuesta = array(
+                    'error' => 'Password Incorrecto'
+                );
+            }
+        } else {
+            $respuesta = array(
+                'error' => 'Usuario no existe'
+            );
+        }
+
+        $stmt->close();
+        $conn->close();
+    } catch(Exception $e) {
+        // En caso de un error, tomar la exepcion
+        $respuesta = array(
+            'error' => $e->getMessage()
+        );
+    }
+    
     echo json_encode($respuesta);
 }
 

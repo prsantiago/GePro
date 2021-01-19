@@ -6,9 +6,7 @@
 
         <a href="nuevo-proyecto.php">Nuevo proyecto</a>
 
-        <div class="contenedor-usuario">
-            <p>Hola, usuario</p>
-        </div>
+        <a href="index.php?cerrar_sesion=true">Cerrar Sesión</a>
     </div>
 </div>
 
