@@ -10,33 +10,32 @@
         >
     </div>
     <div class="campo">
-        <label for="matricula-alumno">Matricula alumno</label>
+        <label for="correo-alumno">Correo del alumno</label>
         <input 
             type="text" 
-            placeholder="Matricula alumno" 
-            id="matricula-alumno"
+            placeholder="Correo alumno" 
+            id="correo-alumno"
             value=""
             required
         >
     </div>
     <div class="campo">
-        <label for="id-asesor">ID asesor</label>
+        <label for="correo-asesor">Correo del asesor</label>
         <input 
             type="text" 
-            placeholder="ID asesor" 
-            id="id-asesor"
+            placeholder="Correo asesor" 
+            id="correo-asesor"
             value=""
             required
         >
     </div>
     <div class="campo">
-        <label for="id-coasesor">ID coasesor</label>
+        <label for="correo-coasesor">Correo del coasesor</label>
         <input 
             type="text" 
-            placeholder="ID coasesor" 
-            id="id-coasesor"
+            placeholder="Correo coasesor" 
+            id="correo-coasesor"
             value=""
-            required
         >
     </div>
     <div class="campo">
@@ -51,13 +50,13 @@
     </div>
     <div class="campo">
         <label for="descripcion">Descripción</label><br>
-        <textarea id="descripcion" name="descripcion">
+        <textarea id="descripcion" rows="4" cols="40" name="descripcion">
 
         </textarea>
     </div>
 </div>
         
 <div class="campo enviar">
-
-    <input type="submit" value="Guardar">
+    <input type="hidden" id="accion_proyecto" value="crear">
+    <input type="submit" class="boton" value="Crear proyecto">
 </div>
