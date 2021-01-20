@@ -5,7 +5,8 @@
             type="text" 
             placeholder="Nombre Proyecto" 
             id="nombre-proyecto"
-            value=""    
+            value=""
+            required    
         >
     </div>
     <div class="campo">
@@ -15,6 +16,7 @@
             placeholder="Matricula alumno" 
             id="matricula-alumno"
             value=""
+            required
         >
     </div>
     <div class="campo">
@@ -24,6 +26,7 @@
             placeholder="ID asesor" 
             id="id-asesor"
             value=""
+            required
         >
     </div>
     <div class="campo">
@@ -33,6 +36,7 @@
             placeholder="ID coasesor" 
             id="id-coasesor"
             value=""
+            required
         >
     </div>
     <div class="campo">
@@ -42,6 +46,7 @@
             placeholder="Fecha de inicio" 
             id="fecha"
             value=""
+            required
         >
     </div>
     <div class="campo">
@@ -53,5 +58,6 @@
 </div>
         
 <div class="campo enviar">
+
     <input type="submit" value="Guardar">
 </div>

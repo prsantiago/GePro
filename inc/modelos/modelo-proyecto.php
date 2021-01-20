@@ -43,4 +43,6 @@ if($_POST['accion'] == 'checar') {
     echo json_encode($respuesta);
 }
 
+
+
 ?>
