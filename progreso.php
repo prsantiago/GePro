@@ -67,12 +67,14 @@
                 <!-- <a href="comentarios.php" class="btn">dd/mm/aaaa</a> -->
             </div>
         </div>
-        <div class="confirmar-entrega">
-            <form id="entrega" action="#" method="post">
-                <input type="date" name="fecha-entrega" id="fecha-entrega">
-                <input type="submit" class="boton" value="Confirmar entrega">
-            </form>
-        </div>
+        <?php if(!strcmp($_SESSION['tipo_usuario'], 'profesor')) { ?>
+            <div class="confirmar-entrega">
+                <form id="entrega" action="#" method="post">
+                    <input type="date" name="fecha-entrega" id="fecha-entrega">
+                    <input type="submit" class="boton" value="Confirmar entrega">
+                </form>
+            </div>
+        <?php } ?>
 
         <div class="procesos">
             <div class="proceso bg-cuaternario">
@@ -104,12 +106,14 @@
                 <!-- <a href="comentarios.php" class="btn">dd/mm/aaaa</a> -->
             </div>
         </div>
-        <div class="confirmar-proceso">
-            <form id="proceso" action="#" method="post">
-                <input type="date" name="fecha-proceso" id="fecha-proceso">
-                <input type="submit" class="boton" value="Confirmar entrega">
-            </form>
-        </div>
+        <?php if(!strcmp($_SESSION['tipo_usuario'], 'profesor')) { ?>
+            <div class="confirmar-proceso">
+                <form id="proceso" action="#" method="post">
+                    <input type="date" name="fecha-proceso" id="fecha-proceso">
+                    <input type="submit" class="boton" value="Confirmar entrega">
+                </form>
+            </div>
+        <?php } ?>
     </div>
 </main>
 
