@@ -1,6 +1,7 @@
 const formularioProfesor = document.querySelector('#profesor'),
         formularioAlumno = document.querySelector('#alumno'),
         formularioProgreso = document.querySelector('#progreso'),
+        formularioProyecto = document.querySelector('#proyecto');
         loginProfesor = document.querySelector('#login-profesor'),
         loginAlumno = document.querySelector('#login-alumno');
 
@@ -14,6 +15,8 @@ function eventListeners() {
         formularioAlumno.addEventListener('submit', leerFormularioAlumno);
     if(formularioProgreso)
         formularioProgreso.addEventListener('submit', leerFormularioProgreso);
+    if(formularioProyecto)
+        formularioProyecto.addEventListener('submit', leerFormularioProyecto);
     if(loginProfesor)
         loginProfesor.addEventListener('submit', validarProfesor);
     if(loginAlumno)
@@ -171,7 +174,7 @@ function insertarAlumnoBD(datos) {
 }
 
 /* -------------------------------------------------------------------------------------------- */
-/* --------------------------------------- Log in profesor ------------------------------------------- */
+/* --------------------------------------- Log in ------------------------------------------- */
 /* -------------------------------------------------------------------------------------------- */
 
 function validarProfesor(e) {
@@ -185,13 +188,13 @@ function validarProfesor(e) {
     // Ambos campos son correctos, mandar ejecutar Ajax
 
     // datos que se envian al servidor
-    var datos = new FormData();
+    const datos = new FormData();
     datos.append('usuario', usuario);
     datos.append('password', password);
     datos.append('accion', tipo);
 
     // crear el llamado a ajax
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
 
     // abrir la conexión.
     xhr.open('POST', 'inc/modelos/modelo-profesor.php', true);
@@ -199,7 +202,7 @@ function validarProfesor(e) {
     // retorno de datos
     xhr.onload = function() {
         if (this.status === 200) {
-            var respuesta = JSON.parse(xhr.responseText);
+            const respuesta = JSON.parse(xhr.responseText);
             console.log(respuesta);
 
             // Si la respuesta es correcta
@@ -227,13 +230,13 @@ function validarAlumno(e) {
     // Ambos campos son correctos, mandar ejecutar Ajax
 
     // datos que se envian al servidor
-    var datos = new FormData();
+    const datos = new FormData();
     datos.append('usuario', usuario);
     datos.append('password', password);
     datos.append('accion', tipo);
 
     // crear el llamado a ajax
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
 
     // abrir la conexión.
     xhr.open('POST', 'inc/modelos/modelo-alumno.php', true);
@@ -241,7 +244,7 @@ function validarAlumno(e) {
     // retorno de datos
     xhr.onload = function() {
         if (this.status === 200) {
-            var respuesta = JSON.parse(xhr.responseText);
+            const respuesta = JSON.parse(xhr.responseText);
             console.log(respuesta);
 
             // Si la respuesta es correcta
@@ -270,12 +273,12 @@ function leerFormularioProgreso(e) {
 
     // mandar ejecutar Ajax
     // datos que se envian al servidor
-    var datos = new FormData();
+    const datos = new FormData();
     datos.append('clave', clave);
     datos.append('accion', accion);
 
     // crear el llamado a ajax
-    var xhr = new XMLHttpRequest();
+    const xhr = new XMLHttpRequest();
 
     // abrir la conexión.
     xhr.open('POST', 'inc/modelos/modelo-proyecto.php', true);
@@ -283,7 +286,7 @@ function leerFormularioProgreso(e) {
     // retorno de datos
     xhr.onload = function() {
         if (this.status === 200) {
-            var respuesta = JSON.parse(xhr.responseText);
+            const respuesta = JSON.parse(xhr.responseText);
             console.log(respuesta);
 
             // Si la respuesta es correcta
@@ -294,6 +297,61 @@ function leerFormularioProgreso(e) {
                 // Hubo un error
                 alert(respuesta.error);
             }
+        }
+    }
+        // Enviar la petición
+    xhr.send(datos);
+}
+
+/* -------------------------------------------------------------------------------------------- */
+/* --------------------------------------- Proyecto ------------------------------------------- */
+/* -------------------------------------------------------------------------------------------- */
+
+function leerFormularioProyecto(e) {
+    e.preventDefault();
+
+    const nombre = document.querySelector('#nombre').value,
+        correo_alumno = document.querySelector('#correo_alumno').value,
+        correo_coasesor = document.querySelector('#correo_coasesor').value,
+        fecha = document.querySelector('#fecha').value,
+        descripcion = document.querySelector('#descripcion').value,
+        accion = document.querySelector('#accion').value;
+
+    // mandar ejecutar Ajax
+    // datos que se envian al servidor
+    const datos = new FormData();
+    datos.append('nombre', nombre);
+    datos.append('correo_alumno', correo_alumno);
+    datos.append('correo_coasesor', correo_coasesor);
+    datos.append('fecha', fecha);
+    datos.append('descripcion', descripcion);
+    datos.append('accion', accion);
+
+    console.log(...datos);
+
+    // crear el llamado a ajax
+    const xhr = new XMLHttpRequest();
+
+    // abrir la conexión.
+    xhr.open('POST', 'inc/modelos/modelo-proyecto.php', true);
+
+    // retorno de datos
+    xhr.onload = function() {
+        if (this.status === 200) {
+            const respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta);
+
+            // Si la respuesta es correcta
+            if (respuesta.respuesta === 'correcto') {  
+                alert(respuesta.nombre);                
+                window.location.href = 'inicio.php';
+            } else {
+                // Hubo un error
+                alert(respuesta.error);
+            }
+        } else {
+            const respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta);
         }
     }
         // Enviar la petición

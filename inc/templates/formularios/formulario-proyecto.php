@@ -1,25 +1,25 @@
 <div class="campos">
     <div class="campo">
-        <label for="nombre-proyecto">Nombre Proyecto</label>
+        <label for="nombre">Nombre Proyecto</label>
         <input 
             type="text" 
             placeholder="Nombre Proyecto" 
-            id="nombre-proyecto"
+            id="nombre"
             value=""
             required    
         >
     </div>
     <div class="campo">
-        <label for="correo-alumno">Correo del alumno</label>
+        <label for="correo_alumno">Correo del alumno</label>
         <input 
             type="text" 
             placeholder="Correo alumno" 
-            id="correo-alumno"
+            id="correo_alumno"
             value=""
             required
         >
     </div>
-    <div class="campo">
+    <!-- <div class="campo">
         <label for="correo-asesor">Correo del asesor</label>
         <input 
             type="text" 
@@ -28,13 +28,13 @@
             value=""
             required
         >
-    </div>
+    </div> -->
     <div class="campo">
-        <label for="correo-coasesor">Correo del coasesor</label>
+        <label for="correo_coasesor">Correo del coasesor</label>
         <input 
             type="text" 
             placeholder="Correo coasesor" 
-            id="correo-coasesor"
+            id="correo_coasesor"
             value=""
         >
     </div>

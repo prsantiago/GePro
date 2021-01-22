@@ -159,16 +159,15 @@ INSERT INTO proceso VALUES
 (NULL,'Aprobación','1 semana',2),
 (NULL,'Presentación','2 semanas',1);
 
-/*DELIMITER //
-	CREATE PROCEDURE NUEVO_PROYECTO(correo_A1 varchar(125),correoA2 varchar(125),correoAlum varchar(125),
-    nombre varchar(125),fechaIni date,fechaFin date, descripcion varchar(75))
+DELIMITER //
+	CREATE PROCEDURE NUEVO_PROYECTO(id_asesor1 int, correo_coasesor varchar(125), correo_alumno varchar(125),
+                                    nombre varchar(125), fechaInicio date, descripcion varchar(255))
 	BEGIN
-		DECLARE X INT;
-        DECLARE Y INT;
-        DECLARE Z INT;
-		SELECT idProf INTO X FROM Profesor WHERE Profesor.correo = correo_A1;
-        SELECT idProf INTO Y FROM Profesor WHERE Profesor.correo = correo_A2;
-        SELECT idAlumno INTO Z FROM Alumno WHERE Alumno.correo = correoAlum;
-        INSERT INTO proyecto_vigente VALUES (NULL,X,Y,Z,nombre,fechaIni,fechaFin,descripcion);
+        DECLARE id_asesor2 INT;
+        DECLARE id_alumno INT;
+        SELECT id INTO id_asesor2 FROM Profesor WHERE Profesor.correo = correo_coasesor;
+        SELECT id INTO id_alumno FROM Alumno WHERE Alumno.correo = correo_alumno;
+        INSERT INTO proyecto_vigente (nombre, id_alumno, id_asesor1, id_asesor2, fechaInicio, descripcion) 
+                VALUES (nombre, id_alumno, id_asesor1, id_asesor2, fechaInicio, descripcion);
 	END//
- DELIMITER ;  */
+ DELIMITER ;
