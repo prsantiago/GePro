@@ -57,6 +57,6 @@
 </div>
         
 <div class="campo enviar">
-    <input type="hidden" id="accion_proyecto" value="crear">
+    <input type="hidden" id="accion" value="crear">
     <input type="submit" class="boton" value="Crear proyecto">
 </div>
