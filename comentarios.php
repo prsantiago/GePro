@@ -1,4 +1,4 @@
-<?php include 'inc/templates/header.php'; ?>
+<?php session_start(); include 'inc/templates/header.php'; ?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
@@ -9,6 +9,7 @@
 
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
+        <p><?php print_r($_SESSION); ?></p>
         <div class="comentarios">
             <div class="comentario bg-cuaternario">
                 <p>comentario 1 del alumno</p>

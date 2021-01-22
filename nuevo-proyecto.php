@@ -1,4 +1,4 @@
-<?php include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
+<?php session_start(); include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
@@ -12,6 +12,7 @@
 
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
+        <p><?php print_r($_SESSION); ?></p>
         <form id="nuevo-proyecto" action="#" method="post">
             <legend>Nuevo Proyecto</legend>
 

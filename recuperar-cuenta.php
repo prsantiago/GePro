@@ -1,4 +1,4 @@
-<?php include 'inc/templates/header.php'; ?>
+<?php session_start(); include 'inc/templates/header.php'; ?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
@@ -10,6 +10,7 @@
 
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
+        <p><?php print_r($_SESSION); ?></p>
         <p>Ingrese el correo institucional con el que se registró</p>
         <form id="recuperar-cuenta" class="caja-recuperar" method="post">
             <div class="campo">

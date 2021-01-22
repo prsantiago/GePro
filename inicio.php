@@ -1,4 +1,4 @@
-<?php include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
+<?php session_start(); include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra-inicio">
@@ -6,12 +6,13 @@
 
         <a href="nuevo-proyecto.php">Nuevo proyecto</a>
 
-        <a href="index.php?cerrar_sesion=true">Cerrar Sesión</a>
+        <a href="index.php?login=false">Cerrar Sesión</a>
     </div>
 </div>
 
 <main class="bg-secundario contenedor-main">
     <div class="contenedor bg-terciario contenido sombra">
+        <p><?php print_r($_SESSION); ?></p>
         <p class="total-proyectos"><span>2</span> Proyectos</p>
 
         <div class="contenedor-tabla">

@@ -47,4 +47,56 @@ if($_POST['accion_alumno'] == 'crear') {
     echo json_encode($respuesta);
 }
 
+if($_POST['accion'] == 'login') {
+    require_once('../funciones/conexion.php');
+
+    $usuario = filter_var($_POST['usuario'], FILTER_SANITIZE_EMAIL);
+    $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
+    
+    try {
+        // Seleccionar el profesor de la base de datos
+        $stmt = $conn->prepare("SELECT nombre, id, contraseña FROM alumno WHERE correo = ?");
+        $stmt->bind_param('s', $usuario);
+        $stmt->execute();
+        // Loguear el usuario
+        $stmt->bind_result($nombre_usuario, $id_usuario, $pass_usuario);
+        $stmt->fetch();
+        if($nombre_usuario){
+            // El usuario existe, verificar el password
+            if(password_verify($password,$pass_usuario)){
+                // Iniciar la sesion
+                session_start();
+                $_SESSION['nombre_usuario'] = $nombre_usuario;
+                $_SESSION['id_usuario'] = $id_usuario;
+                $_SESSION['login'] = true;
+                $_SESSION['tipo_usuario'] = 'alumno';
+                // Login correcto
+                $respuesta = array(
+                    'respuesta' => 'correcto',
+                    'nombre' => $nombre_usuario
+                );
+            } else {
+                // Login incorrecto, enviar error
+                $respuesta = array(
+                    'error' => 'Password Incorrecto'
+                );
+            }
+        } else {
+            $respuesta = array(
+                'error' => 'Usuario no existe'
+            );
+        }
+
+        $stmt->close();
+        $conn->close();
+    } catch(Exception $e) {
+        // En caso de un error, tomar la exepcion
+        $respuesta = array(
+            'error' => $e->getMessage()
+        );
+    }
+    
+    echo json_encode($respuesta);
+}
+
 ?>

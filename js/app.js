@@ -1,7 +1,8 @@
 const formularioProfesor = document.querySelector('#profesor'),
         formularioAlumno = document.querySelector('#alumno'),
-        loginProfesor = document.querySelector('#login'),
-        formularioProgreso = document.querySelector('#progreso');
+        formularioProgreso = document.querySelector('#progreso'),
+        loginProfesor = document.querySelector('#login-profesor'),
+        loginAlumno = document.querySelector('#login-alumno');
 
 eventListeners();
 
@@ -11,10 +12,12 @@ function eventListeners() {
         formularioProfesor.addEventListener('submit', leerFormularioProfesor);
     if(formularioAlumno)
         formularioAlumno.addEventListener('submit', leerFormularioAlumno);
-    if(loginProfesor)
-        loginProfesor.addEventListener('submit', validarProfesor);
     if(formularioProgreso)
         formularioProgreso.addEventListener('submit', leerFormularioProgreso);
+    if(loginProfesor)
+        loginProfesor.addEventListener('submit', validarProfesor);
+    if(loginAlumno)
+        loginAlumno.addEventListener('submit', validarAlumno);
 }
 
 /* -------------------------------------------------------------------------------------------- */
@@ -77,9 +80,13 @@ function insertarProfesorBD(datos) {
             const respuesta = JSON.parse(xhr.responseText);
             console.log(respuesta);
 
-            //Resetear el formulario
-            document.querySelector('form').reset();
-
+            if(respuesta.respuesta === 'correcto') {
+                //Resetear el formulario
+                document.querySelector('form').reset();
+                window.location.href = 'index.php';
+            } else {
+                alert(respues.error);
+            }
         }
     }
 
@@ -148,8 +155,13 @@ function insertarAlumnoBD(datos) {
             const respuesta = JSON.parse(xhr.responseText);
             console.log(respuesta);
 
-            //Resetear el formulario
-            document.querySelector('form').reset();
+            if(respuesta.respuesta === 'correcto') {
+                //Resetear el formulario
+                document.querySelector('form').reset();
+                window.location.href = 'nuevo-proyecto.php';
+            } else {
+                alert(respues.error);
+            }
 
         }
     }
@@ -169,43 +181,81 @@ function validarProfesor(e) {
           password = document.querySelector('#password').value,
           tipo = document.querySelector('#tipo').value;
 
-    if (usuario === '' || password === '') {
-        // la validación falló
-        console.log('Campos obligatorios');
-    } else {
-        // Ambos campos son correctos, mandar ejecutar Ajax
+    
+    // Ambos campos son correctos, mandar ejecutar Ajax
 
-        // datos que se envian al servidor
-        var datos = new FormData();
-        datos.append('usuario', usuario);
-        datos.append('password', password);
-        datos.append('accion', tipo);
+    // datos que se envian al servidor
+    var datos = new FormData();
+    datos.append('usuario', usuario);
+    datos.append('password', password);
+    datos.append('accion', tipo);
 
-        // crear el llamado a ajax
-        var xhr = new XMLHttpRequest();
+    // crear el llamado a ajax
+    var xhr = new XMLHttpRequest();
 
-        // abrir la conexión.
-        xhr.open('POST', 'inc/modelos/modelo-profesor.php', true);
+    // abrir la conexión.
+    xhr.open('POST', 'inc/modelos/modelo-profesor.php', true);
 
-        // retorno de datos
-        xhr.onload = function() {
-            if (this.status === 200) {
-                var respuesta = JSON.parse(xhr.responseText);
-                console.log(respuesta);
+    // retorno de datos
+    xhr.onload = function() {
+        if (this.status === 200) {
+            var respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta);
 
-                // Si la respuesta es correcta
-                if (respuesta.respuesta === 'correcto') {  
-                    alert(respuesta.nombre);                
-                    window.location.href = 'inicio.php';
-                } else {
-                    // Hubo un error
-                    alert(respuesta.error);
-                }
+            // Si la respuesta es correcta
+            if (respuesta.respuesta === 'correcto') {  
+                alert(respuesta.nombre);                
+                window.location.href = 'inicio.php';
+            } else {
+                // Hubo un error
+                alert(respuesta.error);
             }
         }
-            // Enviar la petición
-        xhr.send(datos);
     }
+        // Enviar la petición
+    xhr.send(datos);
+}
+
+function validarAlumno(e) {
+    e.preventDefault();
+
+    const usuario = document.querySelector('#usuario').value,
+          password = document.querySelector('#password').value,
+          tipo = document.querySelector('#tipo').value;
+
+    
+    // Ambos campos son correctos, mandar ejecutar Ajax
+
+    // datos que se envian al servidor
+    var datos = new FormData();
+    datos.append('usuario', usuario);
+    datos.append('password', password);
+    datos.append('accion', tipo);
+
+    // crear el llamado a ajax
+    var xhr = new XMLHttpRequest();
+
+    // abrir la conexión.
+    xhr.open('POST', 'inc/modelos/modelo-alumno.php', true);
+
+    // retorno de datos
+    xhr.onload = function() {
+        if (this.status === 200) {
+            var respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta);
+
+            // Si la respuesta es correcta
+            if (respuesta.respuesta === 'correcto') {  
+                alert(respuesta.nombre);
+                window.location.href = 'progreso.php';
+            } else {
+                // Hubo un error
+                alert(respuesta.error);
+            }
+        }
+    }
+        // Enviar la petición
+    xhr.send(datos);
 }
 
 /* -------------------------------------------------------------------------------------------- */

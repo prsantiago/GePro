@@ -63,12 +63,13 @@ if($_POST['accion'] == 'login') {
         $stmt->fetch();
         if($nombre_usuario){
             // El usuario existe, verificar el password
-            if(password_verify($password,$pass_usuario)){
+            if(password_verify($password,$pass_usuario)) {
                 // Iniciar la sesion
                 session_start();
-                $_SESSION['nombre'] = $nombre_usuario;
-                $_SESSION['id'] = $id_usuario;
+                $_SESSION['nombre_usuario'] = $nombre_usuario;
+                $_SESSION['id_usuario'] = $id_usuario;
                 $_SESSION['login'] = true;
+                $_SESSION['tipo_usuario'] = 'profesor';
                 // Login correcto
                 $respuesta = array(
                     'respuesta' => 'correcto',

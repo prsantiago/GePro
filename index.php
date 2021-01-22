@@ -1,9 +1,9 @@
 <?php 
     session_start();
     include 'inc/templates/header.php'; 
-    if(isset($_GET['cerrar_sesion'])) {
+    if(!strcmp($_GET['login'], 'false')) {
         $_SESSION = array();
-}
+    }
 ?>
 
 <div class="bg-primario contenedor-barra">
@@ -11,7 +11,7 @@
         <?php include 'inc/templates/logos.php'; ?>
 
         <div class="login">
-            <form id="login" class="caja-login" method="post">
+            <form id="login-profesor" class="caja-login" method="post">
                 <div class="campo">
                     <label for="usuario">Correo institucional: </label>
                     <input type="text" name="usuario" id="usuario" placeholder="Correo institucional" required>
@@ -39,6 +39,7 @@
 
 <main class="bg-secundario contenedor-main">
     <div class="contenedor bg-terciario contenido sombra">
+        <p><?php print_r($_SESSION); ?></p>
         <h1>GePro</h1>
         <h3>Sistema gestor de proyectos</h3>
         <form id="progreso" class="caja-progreso" method="post">

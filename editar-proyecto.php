@@ -1,4 +1,8 @@
-<?php include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
+<?php session_start(); if (!isset($_SESSION['count'])) {
+  $_SESSION['count'] = 0;
+} else {
+  $_SESSION['count']++;
+} include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
@@ -9,6 +13,7 @@
 
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
+        <p><?php print_r($_SESSION); ?></p>
         <form id="editar-proyecto" action="#" method="post">
             <legend>Edite el Proyecto</legend>
 
