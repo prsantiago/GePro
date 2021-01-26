@@ -19,45 +19,38 @@
             <table id="listado-proyectos" class="listado-proyectos">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Clave</th>
                         <th>Nombre</th>
                         <th>Estudiante</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>PANL-015</td>
-                        <td>Seminario de Integracion de Ing. en Computación 15</td>
-                        <td>Nombre Apellido Apellido</td>
-                        <td>
-                            <a class="btn-check btn" href="progreso.php">
-                                <i class="fas fa-user-check"></i>
-                            </a>
-                            <a class="btn-editar btn" href="editar-proyecto.php">
-                                <i class="fas fa-pen"></i>
-                            </a>
-                            <button data-id="" type="button" class="btn-borrar btn">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>TANL-016</td>
-                        <td>Proyecto de Integracion de Ing. en Computación 16</td>
-                        <td>Nombre Nombre Apellido Apellido</td>
-                        <td>
-                            <a class="btn-check btn" href="progreso.php">
-                                <i class="fas fa-user-check"></i>
-                            </a>
-                            <a class="btn-editar btn" href="editar-proyecto.php">
-                                <i class="fas fa-pen"></i>
-                            </a>
-                            <button data-id="" type="button" class="btn-borrar btn">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
+                    <?php 
+                    $proyectos = obtenerProyectos($_SESSION['id_usuario']);
+                    if($proyectos->num_rows) {
+                        foreach($proyectos as $proyecto) { 
+                    ?>
+                            <tr>
+                                <td><?php echo $proyecto['clave']?></td>
+                                <td><?php echo $proyecto['proyecto']?></td>
+                                <td><?php echo $proyecto['nombre']." ".$proyecto['apellido']?></td>
+                                <td>
+                                    <a class="btn-check btn" href="progreso.php?id=<?php echo $proyecto['id']?>">
+                                        <i class="fas fa-user-check"></i>
+                                    </a>
+                                    <a class="btn-editar btn" href="editar-proyecto.php?id=<?php echo $proyecto['id']?>">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+                                    <button data-id="<?php echo $proyecto['id']?>" type="button" class="btn-borrar btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                    <?php   
+                        } 
+                    } 
+                    ?>
                 </tbody>
             </table>
         </div>

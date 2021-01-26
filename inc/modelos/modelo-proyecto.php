@@ -52,7 +52,7 @@ if($_POST['accion'] == 'checar') {
 
     try {
         // Seleccionar el profesor de la base de datos
-        $stmt = $conn->prepare("SELECT nombre, id FROM proyecto_vigente WHERE clave = ?");
+        $stmt = $conn->prepare("SELECT proyecto, id FROM proyecto_vigente WHERE clave = ?");
         $stmt->bind_param('s', $clave);
         $stmt->execute();
         // Loguear el usuario
