@@ -167,7 +167,24 @@ DELIMITER //
         DECLARE id_alumno INT;
         SELECT id INTO id_asesor2 FROM Profesor WHERE Profesor.correo = correo_coasesor;
         SELECT id INTO id_alumno FROM Alumno WHERE Alumno.correo = correo_alumno;
-        INSERT INTO proyecto_vigente (nombre, id_alumno, id_asesor1, id_asesor2, fechaInicio, descripcion) 
+        INSERT INTO proyecto_vigente (proyecto, id_alumno, id_asesor1, id_asesor2, fechaInicio, descripcion) 
                 VALUES (nombre, id_alumno, id_asesor1, id_asesor2, fechaInicio, descripcion);
+	END//
+ DELIMITER ;
+
+ DELIMITER //
+	CREATE PROCEDURE OBTENER_DETALLES_PROYECTO(id_asesor int)
+	BEGIN
+		SELECT 
+		proyecto_vigente.id,
+        proyecto_vigente.clave,
+        proyecto_vigente.proyecto,
+        alumno.nombre,
+        alumno.apellido
+    FROM
+        ((profesor INNER JOIN proyecto_vigente ON proyecto_vigente.id_asesor1=profesor.id) INNER JOIN
+        alumno ON proyecto_vigente.id_alumno=alumno.id)
+    WHERE
+        profesor.id = id_asesor;
 	END//
  DELIMITER ;
