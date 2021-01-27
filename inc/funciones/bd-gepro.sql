@@ -188,3 +188,49 @@ DELIMITER //
         profesor.id = id_asesor;
 	END//
  DELIMITER ;
+
+DELIMITER //
+    CREATE PROCEDURE NUEVO_COMENTARIO(id_usuario int,tipo_usuario varchar(25),_idSeg int,_coment varchar(255))
+    BEGIN
+        DECLARE _nombre VARCHAR(125);
+        DECLARE _apellido VARCHAR(125);
+        DECLARE Y INT;
+        SELECT idSeg INTO Y FROM seguimiento_vigente WHERE idSeg=_idSeg;
+        IF(tipo_usuario = 'profesor') THEN
+            SELECT nombre,apellidos INTO _nombre,_apellido FROM Profesor WHERE Profesor.idProf = id_usuario;
+            INSERT INTO comentario_vigente VALUES (NULL,Y,_coment,_nombre,_apellido,NOW());
+        ELSE 
+            SELECT nombre,apellidos INTO _nombre,_apellido FROM alumno WHERE alumno.idAlumno = id_usuario;
+            INSERT INTO comentario_vigente VALUES (NULL,Y,_coment,_nombre,_apellido,NOW());
+        END IF;
+    END//
+ DELIMITER ;  
+
+ -- puede que no sea necesario este procedimiento ya que sólo es un SELECT
+ DELIMITER //
+    CREATE PROCEDURE OBTENER_COMENTARIO(_idSeg int)
+    BEGIN
+        SELECT 
+        nombre,
+        apellido,
+        comentario,
+        fecha
+        FROM
+            comentario_vigente
+        WHERE
+            idSeg = _idSeg;
+    END//
+ DELIMITER ;  
+
+
+-- Hacer que reciba variables sobre el id_proceso y id_entrega
+ DELIMITER //
+    CREATE PROCEDURE EMPEZAR_SEGUIMIENTO(_idProy int)
+    BEGIN
+        DECLARE X DATE;
+        DECLARE Y DATE;
+        SELECT fecha_inicio INTO Y FROM proyecto_vigente WHERE idProy=_idProy;
+        SELECT DATE_ADD(Y, INTERVAL 14 DAY) INTO X;  
+        INSERT INTO seguimiento_vigente VALUES (NULL,_idProy,NULL,X,1,1);
+    END//
+ DELIMITER ;  

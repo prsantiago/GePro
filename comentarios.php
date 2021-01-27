@@ -24,6 +24,8 @@
                 <p>comentario 2 del profesor</p>
             </div>
         </div>
+
+        <?php include 'inc/templates/formularios/formulario-comentario.php'; ?>
     </div>
 </main>
 
