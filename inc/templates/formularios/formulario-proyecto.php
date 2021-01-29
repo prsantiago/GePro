@@ -10,33 +10,66 @@
         >
     </div>
     <div class="campo">
-        <label for="correo_alumno">Correo del alumno</label>
-        <input 
-            type="text" 
-            placeholder="Correo alumno" 
-            id="correo_alumno"
-            value=""
-            required
-        >
+        <label for="correo_alumno">Alumno</label><br>
+        <select name="correo_alumno" id="correo_alumno">
+            <?php 
+            // para esta función, tuve que crear un nuevo campo en alumno llamado institución que es un int.
+            $alumnos = obtenerAlumnosRegistrados(1);
+            // las dos formas que traté de obtener los alumnos, pero ninguna de las dos jaló.
+            // $alumnos = obtenerAlumnosRegistrados("UAM");
+            // $alumnos = obtenerAlumnosRegistrados($_SESSION['universidad_usuario']);
+            if($alumnos->num_rows) {
+            ?>
+                <option value="">Seleccione un alumno registrado</option>
+                <?php
+                foreach($alumnos as $alumno) { 
+                ?>
+                <option value="<?php echo $alumno['id']?>">
+                    <?php echo $alumno['nombre']." ".$alumno['apellido']."\t".$alumno['matricula']?>
+                </option>
+            <?php   
+                } 
+            } else {
+            ?>
+                <option value="">
+                    Sin alumnos registrados
+                </option>
+            <?php
+            }
+            ?>
+        </select>
     </div>
-    <!-- <div class="campo">
-        <label for="correo-asesor">Correo del asesor</label>
-        <input 
-            type="text" 
-            placeholder="Correo asesor" 
-            id="correo-asesor"
-            value=""
-            required
-        >
-    </div> -->
     <div class="campo">
-        <label for="correo_coasesor">Correo del coasesor</label>
-        <input 
-            type="text" 
-            placeholder="Correo coasesor" 
-            id="correo_coasesor"
-            value=""
-        >
+        <label for="correo_coasesor">Coasesor (opcional)</label><br>
+        <?php $profesores = obtenerProfesoresRegistrados("UAM"); ?>
+        <select name="correo_coasesor" id="correo_coasesor">
+            <?php
+            // para esta función, tuve que crear un nuevo campo en profesor llamado institución que es un int.
+            $profesores = obtenerProfesoresRegistrados(1);
+
+            // las dos formas que traté de obtener los profesores, pero ninguna de las dos jaló.
+            // $profesores = obtenerProfesoresRegistrados("UAM");
+            // $profesores = obtenerProfesoresRegistrados($_SESSION['universidad_usuario']);
+            if($profesores->num_rows) {
+            ?>
+                <option value="">Seleccione un profesor registrado</option>
+                <?php    
+                foreach($profesores as $profesor) { 
+                ?>
+                <option value="<?php echo $profesor['id']?>">
+                    <?php echo $profesor['nombre']." ".$profesor['apellido']."\t".$profesor['matricula']?>
+                </option>
+            <?php   
+                } 
+            } else {
+            ?>
+                <option value="">
+                    Sin profesores registrados
+                </option>
+            <?php
+            }
+            ?>
+        </select>
     </div>
     <div class="campo">
         <label for="fecha">Fecha de inicio</label>
