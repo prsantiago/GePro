@@ -5,11 +5,12 @@ if($_POST['accion'] == 'crear') {
     require_once('../funciones/conexion.php');
 
     //Validar entradas
+    // No sanitizamos id_alumno y id_coasesor porque lo obtenemos directamente de la BD
     $nombre_proyecto = filter_var($_POST['nombre'], FILTER_SANITIZE_STRING);
-    $correo_alumno = filter_var($_POST['correo_alumno'], FILTER_SANITIZE_EMAIL);
+    $id_alumno = $_POST['id_alumno'];
     // session_start();
     $id_asesor1 = $_SESSION['id_usuario'];
-    $correo_coasesor = filter_var($_POST['correo_coasesor'], FILTER_SANITIZE_EMAIL);
+    $id_coasesor = $_POST['id_coasesor'] ?: NULL;
     $fecha = filter_var($_POST['fecha'], FILTER_SANITIZE_STRING);
     $descripcion = filter_var($_POST['descripcion'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
     //se debe crear algoritmo para la clave del proyecto
@@ -17,8 +18,10 @@ if($_POST['accion'] == 'crear') {
 
     try {
         // Crear el proyecto en la base de datos
-        $stmt = $conn->prepare("CALL NUEVO_PROYECTO(?,?,?,?,?,?)");
-        $stmt->bind_param('isssss', $id_asesor1, $correo_coasesor, $correo_alumno, $nombre_proyecto, $fecha, $descripcion);
+        $stmt = $conn->prepare("INSERT INTO proyecto_vigente (id_asesor1, id_asesor2, id_alumno, 
+                                                            proyecto, fechaInicio, descripcion) 
+                                VALUES (?,?,?,?,?,?)");
+        $stmt->bind_param('iiisss', $id_asesor1, $id_coasesor, $id_alumno, $nombre_proyecto, $fecha, $descripcion);
         $stmt->execute();
         
         if($stmt){
