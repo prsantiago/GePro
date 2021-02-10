@@ -21,7 +21,7 @@
                     <input type="password" name="password" id="password" placeholder="Password" required>
                 </div>
                 <div class="campo enviar">
-                    <input type="hidden" id="tipo" value="login">
+                    <input name="tipo" type="hidden" id="tipo" value="login">
                     <input type="submit" class="boton" value="Iniciar sesión">
                 </div>
             </form>

@@ -8,7 +8,6 @@ const formularioProfesor = document.querySelector('#profesor'),
 eventListeners();
 
 function eventListeners() {
-    // Cuando el formulario profesor se ejecuta
     if(formularioProfesor)
         formularioProfesor.addEventListener('submit', leerFormularioProfesor);
     if(formularioAlumno)
@@ -31,36 +30,19 @@ function leerFormularioProfesor(e) {
     e.preventDefault();
 
     // Leer los datos de los inputs
-    const nombre_profesor = document.querySelector('#nombre_profesor').value,
-        apellido_profesor = document.querySelector('#apellido_profesor').value,
-        matricula_profesor = document.querySelector('#matricula_profesor').value,
-        correo_profesor = document.querySelector('#correo_profesor').value,
-        password_profesor = document.querySelector('#password_profesor').value,
+    const password_profesor = document.querySelector('#password_profesor').value,
         valpass_profesor = document.querySelector('#valpass_profesor').value,
-        universidad_profesor = document.querySelector('#universidad_profesor').value,
-        division_profesor = document.querySelector('#division_profesor').value,
-        departamento_profesor = document.querySelector('#departamento_profesor').value,
-        accion_profesor = document.querySelector('#accion_profesor').value;
+        accion_profesor = document.querySelector('#accion').value;
 
     if (valpass_profesor !== password_profesor) {
-        console.log(password_profesor, valpass_profesor);
-        console.log('Contraseñas no coinciden');
+        alert('Contraseñas no coinciden');
     } else {
         // Pasa la validacion, crear llamado a Ajax
-        const infoContacto = new FormData();
-        infoContacto.append('nombre_profesor', nombre_profesor);
-        infoContacto.append('apellido_profesor', apellido_profesor);
-        infoContacto.append('matricula_profesor', matricula_profesor);
-        infoContacto.append('correo_profesor', correo_profesor);
-        infoContacto.append('password_profesor', password_profesor);
-        infoContacto.append('universidad_profesor', universidad_profesor);
-        infoContacto.append('division_profesor', division_profesor);
-        infoContacto.append('departamento_profesor', departamento_profesor);
-        infoContacto.append('accion', accion_profesor);
+        const infoContacto = new FormData(formularioProfesor);
 
         if (accion_profesor === 'crear') {
-            // crearemos un nuevo contacto
             insertarProfesorBD(infoContacto);
+            // console.log(...infoContacto);
         } else {
             console.log('TODO editar');
         }
@@ -105,33 +87,15 @@ function leerFormularioAlumno(e) {
     e.preventDefault();
 
     // Leer los datos de los inputs
-    const nombre_alumno = document.querySelector('#nombre_alumno').value,
-        apellido_alumno = document.querySelector('#apellido_alumno').value,
-        matricula_alumno = document.querySelector('#matricula_alumno').value,
-        correo_alumno = document.querySelector('#correo_alumno').value,
-        password_alumno = document.querySelector('#password_alumno').value,
+    const password_alumno = document.querySelector('#password_alumno').value,
         valpass_alumno = document.querySelector('#valpass_alumno').value,
-        universidad_alumno = document.querySelector('#universidad_alumno').value,
-        division_alumno = document.querySelector('#division_alumno').value,
-        carrera_alumno = document.querySelector('#carrera_alumno').value,
-        estado_alumno = document.querySelector('#estado_alumno').value,
-        accion_alumno = document.querySelector('#accion_alumno').value;
+        accion_alumno = document.querySelector('#accion').value;
 
     if (valpass_alumno !== password_alumno) {
         alert('Contraseñas no coinciden');
     } else {
         // Pasa la validacion, crear llamado a Ajax
-        const infoContacto = new FormData();
-        infoContacto.append('nombre_alumno', nombre_alumno);
-        infoContacto.append('apellido_alumno', apellido_alumno);
-        infoContacto.append('matricula_alumno', matricula_alumno);
-        infoContacto.append('correo_alumno', correo_alumno);
-        infoContacto.append('password_alumno', password_alumno);
-        infoContacto.append('universidad_alumno', universidad_alumno);
-        infoContacto.append('division_alumno', division_alumno);
-        infoContacto.append('carrera_alumno', carrera_alumno);
-        infoContacto.append('estado_alumno', estado_alumno);
-        infoContacto.append('accion_alumno', accion_alumno);
+        const infoContacto = new FormData(formularioAlumno);
 
         if (accion_alumno === 'crear') {
             // crearemos un nuevo contacto
@@ -165,7 +129,6 @@ function insertarAlumnoBD(datos) {
             } else {
                 alert(respues.error);
             }
-
         }
     }
 
@@ -180,18 +143,8 @@ function insertarAlumnoBD(datos) {
 function validarProfesor(e) {
     e.preventDefault();
 
-    const usuario = document.querySelector('#usuario').value,
-          password = document.querySelector('#password').value,
-          tipo = document.querySelector('#tipo').value;
-
-    
-    // Ambos campos son correctos, mandar ejecutar Ajax
-
     // datos que se envian al servidor
-    const datos = new FormData();
-    datos.append('usuario', usuario);
-    datos.append('password', password);
-    datos.append('accion', tipo);
+    const datos = new FormData(loginProfesor);
 
     // crear el llamado a ajax
     const xhr = new XMLHttpRequest();
@@ -215,7 +168,7 @@ function validarProfesor(e) {
             }
         }
     }
-        // Enviar la petición
+    // Enviar la petición
     xhr.send(datos);
 }
 
@@ -225,9 +178,6 @@ function validarAlumno(e) {
     const usuario = document.querySelector('#usuario').value,
           password = document.querySelector('#password').value,
           tipo = document.querySelector('#tipo').value;
-
-    
-    // Ambos campos son correctos, mandar ejecutar Ajax
 
     // datos que se envian al servidor
     const datos = new FormData();
@@ -310,24 +260,10 @@ function leerFormularioProgreso(e) {
 function leerFormularioProyecto(e) {
     e.preventDefault();
 
-    const nombre = document.querySelector('#nombre').value,
-        correo_alumno = document.querySelector('#correo_alumno').value,
-        correo_coasesor = document.querySelector('#correo_coasesor').value,
-        fecha = document.querySelector('#fecha').value,
-        descripcion = document.querySelector('#descripcion').value,
-        accion = document.querySelector('#accion').value;
-
     // mandar ejecutar Ajax
     // datos que se envian al servidor
-    const datos = new FormData();
-    datos.append('nombre', nombre);
-    datos.append('correo_alumno', correo_alumno);
-    datos.append('correo_coasesor', correo_coasesor);
-    datos.append('fecha', fecha);
-    datos.append('descripcion', descripcion);
-    datos.append('accion', accion);
-
-    console.log(...datos);
+    const datos = new FormData(formularioProyecto);
+    // console.log(...datos);
 
     // crear el llamado a ajax
     const xhr = new XMLHttpRequest();

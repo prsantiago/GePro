@@ -47,7 +47,7 @@ if($_POST['accion'] == 'crear') {
     echo json_encode($respuesta);
 }
 
-if($_POST['accion'] == 'login') {
+if($_POST['tipo'] == 'login') {
     require_once('../funciones/conexion.php');
 
     $usuario = filter_var($_POST['usuario'], FILTER_SANITIZE_EMAIL);

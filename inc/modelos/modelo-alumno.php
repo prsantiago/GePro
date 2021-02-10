@@ -1,6 +1,6 @@
 <?php
 
-if($_POST['accion_alumno'] == 'crear') {
+if($_POST['accion'] == 'crear') {
     // Crear un nuevo registro en la base de datos
     require_once('../funciones/conexion.php');
 
