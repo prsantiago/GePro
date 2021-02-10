@@ -1,8 +1,4 @@
-<?php session_start(); if (!isset($_SESSION['count'])) {
-  $_SESSION['count'] = 0;
-} else {
-  $_SESSION['count']++;
-} include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
+<?php session_start(); include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
