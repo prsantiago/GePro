@@ -2,6 +2,7 @@
     <div class="campo">
         <label for="nombre">Nombre Proyecto</label>
         <input 
+            name= "nombre"
             type="text" 
             placeholder="Nombre Proyecto" 
             id="nombre"
@@ -10,14 +11,11 @@
         >
     </div>
     <div class="campo">
-        <label for="correo_alumno">Alumno</label><br>
-        <select name="correo_alumno" id="correo_alumno">
+        <label for="id_alumno">Alumno</label><br>
+        <select name="id_alumno" id="id_alumno">
             <?php 
-            // para esta función, tuve que crear un nuevo campo en alumno llamado institución que es un int.
-            $alumnos = obtenerAlumnosRegistrados(1);
-            // las dos formas que traté de obtener los alumnos, pero ninguna de las dos jaló.
             // $alumnos = obtenerAlumnosRegistrados("UAM");
-            // $alumnos = obtenerAlumnosRegistrados($_SESSION['universidad_usuario']);
+            $alumnos = obtenerAlumnosRegistrados("'".$_SESSION['universidad_usuario']."'");
             if($alumnos->num_rows) {
             ?>
                 <option value="">Seleccione un alumno registrado</option>
@@ -40,19 +38,13 @@
         </select>
     </div>
     <div class="campo">
-        <label for="correo_coasesor">Coasesor (opcional)</label><br>
-        <?php $profesores = obtenerProfesoresRegistrados("UAM"); ?>
-        <select name="correo_coasesor" id="correo_coasesor">
+        <label for="id_coasesor">Coasesor (opcional)</label><br>
+        <select name="id_coasesor" id="id_coasesor">
             <?php
-            // para esta función, tuve que crear un nuevo campo en profesor llamado institución que es un int.
-            $profesores = obtenerProfesoresRegistrados(1);
-
-            // las dos formas que traté de obtener los profesores, pero ninguna de las dos jaló.
-            // $profesores = obtenerProfesoresRegistrados("UAM");
-            // $profesores = obtenerProfesoresRegistrados($_SESSION['universidad_usuario']);
+            $profesores = obtenerProfesoresRegistrados("'".$_SESSION['universidad_usuario']."'");
             if($profesores->num_rows) {
             ?>
-                <option value="">Seleccione un profesor registrado</option>
+                <option value="<?NULL?>">Seleccione un profesor registrado</option>
                 <?php    
                 foreach($profesores as $profesor) { 
                 ?>
@@ -74,6 +66,7 @@
     <div class="campo">
         <label for="fecha">Fecha de inicio</label>
         <input 
+            name="fecha"
             type="date"
             placeholder="Fecha de inicio" 
             id="fecha"
@@ -90,6 +83,6 @@
 </div>
         
 <div class="campo enviar">
-    <input type="hidden" id="accion" value="crear">
+    <input name="accion" type="hidden" id="accion" value="crear">
     <input type="submit" class="boton" value="Crear proyecto">
 </div>

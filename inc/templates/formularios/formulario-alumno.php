@@ -1,7 +1,8 @@
 <div class="campos">
     <div class="campo">
         <label for="nombre_alumno">Nombre(s): </label>
-        <input 
+        <input
+            name="nombre_alumno" 
             type="text" 
             id="nombre_alumno" 
             placeholder=""
@@ -10,7 +11,8 @@
     </div>
     <div class="campo">
         <label for="apellido_alumno">Apellidos: </label>
-        <input 
+        <input
+            name="apellido_alumno" 
             type="text" 
             id="apellido_alumno" 
             placeholder=""
@@ -19,7 +21,8 @@
     </div>
     <div class="campo">
         <label for="matricula_alumno">Matricula: </label>
-        <input 
+        <input
+            name="matricula_alumno" 
             type="text" 
             id="matricula_alumno" 
             placeholder=""
@@ -28,7 +31,8 @@
     </div>
     <div class="campo">
         <label for="correo_alumno">Correo institucional: </label>
-        <input 
+        <input
+            name="correo_alumno" 
             type="email" 
             id="correo_alumno" 
             placeholder=""
@@ -37,7 +41,8 @@
     </div>
     <div class="campo">
         <label for="password_alumno">Password: </label>
-        <input 
+        <input
+            name="password_alumno" 
             type="password" 
             id="password_alumno" 
             placeholder=""
@@ -46,7 +51,7 @@
     </div>
     <div class="campo">
         <label for="valpass_alumno">Validar password: </label>
-        <input 
+        <input
             type="password" 
             id="valpass_alumno" 
             placeholder=""
@@ -64,7 +69,8 @@
     </div>
     <div class="campo">
         <label for="division_alumno">División/Facultad a la que pertenece: </label>
-        <input 
+        <input
+            name="division_alumno" 
             type="text" 
             id="division_alumno" 
             placeholder=""
@@ -73,7 +79,8 @@
     </div>
     <div class="campo">
         <label for="carrera_alumno">Carrera: </label>
-        <input 
+        <input
+            name="carrera_alumno" 
             type="text" 
             id="carrera_alumno" 
             placeholder=""
@@ -89,6 +96,6 @@
     </div>
 </div>
 <div class="campo enviar">
-    <input type="hidden" id="accion_alumno" value="crear">
+    <input name="accion" type="hidden" id="accion" value="crear">
     <input type="submit" class="boton" value="Crear cuenta de alumno">
 </div>
