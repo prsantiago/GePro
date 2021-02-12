@@ -48,7 +48,7 @@
                 <input type="text" name="clave" id="clave" placeholder="" required>
             </div>
             <div class="campo enviar">
-                <input type="hidden" id="accion" value="checar">
+                <input name="accion" type="hidden" id="accion" value="checar">
                 <input type="submit" class="boton" value="Ver progreso">
             </div>
         </form>

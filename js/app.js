@@ -160,7 +160,7 @@ function validarProfesor(e) {
 
             // Si la respuesta es correcta
             if (respuesta.respuesta === 'correcto') {  
-                alert(respuesta.nombre);                
+                alert(respuesta.usuario);                
                 window.location.href = 'inicio.php';
             } else {
                 // Hubo un error
@@ -199,7 +199,7 @@ function validarAlumno(e) {
 
             // Si la respuesta es correcta
             if (respuesta.respuesta === 'correcto') {  
-                alert(respuesta.nombre);
+                alert(respuesta.usuario);
                 window.location.href = 'progreso.php';
             } else {
                 // Hubo un error
@@ -218,14 +218,9 @@ function validarAlumno(e) {
 function leerFormularioProgreso(e) {
     e.preventDefault();
 
-    const clave = document.querySelector('#clave').value,
-        accion = document.querySelector('#accion').value;
-
     // mandar ejecutar Ajax
     // datos que se envian al servidor
-    const datos = new FormData();
-    datos.append('clave', clave);
-    datos.append('accion', accion);
+    const datos = new FormData(formularioProgreso);
 
     // crear el llamado a ajax
     const xhr = new XMLHttpRequest();
