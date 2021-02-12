@@ -37,6 +37,8 @@
     <div class="bg-terciario contenedor contenido sombra">
         <p><?php print_r($_SESSION); ?></p>
         <h1>Progreso del proyecto</h1>
+        <a href="historial.php" class="btn">Historial del seguimiento</a>
+
         <div class="entregas">
             <div class="entrega bg-cuaternario">
                 <p>Introducción</p>
@@ -67,50 +69,27 @@
                 <!-- <a href="comentarios.php" class="btn">dd/mm/aaaa</a> -->
             </div>
         </div>
-        <?php if(!strcmp($_SESSION['tipo_usuario'], 'profesor')) { ?>
-            <div class="confirmar-entrega">
-                <form id="entrega" action="#" method="post">
-                    <input type="date" name="fecha-entrega" id="fecha-entrega">
-                    <input type="submit" class="boton" value="Confirmar entrega">
-                </form>
-            </div>
-        <?php } ?>
 
         <div class="procesos">
             <div class="proceso bg-cuaternario">
                 <p>Entrega</p>
-                <?php if(isset($_SESSION['login'])) { ?>
-                    <a href="comentarios.php" class="btn">dd/mm/aaaa</a>
-                <?php } else { ?>
-                    <p>dd/mm/aaaa</p>
-                <?php } ?>
+                <p>dd/mm/aaaa</p>
             </div>
-            <div class="proceso bg-cuaternario">
+            <div class="proceso">
                 <p>Retroalimentación</p>
-                <?php if(isset($_SESSION['login'])) { ?>
-                    <a href="comentarios.php" class="btn">dd/mm/aaaa</a>
-                <?php } else { ?>
-                    <p>dd/mm/aaaa</p>
-                <?php } ?>
-            </div>
-            <div class="proceso bg-cuaternario">
-                <p>Aprobación</p>
-                <?php if(isset($_SESSION['login'])) { ?>
-                    <a href="comentarios.php" class="btn">en proceso</a>
-                <?php } else { ?>
-                    <p>en proceso</p>
-                <?php } ?>
+                <p>en proceso</p>
             </div>
             <div class="proceso">
                 <p>Presentación</p>
-                <!-- <a href="comentarios.php" class="btn">dd/mm/aaaa</a> -->
+                <!-- <p>dd/mm/aaaa</p> -->
             </div>
         </div>
         <?php if(!strcmp($_SESSION['tipo_usuario'], 'profesor')) { ?>
             <div class="confirmar-proceso">
                 <form id="proceso" action="#" method="post">
                     <input type="date" name="fecha-proceso" id="fecha-proceso">
-                    <input type="submit" class="boton" value="Confirmar entrega">
+                    <input type="submit" class="boton" value="Retroalimentación">
+                    <input type="submit" class="boton" value="Aprobación">
                 </form>
             </div>
         <?php } ?>
