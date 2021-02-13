@@ -159,19 +159,6 @@ INSERT INTO proceso VALUES
 (NULL,'Aprobación','1 semana',2),
 (NULL,'Presentación','2 semanas',1);
 
--- DELIMITER //
--- 	CREATE PROCEDURE NUEVO_PROYECTO(id_asesor1 int, id_coasesor int, id_alumno int,
---                                     nombre varchar(125), fechaInicio date, descripcion varchar(255))
--- 	BEGIN
---         DECLARE id_asesor2 INT;
---         DECLARE id_alumno INT;
---         SELECT id INTO id_asesor2 FROM Profesor WHERE Profesor.correo = correo_coasesor;
---         SELECT id INTO id_alumno FROM Alumno WHERE Alumno.correo = correo_alumno;
---         INSERT INTO proyecto_vigente (proyecto, id_alumno, id_asesor1, id_asesor2, fechaInicio, descripcion) 
---                 VALUES (nombre, id_alumno, id_asesor1, id_asesor2, fechaInicio, descripcion);
--- 	END//
---  DELIMITER ;
-
  DELIMITER //
 	CREATE PROCEDURE OBTENER_DETALLES_PROYECTO(id_asesor int)
 	BEGIN
@@ -190,38 +177,13 @@ INSERT INTO proceso VALUES
  DELIMITER ;
 
 DELIMITER //
-    CREATE PROCEDURE NUEVO_COMENTARIO(id_usuario int,tipo_usuario varchar(25),_idSeg int,_coment varchar(255))
+    CREATE PROCEDURE NUEVO_COMENTARIO(nombre_usuario varchar(75),apellido_usuario varchar(75), 
+                                        id_seguimiento int, comentario varchar(255))
     BEGIN
-        DECLARE _nombre VARCHAR(125);
-        DECLARE _apellido VARCHAR(125);
-        DECLARE Y INT;
-        SELECT idSeg INTO Y FROM seguimiento_vigente WHERE idSeg=_idSeg;
-        IF(tipo_usuario = 'profesor') THEN
-            SELECT nombre,apellidos INTO _nombre,_apellido FROM Profesor WHERE Profesor.idProf = id_usuario;
-            INSERT INTO comentario_vigente VALUES (NULL,Y,_coment,_nombre,_apellido,NOW());
-        ELSE 
-            SELECT nombre,apellidos INTO _nombre,_apellido FROM alumno WHERE alumno.idAlumno = id_usuario;
-            INSERT INTO comentario_vigente VALUES (NULL,Y,_coment,_nombre,_apellido,NOW());
-        END IF;
+        INSERT INTO comentario_vigente (id_seguimiento, nombre, apellido, comentario, fecha)
+        VALUES (id_seguimiento, nombre_usuario, apellido_usuario, comentario, NOW());
     END//
  DELIMITER ;  
-
- -- puede que no sea necesario este procedimiento ya que sólo es un SELECT
- DELIMITER //
-    CREATE PROCEDURE OBTENER_COMENTARIO(_idSeg int)
-    BEGIN
-        SELECT 
-        nombre,
-        apellido,
-        comentario,
-        fecha
-        FROM
-            comentario_vigente
-        WHERE
-            idSeg = _idSeg;
-    END//
- DELIMITER ;  
-
 
 -- Hacer que reciba variables sobre el id_proceso y id_entrega
  DELIMITER //

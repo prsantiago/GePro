@@ -55,11 +55,11 @@ if($_POST['accion'] == 'login') {
     
     try {
         // Seleccionar el profesor de la base de datos
-        $stmt = $conn->prepare("SELECT nombre, id, contraseña FROM alumno WHERE correo = ?");
+        $stmt = $conn->prepare("SELECT nombre, apellido, id, contraseña FROM alumno WHERE correo = ?");
         $stmt->bind_param('s', $usuario);
         $stmt->execute();
         // Loguear el usuario
-        $stmt->bind_result($nombre_usuario, $id_usuario, $pass_usuario);
+        $stmt->bind_result($nombre_usuario, $apellido_usuario, $id_usuario, $pass_usuario);
         $stmt->fetch();
         if($nombre_usuario){
             // El usuario existe, verificar el password
@@ -67,13 +67,14 @@ if($_POST['accion'] == 'login') {
                 // Iniciar la sesion
                 session_start();
                 $_SESSION['nombre_usuario'] = $nombre_usuario;
+                $_SESSION['apellido_usuario'] = $apellido_usuario;
                 $_SESSION['id_usuario'] = $id_usuario;
                 $_SESSION['login'] = true;
                 $_SESSION['tipo_usuario'] = 'alumno';
                 // Login correcto
                 $respuesta = array(
                     'respuesta' => 'correcto',
-                    'nombre' => $nombre_usuario
+                    'usuario' => $nombre_usuario.' '.$apellido_usuario
                 );
             } else {
                 // Login incorrecto, enviar error

@@ -2,6 +2,7 @@ const formularioProfesor = document.querySelector('#profesor'),
         formularioAlumno = document.querySelector('#alumno'),
         formularioProgreso = document.querySelector('#progreso'),
         formularioProyecto = document.querySelector('#proyecto');
+        formularioComentario = document.querySelector('#comentario');
         loginProfesor = document.querySelector('#login-profesor'),
         loginAlumno = document.querySelector('#login-alumno');
 
@@ -16,6 +17,8 @@ function eventListeners() {
         formularioProgreso.addEventListener('submit', leerFormularioProgreso);
     if(formularioProyecto)
         formularioProyecto.addEventListener('submit', leerFormularioProyecto);
+    if(formularioComentario)
+        formularioComentario.addEventListener('submit', leerformularioComentario);
     if(loginProfesor)
         loginProfesor.addEventListener('submit', validarProfesor);
     if(loginAlumno)
@@ -276,6 +279,45 @@ function leerFormularioProyecto(e) {
             if (respuesta.respuesta === 'correcto') {  
                 alert(respuesta.nombre);                
                 window.location.href = 'inicio.php';
+            } else {
+                // Hubo un error
+                alert(respuesta.error);
+            }
+        } else {
+            const respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta);
+        }
+    }
+        // Enviar la petición
+    xhr.send(datos);
+}
+
+/* -------------------------------------------------------------------------------------------- */
+/* --------------------------------------- Comentario ------------------------------------------- */
+/* -------------------------------------------------------------------------------------------- */
+
+function leerformularioComentario(e) {
+    e.preventDefault();
+
+    // mandar ejecutar Ajax
+    // datos que se envian al servidor
+    const datos = new FormData(formularioComentario);
+
+    // crear el llamado a ajax
+    const xhr = new XMLHttpRequest();
+
+    // abrir la conexión.
+    xhr.open('POST', 'inc/modelos/modelo-comentario.php', true);
+
+    // retorno de datos
+    xhr.onload = function() {
+        if (this.status === 200) {
+            const respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta);
+
+            // Si la respuesta es correcta
+            if (respuesta.respuesta === 'correcto') {  
+                alert('Comentario agregado');
             } else {
                 // Hubo un error
                 alert(respuesta.error);

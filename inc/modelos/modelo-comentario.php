@@ -1,25 +1,26 @@
 <?php
-session_start();
-if($_POST['accion'] == 'enviar_comentario') {
+
+if($_POST['accion'] == 'crear') {
     // Crear un nuevo registro en la base de datos
     require_once('../funciones/conexion.php');
 
     //Validar entradas
     $comentario = filter_var($_POST['comentario'], FILTER_SANITIZE_STRING);
     // session_start();
-    $id_usuario = $_SESSION['id_usuario'];
-    $tipo_usuario = $_SESSION['tipo_usuario'];
+    $nombre_usuario = $_SESSION['nombre_usuario'];
+    $apellido_usuario = $_SESSION['apellido_usuario'];
+    $id_seguimiento = 1;
 
     try {
         // Crear el proyecto en la base de datos
         $stmt = $conn->prepare("CALL NUEVO_COMENTARIO(?,?,?,?)");
-        $stmt->bind_param('isis', $id_usuario, $tipo_usuario, $id_Seg, $comentario);
+        $stmt->bind_param('sssis', $nombre_usuario, $apellido_usuario, $id_seguimiento, $comentario);
         $stmt->execute();
         
         if($stmt){
             $respuesta = array(
                 'respuesta' => 'correcto',
-                'comentario' => $comentario
+                'id_insertado' => $stmt->insert_id
             );
         } else {
             $respuesta = array(

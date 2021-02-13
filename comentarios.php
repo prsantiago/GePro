@@ -10,22 +10,29 @@
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
         <p><?php print_r($_SESSION); ?></p>
+        <h1>Comentarios</h1>
         <div class="comentarios">
-            <div class="comentario bg-cuaternario">
-                <p>comentario 1 del alumno</p>
-            </div>
-            <div class="comentario bg-cuaternario">
-                <p>comentario 1 del profesor</p>
-            </div>
-            <div class="comentario bg-cuaternario">
-                <p>comentario 2 del alumno</p>
-            </div>
-            <div class="comentario bg-cuaternario">
-                <p>comentario 2 del profesor</p>
-            </div>
+            <?php 
+            $comentarios = obtenerComentarios($_SESSION['id_seguimiento']);
+            if($comentarios->num_rows) {
+                foreach($comentarios as $comentario) { 
+            ?>
+                    <div class="comentario bg-cuaternario">>
+                        <p><?php echo $comentario['nombre']." ".$comentario['apellido']?></p>
+                        <p><?php echo $comentario['fecha']?></p>
+                        <p><?php echo $comentario['comentario']?></p>
+                    </div>
+            <?php   
+                } 
+            } 
+            ?>
         </div>
 
-        <?php include 'inc/templates/formularios/formulario-comentario.php'; ?>
+        <form id="comentario" action="#" method="post">
+            <legend>Nuevo comentario</legend>
+
+            <?php include 'inc/templates/formularios/formulario-comentario.php'; ?>
+        </form>
     </div>
 </main>
 
