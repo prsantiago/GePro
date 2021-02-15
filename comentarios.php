@@ -1,4 +1,4 @@
-<?php session_start(); include 'inc/templates/header.php'; ?>
+<?php session_start(); include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
@@ -13,11 +13,12 @@
         <h1>Comentarios</h1>
         <div class="comentarios">
             <?php 
-            $comentarios = obtenerComentarios($_SESSION['id_seguimiento']);
+            // $comentarios = obtenerComentarios($_SESSION['id_seguimiento']);
+            $comentarios = obtenerComentarios(1);
             if($comentarios->num_rows) {
                 foreach($comentarios as $comentario) { 
             ?>
-                    <div class="comentario bg-cuaternario">>
+                    <div class="comentario">
                         <p><?php echo $comentario['nombre']." ".$comentario['apellido']?></p>
                         <p><?php echo $comentario['fecha']?></p>
                         <p><?php echo $comentario['comentario']?></p>

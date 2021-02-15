@@ -44,7 +44,7 @@ function obtenerAlumnosRegistrados($universidad_usuario) {
 function obtenerComentarios($id_seguimiento) {
     include 'conexion.php';
     try {
-        return $conn->query("SELECT  nombre, apellido, comentario, fecha FROM comentario_vigente WHERE id_seguimiento = $id_seguimiento");
+        return $conn->query("SELECT id, nombre, apellido, comentario, fecha FROM comentario_vigente WHERE id_seguimiento = $id_seguimiento");
     } catch(Exception $e) {
         echo "Error!!!".$e->getMessage()."<br>";
         return false;

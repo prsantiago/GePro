@@ -6,7 +6,7 @@ if($_POST['accion'] == 'crear') {
 
     //Validar entradas
     $comentario = filter_var($_POST['comentario'], FILTER_SANITIZE_STRING);
-    // session_start();
+    session_start();
     $nombre_usuario = $_SESSION['nombre_usuario'];
     $apellido_usuario = $_SESSION['apellido_usuario'];
     $id_seguimiento = 1;
@@ -14,7 +14,7 @@ if($_POST['accion'] == 'crear') {
     try {
         // Crear el proyecto en la base de datos
         $stmt = $conn->prepare("CALL NUEVO_COMENTARIO(?,?,?,?)");
-        $stmt->bind_param('sssis', $nombre_usuario, $apellido_usuario, $id_seguimiento, $comentario);
+        $stmt->bind_param('ssis', $nombre_usuario, $apellido_usuario, $id_seguimiento, $comentario);
         $stmt->execute();
         
         if($stmt){
