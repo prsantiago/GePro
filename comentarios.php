@@ -1,9 +1,13 @@
-<?php session_start(); include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
+<?php session_start(); 
+include 'inc/templates/header.php'; 
+include 'inc/funciones/funciones.php';
+$id_seguimiento = $_SESSION['id_seguimiento'];
+$id_proyecto = $_SESSION['id_proyecto'];?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
         <?php include 'inc/templates/logos.php'; ?>
-        <a href="progreso.php" class="btn volver">Volver</a>
+        <a href="progreso.php?id= <?php echo $id_proyecto; ?>" class="btn volver">Volver</a>
     </div>
 </div>
 
@@ -13,8 +17,8 @@
         <h1>Comentarios</h1>
         <div class="comentarios">
             <?php 
-            // $comentarios = obtenerComentarios($_SESSION['id_seguimiento']);
-            $comentarios = obtenerComentarios(1);
+            $comentarios = obtenerComentarios($id_seguimiento);
+            // $comentarios = obtenerComentarios(1);
             if($comentarios->num_rows) {
                 foreach($comentarios as $comentario) { 
             ?>
