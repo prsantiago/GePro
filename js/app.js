@@ -5,6 +5,7 @@ const formularioProfesor = document.querySelector('#profesor'),
         formularioComentario = document.querySelector('#comentario');
         loginProfesor = document.querySelector('#login-profesor'),
         loginAlumno = document.querySelector('#login-alumno');
+        formularioProceso = document.querySelector('#proceso');
 
 eventListeners();
 
@@ -23,6 +24,8 @@ function eventListeners() {
         loginProfesor.addEventListener('submit', validarProfesor);
     if(loginAlumno)
         loginAlumno.addEventListener('submit', validarAlumno);
+    if(formularioProceso)
+        formularioProceso.addEventListener('submit', actualizarStatus);
 }
 
 /* -------------------------------------------------------------------------------------------- */
@@ -180,13 +183,13 @@ function validarAlumno(e) {
 
     const usuario = document.querySelector('#usuario').value,
           password = document.querySelector('#password').value,
-          tipo = document.querySelector('#tipo').value;
+          accion = document.querySelector('#accion').value;
 
     // datos que se envian al servidor
     const datos = new FormData();
     datos.append('usuario', usuario);
     datos.append('password', password);
-    datos.append('accion', tipo);
+    datos.append('accion', accion);
 
     // crear el llamado a ajax
     const xhr = new XMLHttpRequest();
@@ -203,7 +206,7 @@ function validarAlumno(e) {
             // Si la respuesta es correcta
             if (respuesta.respuesta === 'correcto') {  
                 alert(respuesta.usuario);
-                window.location.href = 'progreso.php';
+                window.location.href = 'progreso.php?id='+respuesta.id_proyecto;
             } else {
                 // Hubo un error
                 alert(respuesta.error);
@@ -223,7 +226,17 @@ function leerFormularioProgreso(e) {
 
     // mandar ejecutar Ajax
     // datos que se envian al servidor
-    const datos = new FormData(formularioProgreso);
+    // const datos = new FormData(formularioProgreso);
+    // console.log(...datos);
+
+    const clave = document.querySelector('#clave').value,
+    accion = document.querySelector('#accion').value;
+
+    // // mandar ejecutar Ajax
+    // // datos que se envian al servidor
+    const datos = new FormData();
+    datos.append('clave', clave);
+    datos.append('accion', accion);
 
     // crear el llamado a ajax
     const xhr = new XMLHttpRequest();
@@ -240,7 +253,7 @@ function leerFormularioProgreso(e) {
             // Si la respuesta es correcta
             if (respuesta.respuesta === 'correcto') {  
                 alert(respuesta.nombre);                
-                window.location.href = 'progreso.php';
+                window.location.href = 'progreso.php?id='+respuesta.id_proyecto;
             } else {
                 // Hubo un error
                 alert(respuesta.error);
@@ -325,6 +338,88 @@ function leerformularioComentario(e) {
         } else {
             const respuesta = JSON.parse(xhr.responseText);
             console.log(respuesta);
+        }
+    }
+        // Enviar la petición
+    xhr.send(datos);
+}
+
+/* -------------------------------------------------------------------------------------------- */
+/* --------------------------------------- Progreso ------------------------------------------- */
+/* -------------------------------------------------------------------------------------------- */
+
+function leerFormularioProgreso(e) {
+    e.preventDefault();
+
+    const clave = document.querySelector('#clave').value,
+        accion = document.querySelector('#accion').value;
+
+    // mandar ejecutar Ajax
+    // datos que se envian al servidor
+    const datos = new FormData();
+    datos.append('clave', clave);
+    datos.append('accion', accion);
+
+    // crear el llamado a ajax
+    const xhr = new XMLHttpRequest();
+
+    // abrir la conexión.
+    xhr.open('POST', 'inc/modelos/modelo-proyecto.php', true);
+
+    // retorno de datos
+    xhr.onload = function() {
+        if (this.status === 200) {
+            const respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta);
+
+            // Si la respuesta es correcta
+            if (respuesta.respuesta === 'correcto') {  
+                alert(respuesta.nombre);                
+                window.location.href = 'progreso.php?id='+respuesta.id_proyecto;
+            } else {
+                // Hubo un error
+                alert(respuesta.error);
+            }
+        }
+    }
+        // Enviar la petición
+    xhr.send(datos);
+}
+
+
+function actualizarStatus(e) {
+    e.preventDefault();
+
+    var activeElement = document.activeElement;
+    const fecha_proceso = document.querySelector('#fecha_proceso').value,
+        accion = activeElement.value;
+
+    // mandar ejecutar Ajax
+    // datos que se envian al servidor
+    const datos = new FormData();
+        datos.append('fecha_proceso', fecha_proceso);
+        datos.append('accion', accion);
+
+    // crear el llamado a ajax
+    const xhr = new XMLHttpRequest();
+
+    // abrir la conexión.
+    xhr.open('POST', 'inc/modelos/modelo-progreso.php', true);
+
+    // retorno de datos
+    xhr.onload = function() {
+        if (this.status === 200) {
+            const respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta);
+
+            // Si la respuesta es correcta
+            if (respuesta.respuesta === 'correcto') {  
+                alert(respuesta.nombre);                
+                window.location.href = 'inicio.php';
+            } else {
+                // Hubo un error
+                alert(respuesta.error);
+            }
         }
     }
         // Enviar la petición

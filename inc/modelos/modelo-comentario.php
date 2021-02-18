@@ -9,7 +9,7 @@ if($_POST['accion'] == 'crear') {
     session_start();
     $nombre_usuario = $_SESSION['nombre_usuario'];
     $apellido_usuario = $_SESSION['apellido_usuario'];
-    $id_seguimiento = 1;
+    $id_seguimiento = $_SESSION['id_seguimiento'];
 
     try {
         // Crear el proyecto en la base de datos
@@ -17,7 +17,7 @@ if($_POST['accion'] == 'crear') {
         $stmt->bind_param('ssis', $nombre_usuario, $apellido_usuario, $id_seguimiento, $comentario);
         $stmt->execute();
         
-        if($stmt){
+        if($stmt->affected_rows == 1) {
             $respuesta = array(
                 'respuesta' => 'correcto',
                 'id_insertado' => $stmt->insert_id

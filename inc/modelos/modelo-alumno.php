@@ -74,7 +74,8 @@ if($_POST['accion'] == 'login') {
                 // Login correcto
                 $respuesta = array(
                     'respuesta' => 'correcto',
-                    'usuario' => $nombre_usuario.' '.$apellido_usuario
+                    'usuario' => $nombre_usuario.' '.$apellido_usuario,
+                    'id_proyecto' => $_SESSION['id_proyecto']
                 );
             } else {
                 // Login incorrecto, enviar error

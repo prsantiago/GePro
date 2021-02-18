@@ -24,11 +24,22 @@ if($_POST['accion'] == 'crear') {
         $stmt->bind_param('iiisss', $id_asesor1, $id_coasesor, $id_alumno, $nombre_proyecto, $fecha, $descripcion);
         $stmt->execute();
         
-        if($stmt){
-            $respuesta = array(
-                'respuesta' => 'correcto',
-                'nombre' => $nombre_proyecto
-            );
+        if($stmt->affected_rows == 1){ 
+            //empezar_seguimiento
+            $stmt_seg = $conn->prepare("CALL EMPEZAR_SEGUIMIENTO()");
+            $stmt_seg->execute();
+            if($stmt_seg){
+                $respuesta = array(
+                    'respuesta' => 'correcto',
+                    'nombre' => $nombre_proyecto,
+                    'id' => $stmt->insert_id
+                );
+            }
+            else{
+                $respuesta = array(
+                    'error' => 'Error al iniciar el seguimiento'
+                );
+            }
         } else {
             $respuesta = array(
                 'error' => 'Error al crear el proyecto'
@@ -63,12 +74,13 @@ if($_POST['accion'] == 'checar') {
         $stmt->fetch();
         if($nombre_proyecto){
             // Iniciar la sesion
-            $_SESSION['nombre_proyecto'] = $nombre_proyecto;
-            $_SESSION['id_proyecto'] = $id_proyecto;
+            // $_SESSION['nombre_proyecto'] = $nombre_proyecto;
+            // $_SESSION['id_proyecto'] = $id_proyecto;
             // Login correcto
             $respuesta = array(
                 'respuesta' => 'correcto',
-                'nombre' => $nombre_proyecto
+                'nombre' => $nombre_proyecto,
+                'id_proyecto' => $id_proyecto
             );
         } else {
             $respuesta = array(

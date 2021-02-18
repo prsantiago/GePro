@@ -324,6 +324,11 @@ table {
     align-items: center;
 }
 
+.fechas {
+    font-size: 1em;
+    text-align: center;
+}
+
 @media (min-width: 768px) {
     .entregas,
     .procesos {
