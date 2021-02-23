@@ -54,7 +54,7 @@ function obtenerFechaSeguimiento($id_proyecto, $id_entrega, $id_proceso){
 function obtenerSeguimientos($id_proyecto){
     require 'conexion.php';
     try {
-        return $conn->query("SELECT seguimiento_vigente.entrega, entrega.nombre AS etapa, proceso.nombre AS proceso FROM ((seguimiento_vigente INNER JOIN entrega ON seguimiento_vigente.id_entrega = entrega.id) INNER JOIN proceso ON seguimiento_vigente.id_proceso = proceso.id) WHERE seguimiento_vigente.id_proyecto = $id_proyecto");
+        return $conn->query("SELECT seguimiento_vigente.id, seguimiento_vigente.entrega, entrega.nombre AS etapa, proceso.nombre AS proceso FROM ((seguimiento_vigente INNER JOIN entrega ON seguimiento_vigente.id_entrega = entrega.id) INNER JOIN proceso ON seguimiento_vigente.id_proceso = proceso.id) WHERE seguimiento_vigente.id_proyecto = $id_proyecto");
     } catch(Exception $e) {
         echo "Error!!!".$e->getMessage()."<br>";
         return false;

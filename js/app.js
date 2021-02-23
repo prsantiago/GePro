@@ -1,6 +1,7 @@
 const formularioProfesor = document.querySelector('#profesor'),
         formularioAlumno = document.querySelector('#alumno'),
         formularioProgreso = document.querySelector('#progreso'),
+        formularioEditarSeguimiento = document.querySelector('#editar-seguimiento'),
         formularioProyecto = document.querySelector('#proyecto');
         formularioComentario = document.querySelector('#comentario');
         loginProfesor = document.querySelector('#login-profesor'),
@@ -16,6 +17,8 @@ function eventListeners() {
         formularioAlumno.addEventListener('submit', leerFormularioAlumno);
     if(formularioProgreso)
         formularioProgreso.addEventListener('submit', leerFormularioProgreso);
+    if(formularioEditarSeguimiento)
+        formularioEditarSeguimiento.addEventListener('submit', leerFormularioEditarSeguimiento);
     if(formularioProyecto)
         formularioProyecto.addEventListener('submit', leerFormularioProyecto);
     if(formularioComentario)
@@ -420,6 +423,48 @@ function actualizarStatus(e) {
                 // Hubo un error
                 alert(respuesta.error);
             }
+        }
+    }
+        // Enviar la petición
+    xhr.send(datos);
+}
+
+/* -------------------------------------------------------------------------------------------- */
+/* --------------------------------------- Seguimiento ------------------------------------------- */
+/* -------------------------------------------------------------------------------------------- */
+
+function leerFormularioEditarSeguimiento(e) {
+    e.preventDefault();
+
+    // mandar ejecutar Ajax
+    // datos que se envian al servidor
+    const datos = new FormData(formularioEditarSeguimiento);
+    console.log(...datos);
+
+    // crear el llamado a ajax
+    const xhr = new XMLHttpRequest();
+
+    // abrir la conexión.
+    xhr.open('POST', 'inc/modelos/modelo-progreso.php', true);
+
+    // retorno de datos
+    xhr.onload = function() {
+        if (this.status === 200) {
+            const respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta);
+
+            // Si la respuesta es correcta
+            if (respuesta.respuesta === 'correcto') {  
+                alert(respuesta.nombre);                
+                window.location.href = 'historial.php?id='+respuesta.id_seguimiento;
+            } else {
+                // Hubo un error
+                alert(respuesta.error);
+            }
+        } else {
+            // const respuesta = JSON.parse(xhr.responseText);
+            console.log(xhr.responseText);
+            // console.log(respuesta);
         }
     }
         // Enviar la petición

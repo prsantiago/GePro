@@ -57,10 +57,10 @@ if($_POST['accion'] == 'Aprobar etapa') {
         $stmt->bind_param('iiiis', $id_seguimiento, $id_proyecto, $id_entrega, $id_proceso, $fecha_proceso);
         $stmt->execute();
         
-         if($stmt){ 
+        if($stmt){ 
             $respuesta = array(
-                    'respuesta' => 'correcto',
-                    'nombre' => 'Etapa aprobada'
+                'respuesta' => 'correcto',
+                'nombre' => 'Etapa aprobada'
             );
         } else {
             $respuesta = array(
@@ -77,6 +77,44 @@ if($_POST['accion'] == 'Aprobar etapa') {
         );
     }
     
+    echo json_encode($respuesta);
+}
+
+if ($_POST['accion'] == 'editar') {
+    require_once('../funciones/conexion.php');
+
+    $fecha_entrega = $_POST['fecha-entrega'];
+    $id_seguimiento = $_POST['id_seguimiento'];
+
+    try {
+        $stmt = $conn->prepare("UPDATE seguimiento_vigente SET entrega=? WHERE id=?");
+        $stmt->bind_param('si', $fecha_entrega, $id_seguimiento);
+        $stmt->execute();
+
+        if ($stmt->affected_rows == 1) {
+            $respuesta = array(
+                'respuesta' => 'correcto',
+                'nombre' => 'Fecha actualizada',
+                'id_seguimiento' => $id_seguimiento
+            );
+        } else {
+            $respuesta = array(
+                'respuesta' => 'error',
+                'error' => 'Error al actualizar fecha de entrega',
+                'id' => $id_seguimiento
+            );
+        }
+
+        $stmt->close();
+        $conn->close();
+    } catch (Exception $e) {
+        $respuesta = array(
+            'error' => "Error al actualizar fecha de entrega",
+            'fecha' => $fecha_entrega,
+            'id' => $id_seguimiento
+        );
+    }
+
     echo json_encode($respuesta);
 }
 
