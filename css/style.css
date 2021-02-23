@@ -322,6 +322,17 @@ table {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 1rem 0;
+    /* padding: 1rem 0; */
+}
+
+.entrega, 
+.proceso {
+    margin: 0 0.1rem;
+    padding: 1rem;
+    border: 0.1rem solid var(--cuaternario);
+    border-radius: 5%;
+    text-align: center;
 }
 
 .fechas {
