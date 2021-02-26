@@ -14,17 +14,18 @@ if($_POST['accion'] == 'Actividad entregada') {
 
     try {
         // Crear un nuevo seguimiento y actualizar fecha de entrega del anterior seg
-        $stmt = $conn->prepare("CALL SEGUIMIENTO_RETRO(?,?,?,?,?)");
+        $stmt = $conn->prepare("CALL NUEVO_SEGUIMIENTO(?,?,?,?,?,false)");
         $stmt->bind_param('iiiis', $id_seguimiento, $id_proyecto, $id_entrega, $id_proceso, $fecha_proceso);
         $stmt->execute();
         
-        if($stmt){ 
+        if($stmt->affected_rows == 1){ 
             $respuesta = array(
-                    'respuesta' => 'correcto',
-                    'nombre' => 'Status actualizado'
+                'respuesta' => 'correcto',
+                'nombre' => 'Status actualizado'
             );
         } else {
             $respuesta = array(
+                'respuesta' => 'error',
                 'error' => 'Error al actualizar el status'
             );
         }
@@ -41,7 +42,7 @@ if($_POST['accion'] == 'Actividad entregada') {
     echo json_encode($respuesta);
 }
 
-if($_POST['accion'] == 'Aprobar etapa') {
+if($_POST['accion'] == 'Aprobar actividad') {
     // Crear un nuevo registro en la base de datos
     require_once('../funciones/conexion.php');
 
@@ -53,17 +54,18 @@ if($_POST['accion'] == 'Aprobar etapa') {
 
     try {
         // Seleccionar el profesor de la base de datos
-        $stmt = $conn->prepare("CALL SEGUIMIENTO_APROBADO(?,?,?,?,?)");
+        $stmt = $conn->prepare("CALL NUEVO_SEGUIMIENTO(?,?,?,?,?,true)");
         $stmt->bind_param('iiiis', $id_seguimiento, $id_proyecto, $id_entrega, $id_proceso, $fecha_proceso);
         $stmt->execute();
         
-        if($stmt){ 
+        if($stmt->affected_rows == 1){ 
             $respuesta = array(
                 'respuesta' => 'correcto',
                 'nombre' => 'Etapa aprobada'
             );
         } else {
             $respuesta = array(
+                'respuesta' => 'error',
                 'error' => 'Error al actualizar el status'
             );
         }

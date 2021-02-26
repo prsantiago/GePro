@@ -185,69 +185,63 @@ DELIMITER //
     END//
  DELIMITER ;  
 
--- Hacer que reciba variables sobre el id_proceso y id_entrega
---  DELIMITER //
---     CREATE PROCEDURE EMPEZAR_SEGUIMIENTO(_idProy int)
+ -- Se ejecuta después de que se creó el proyecto en modelo-proyecto.php
+-- DELIMITER //
+--     CREATE PROCEDURE EMPEZAR_SEGUIMIENTO(id_proyecto int)
 --     BEGIN
+--         -- DECLARE Z INT;
 --         DECLARE X DATE;
 --         DECLARE Y DATE;
---         SELECT fecha_inicio INTO Y FROM proyecto_vigente WHERE idProy=_idProy;
+--         -- SELECT MAX(id) INTO Z FROM proyecto_vigente;
+--         SELECT fechaInicio INTO Y FROM proyecto_vigente WHERE id=id_proyecto;
 --         SELECT DATE_ADD(Y, INTERVAL 14 DAY) INTO X;  
---         INSERT INTO seguimiento_vigente VALUES (NULL,_idProy,NULL,X,1,1);
+--         INSERT INTO seguimiento_vigente VALUES (NULL,id_proyecto,NULL,X,1,1);
 --     END//
---  DELIMITER ;
+--  DELIMITER ;   
 
- -- Se ejecuta después de que se creó el proyecto en modelo-proyecto.php
+  -- Se ejecuta después de que se creó el proyecto en modelo-proyecto.php
 DELIMITER //
-    CREATE PROCEDURE EMPEZAR_SEGUIMIENTO(id_proyecto int)
+    CREATE PROCEDURE EMPEZAR_SEGUIMIENTO()
     BEGIN
-        -- DECLARE Z INT;
+        DECLARE Z INT;
         DECLARE X DATE;
         DECLARE Y DATE;
-        -- SELECT MAX(id) INTO Z FROM proyecto_vigente;
-        SELECT fechaInicio INTO Y FROM proyecto_vigente WHERE id=id_proyecto;
+        SELECT MAX(id) INTO Z FROM proyecto_vigente;
+        SELECT fechaInicio INTO Y FROM proyecto_vigente WHERE id=Z;
         SELECT DATE_ADD(Y, INTERVAL 14 DAY) INTO X;  
-        INSERT INTO seguimiento_vigente VALUES (NULL,id_proyecto,NULL,X,1,1);
+        INSERT INTO seguimiento_vigente VALUES (NULL,Z,NULL,X,1,1);
     END//
- DELIMITER ;    
+ DELIMITER ;     
 
- -- Se utiliza cuando se entrega alguna actividad sin que esta sea aprobada, es decir, maneja la
--- iteración entre Entrega y Retroalimentación. Se llama en modelo-progreso.php
  DELIMITER //
-    CREATE PROCEDURE SEGUIMIENTO_RETRO(idSeg int,idProy int, id_entrega int,id_proceso int,fecha date)
-    BEGIN
-        DECLARE X DATE;
-        IF (id_proceso = 1) THEN
-            SELECT DATE_ADD(fecha, INTERVAL 14 DAY) INTO X;
-            INSERT INTO seguimiento_vigente VALUES (NULL,idProy,NULL,X,id_entrega,2);
-        ELSE
-            SELECT DATE_ADD(fecha, INTERVAL 7 DAY) INTO X;  
-            INSERT INTO seguimiento_vigente VALUES (NULL,idProy,NULL,X,id_entrega,1);
-        END IF;
-        UPDATE seguimiento_vigente SET entrega = fecha WHERE id=idSeg; 
-    END//
- DELIMITER ;  
-
--- Se utiliza para aprobar una entrega y pasar a la siguiente etapa del proyecto.
--- Se llama en modelo-progreso.php
- DELIMITER //
-    CREATE PROCEDURE SEGUIMIENTO_APROBADO(idSeg int,idProy int, id_entrega int,id_proceso int,fecha date)
+    CREATE PROCEDURE NUEVO_SEGUIMIENTO(idSeg int,idProy int, id_entrega int,id_proceso int,fecha date,aprobado bool)
     BEGIN
         DECLARE X DATE;
         DECLARE Y INT;
-        SELECT DATE_ADD(fecha, INTERVAL 14 DAY) INTO X;
-        IF (id_entrega <= 4) THEN
-            INSERT INTO seguimiento_vigente VALUES (NULL,idProy,fecha,fecha,id_entrega,3);
-            INSERT INTO seguimiento_vigente VALUES (NULL,idProy,NULL,X,id_entrega+1,1);
+        IF (aprobado = false) THEN
+            IF (id_proceso = 1) THEN
+                SELECT DATE_ADD(fecha, INTERVAL 14 DAY) INTO X;
+                INSERT INTO seguimiento_vigente VALUES (NULL,idProy,NULL,X,id_entrega,2);
+            ELSE
+                SELECT DATE_ADD(fecha, INTERVAL 7 DAY) INTO X;  
+                INSERT INTO seguimiento_vigente VALUES (NULL,idProy,NULL,X,id_entrega,1);
+            END IF;
             UPDATE seguimiento_vigente SET entrega = fecha WHERE id=idSeg; 
         ELSE
-            IF (id_proceso = 4) THEN
-                UPDATE seguimiento_vigente SET entrega = fecha WHERE id=idSeg; 
+            SELECT DATE_ADD(fecha, INTERVAL 14 DAY) INTO X;
+            IF (id_entrega <= 4) THEN
+                INSERT INTO seguimiento_vigente VALUES (NULL,idProy,NULL,X,id_entrega+1,1);
+                UPDATE seguimiento_vigente SET entrega = fecha,id_proceso = 3 WHERE id=idSeg; 
             ELSE
-                INSERT INTO seguimiento_vigente VALUES (NULL,idProy,fecha,fecha,id_entrega,3);
-                INSERT INTO seguimiento_vigente VALUES (NULL,idProy,NULL,X,id_entrega,4);
-                UPDATE seguimiento_vigente SET entrega = fecha WHERE id=idSeg; 
+                IF (id_proceso = 4) THEN
+                    UPDATE seguimiento_vigente SET entrega = fecha WHERE id=idSeg; 
+                    UPDATE proyecto_vigente SET fechaFin = fecha WHERE id=idProy; 
+                    -- CALL HISTORICOS(idProy);
+                ELSE
+                    INSERT INTO seguimiento_vigente VALUES (NULL,idProy,NULL,X,id_entrega,4);
+                    UPDATE seguimiento_vigente SET entrega = fecha,id_proceso = 3 WHERE id=idSeg; 
+                END IF;
             END IF;
         END IF;
     END//
- DELIMITER ;  
+ DELIMITER ; 

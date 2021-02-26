@@ -23,7 +23,13 @@ $id_proyecto = $_SESSION['id_proyecto'];?>
                         <th>Etapa</th>
                         <th>Proceso</th>
                         <th>Fecha de entrega</th>
-                        <th>Editar<th>
+                        <?php 
+                        if ($_SESSION["tipo_usuario"] == 'profesor') {
+                        ?>
+                            <th>Editar<th>
+                        <?php
+                        }
+                        ?>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,11 +42,17 @@ $id_proyecto = $_SESSION['id_proyecto'];?>
                                 <td><?php echo $seguimiento['etapa']?></td>
                                 <td><?php echo $seguimiento['proceso']?></td>
                                 <td><?php echo $seguimiento['entrega']?></td>
-                                <td>
-                                    <a class="btn-editar btn" href="editar-seguimiento.php?id=<?php echo $seguimiento['id']?>">
-                                        <i class="fas fa-pen"></i>
-                                    </a>
-                                </td>
+                                <?php 
+                                if ($_SESSION["tipo_usuario"] == 'profesor') {
+                                ?>
+                                    <td>
+                                        <a class="btn-editar btn" href="editar-seguimiento.php?id=<?php echo $seguimiento['id']?>">
+                                            <i class="fas fa-pen"></i>
+                                        </a>
+                                    </td>
+                                <?php
+                                }
+                                ?>
                             </tr>
                     <?php   
                         } 
