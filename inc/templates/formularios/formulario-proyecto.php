@@ -14,7 +14,6 @@
         <label for="id_alumno">Alumno</label><br>
         <select name="id_alumno" id="id_alumno">
             <?php 
-            // $alumnos = obtenerAlumnosRegistrados("UAM");
             $alumnos = obtenerAlumnosRegistrados("'".$_SESSION['universidad_usuario']."'");
             if($alumnos->num_rows) {
             ?>
@@ -23,7 +22,7 @@
                 foreach($alumnos as $alumno) { 
                 ?>
                 <option value="<?php echo $alumno['id']?>">
-                    <?php echo $alumno['nombre']." ".$alumno['apellido']."\t".$alumno['matricula']?>
+                    <?php echo $alumno['nombre']." ".$alumno['apellido']." --- ".$alumno['matricula']?>
                 </option>
             <?php   
                 } 
@@ -49,7 +48,7 @@
                 foreach($profesores as $profesor) { 
                 ?>
                 <option value="<?php echo $profesor['id']?>">
-                    <?php echo $profesor['nombre']." ".$profesor['apellido']."\t".$profesor['matricula']?>
+                    <?php echo $profesor['nombre']." ".$profesor['apellido']." --- ".$alumno['matricula']?>
                 </option>
             <?php   
                 } 

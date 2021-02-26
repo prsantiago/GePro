@@ -300,8 +300,9 @@ function leerFormularioProyecto(e) {
                 alert(respuesta.error);
             }
         } else {
-            const respuesta = JSON.parse(xhr.responseText);
-            console.log(respuesta);
+            // const respuesta = JSON.parse(xhr.responseText);
+            // console.log(respuesta);
+            console.log(xhr.responseText);
         }
     }
         // Enviar la petición

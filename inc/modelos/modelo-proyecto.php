@@ -3,6 +3,7 @@ session_start();
 if($_POST['accion'] == 'crear') {
     // Crear un nuevo registro en la base de datos
     require_once('../funciones/conexion.php');
+    require_once('../funciones/funciones.php');
 
     //Validar entradas
     // No sanitizamos id_alumno y id_coasesor porque lo obtenemos directamente de la BD
@@ -14,7 +15,7 @@ if($_POST['accion'] == 'crear') {
     $fecha = filter_var($_POST['fecha'], FILTER_SANITIZE_STRING);
     $descripcion = filter_var($_POST['descripcion'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
     //se debe crear algoritmo para la clave del proyecto
-    // $clave = "TUAM-2153";
+    // $clave = generarClaveProyecto($id_alumno, $_SESSION['universidad_usuario']);
 
     try {
         // Crear el proyecto en la base de datos
@@ -28,20 +29,23 @@ if($_POST['accion'] == 'crear') {
             //empezar_seguimiento
             $stmt_seg = $conn->prepare("CALL EMPEZAR_SEGUIMIENTO()");
             $stmt_seg->execute();
+            
             if($stmt_seg){
                 $respuesta = array(
                     'respuesta' => 'correcto',
                     'nombre' => $nombre_proyecto,
                     'id' => $stmt->insert_id
+                    // 'clave' => $clave
                 );
-            }
-            else{
+            } else{
                 $respuesta = array(
+                    'respuesta' => 'error',
                     'error' => 'Error al iniciar el seguimiento'
                 );
             }
         } else {
             $respuesta = array(
+                'respuesta' => 'error',
                 'error' => 'Error al crear el proyecto'
             );
         }
@@ -51,6 +55,7 @@ if($_POST['accion'] == 'crear') {
     } catch(Exception $e) {
         // En caso de un error, tomar la exepcion
         $respuesta = array(
+            'respuesta' => 'error',
             'error' => $e->getMessage()
         );
     }
