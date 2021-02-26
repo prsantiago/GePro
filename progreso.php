@@ -60,7 +60,7 @@ $_SESSION['id_proceso']=$id_proceso;
                 <p>Introducción</p>
                 <?php if($id_entrega>1){ 
                 if(isset($_SESSION['login'])) { ?>
-                    <a href="comentarios.php" class="btn fechas"><?php 
+                    <a href="comentarios.php?proyecto=<?php echo $_SESSION['id_proyecto']?>&etapa=1&tipo=etapa" class="btn fechas"><?php 
                     $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,1,3); 
                     echo $fecha_entrega[0]; ?></a>
                 <?php } else { ?>
@@ -75,7 +75,7 @@ $_SESSION['id_proceso']=$id_proceso;
                 <p>Marco teórico</p>
                 <?php if($id_entrega>2){ 
                 if(isset($_SESSION['login'])) { ?>
-                    <a href="comentarios.php" class="btn fechas"><?php 
+                    <a href="comentarios.php?proyecto=<?php echo $_SESSION['id_proyecto']?>&etapa=2&tipo=etapa" class="btn fechas"><?php 
                     $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,2,3); 
                     echo $fecha_entrega[0]; ?></a>
                 <?php } else { ?>
@@ -90,7 +90,7 @@ $_SESSION['id_proceso']=$id_proceso;
                 <p>Desarrollo</p>
                 <?php if($id_entrega>3){ 
                 if(isset($_SESSION['login'])) { ?>
-                    <a href="comentarios.php" class="btn fechas"><?php 
+                    <a href="comentarios.php?proyecto=<?php echo $_SESSION['id_proyecto']?>&etapa=3&tipo=etapa" class="btn fechas"><?php 
                     $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,3,3); 
                     echo $fecha_entrega[0]; ?></a>
                 <?php } else { ?>
@@ -105,7 +105,7 @@ $_SESSION['id_proceso']=$id_proceso;
                 <p>Resultados</p>
                 <?php if($id_entrega>4){ 
                 if(isset($_SESSION['login'])) { ?>
-                    <a href="comentarios.php" class="btn fechas"><?php 
+                    <a href="comentarios.php?proyecto=<?php echo $_SESSION['id_proyecto']?>&etapa=4&tipo=etapa" class="btn fechas"><?php 
                     $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,4,3); 
                     echo $fecha_entrega[0]; ?></a>
                 <?php } else { ?>
@@ -120,18 +120,19 @@ $_SESSION['id_proceso']=$id_proceso;
             <div id="entrega-5" class="entrega <?php if($id_entrega==5) echo 'bg-cuaternario'?>">
                 <p>Tesis integrada</p>
                 <?php if($id_entrega==5 && $id_proceso==4){ 
-                if(isset($_SESSION['login'])) { ?>
-                    <a href="comentarios.php" class="btn fechas"><?php 
-                    $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,5,4); 
-                    echo $fecha_entrega[0]; ?></a>
+                $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,5,4);
+                if($fecha_entrega[0]!=0){ 
+                    if(isset($_SESSION['login'])) { ?>
+                        <a href="comentarios.php?proyecto=<?php echo $_SESSION['id_proyecto']?>&etapa=5&tipo=etapa" class="btn fechas"><?php  
+                        echo $fecha_entrega[0]; ?></a>
                 <?php } else { ?>
-                    <p><?php 
-                    $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,5,4); 
-                    echo $fecha_entrega[0]; ?></p>
-                <?php } }
-                else if($id_entrega==5 && $id_proceso<4){?>
+                    <p><?php
+                        echo $fecha_entrega[0]; ?></p>
+                <?php }  
+                } else {?>
                     <p>En proceso</p>
-                <?php } ?>
+                <?php } }else if($id_entrega==5 && $id_proceso<4){?>
+                <p>En proceso</p> <?php } ?>
             </div>
         </div>
 
@@ -140,7 +141,7 @@ $_SESSION['id_proceso']=$id_proceso;
                 <p>Entrega</p>
                 <?php if($id_proceso>1){ 
                     if(isset($_SESSION['login'])){?>
-                        <a href="comentarios.php" class="btn fechas"><?php $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,1);
+                        <a href="comentarios.php?tipo=actividad" class="btn fechas"><?php $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,1);
                         echo $fecha_entrega[0]; ?></a>
                 <?php } else { ?>
                         <p><?php  $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,1);
@@ -151,28 +152,45 @@ $_SESSION['id_proceso']=$id_proceso;
             </div>
             <div id="proceso-2" class="proceso <?php if($id_proceso>=2) echo 'bg-cuaternario'?>">
                 <p>Retroalimentación</p>
-                <?php if($id_proceso>2){ 
+                <?php if($id_entrega<5){
+                if($id_proceso>2){ 
                     if(isset($_SESSION['login'])){?>
-                        <a href="comentarios.php" class="btn fechas"><?php $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,2);
+                        <a href="comentarios.php?tipo=actividad" class="btn fechas"><?php $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,2);
                         echo $fecha_entrega[0]; ?></a>
                 <?php } else { ?>
-                        <p><?php  $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,1);
+                        <p><?php  $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,2);
                             echo $fecha_entrega[0]; ?> </p>
                 <?php }} else if($id_proceso==2){ ?>
                     <p>En proceso</p>
                 <?php } else {
                     $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,2);
                     if($fecha_entrega[0]!=0) { ?>
-                        <a href="comentarios.php" class="btn fechas"><?php
+                        <a href="comentarios.php?tipo=actividad" class="btn fechas"><?php
                         echo $fecha_entrega[0]; ?></a>  <?php }
-                } ?>
+                    } }
+                else {
+                    if($id_proceso>2){ 
+                    if(isset($_SESSION['login'])){?>
+                        <a href="comentarios.php?tipo=actividad" class="btn fechas"><?php $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,3);
+                        echo $fecha_entrega[0]; ?></a>
+                <?php } else { ?>
+                        <p><?php  $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,3);
+                            echo $fecha_entrega[0]; ?> </p>
+                <?php }} else if($id_proceso==2){ ?>
+                    <p>En proceso</p>
+                <?php } else {
+                    $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,2);
+                    if($fecha_entrega[0]!=0) { ?>
+                        <a href="comentarios.php?tipo=actividad" class="btn fechas"><?php
+                        echo $fecha_entrega[0]; ?></a>  <?php 
+                    }}  }?>
             </div>
             <!-- div de la etapa de Aceptación, en caso de que los profesores lo quieran
             <div id="proceso-3" class="proceso <?php if($id_proceso>=3) echo 'bg-cuaternario'?>">
                 <p>Aceptación</p>
                 <?php if($id_proceso>3){ 
                     if(isset($_SESSION['login'])){?>
-                        <a href="comentarios.php" class="btn fechas"><?php $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,3);
+                        <a href="comentarios.php?tipo=actividad" class="btn fechas"><?php $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,3);
                         echo $fecha_entrega[0]; ?></a>
                 <?php } else { ?>
                         <p><?php  $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_entrega,1);
@@ -184,27 +202,28 @@ $_SESSION['id_proceso']=$id_proceso;
             <div id="proceso-4" class="proceso <?php if($id_proceso==4) echo 'bg-cuaternario'?>">
                 <p>Presentación</p>
                 <?php if($id_entrega==5 && $id_proceso==4){ 
-                if(isset($_SESSION['login'])) { ?>
-                    <a href="comentarios.php" class="btn fechas"><?php 
-                    $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,5,4); 
-                    echo $fecha_entrega[0]; ?></a>
+                $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,5,4);
+                if($fecha_entrega[0]!=0){ 
+                    if(isset($_SESSION['login'])) { ?>
+                        <a href="comentarios.php?tipo=actividad" class="btn fechas"><?php  
+                        echo $fecha_entrega[0]; ?></a>
                 <?php } else { ?>
-                    <p><?php 
-                    $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,5,4); 
-                    echo $fecha_entrega[0]; ?></p>
-                <?php } }
-                else if($id_entrega==5 && $id_proceso<4){?>
+                    <p><?php
+                        echo $fecha_entrega[0]; ?></p>
+                <?php }  
+                } else {?>
                     <p>En proceso</p>
-                <?php } ?>
+                <?php } }?>
             </div>
         </div>
-        <?php if($_SESSION['tipo_usuario'] == 'profesor') { ?>
+        <?php if(!strcmp($_SESSION['tipo_usuario'], 'profesor')) { ?>
             <div class="confirmar-proceso">
                 <form id="proceso" action="#" method="post">
-                    <input type="date" name="fecha_proceso" id="fecha_proceso">
+                    <input type="date" name="fecha_proceso" id="fecha_proceso" required>
                     <!-- botones -->
-                    <input type="submit" class="boton" value="Actividad entregada">
-                    <input type="submit" class="boton" value="Aprobar etapa">
+                    <?php if($id_proceso!=4) 
+                    echo '<input type="submit" class="boton" value="Actividad entregada">'?>
+                    <input type="submit" class="boton" value="Aprobar actividad">
                 </form>
             </div>
         <?php } ?>

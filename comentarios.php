@@ -2,7 +2,10 @@
 include 'inc/templates/header.php'; 
 include 'inc/funciones/funciones.php';
 $id_seguimiento = $_SESSION['id_seguimiento'];
-$id_proyecto = $_SESSION['id_proyecto'];?>
+$id_proyecto = $_SESSION['id_proyecto'];
+$id_etapa = $_SESSION['id_entrega'];
+$id_actividad = $_SESSION['id_proceso'];
+?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
@@ -17,17 +20,33 @@ $id_proyecto = $_SESSION['id_proyecto'];?>
         <h1>Comentarios</h1>
         <div class="comentarios">
             <?php 
-            $comentarios = obtenerComentarios($id_seguimiento);
-            // $comentarios = obtenerComentarios(1);
-            if($comentarios->num_rows) {
-                foreach($comentarios as $comentario) { 
+            if (!strcmp($_GET['tipo'], 'etapa')) {
+                $comentarios = obtenerComentariosEtapa($id_seguimiento, $id_etapa);
+                // $comentarios = obtenerComentarios(1);
+                if($comentarios->num_rows) {
+                    foreach($comentarios as $comentario) { 
             ?>
-                    <div class="comentario">
-                        <p><?php echo $comentario['nombre']." ".$comentario['apellido']?></p>
-                        <p><?php echo $comentario['fecha']?></p>
-                        <p><?php echo $comentario['comentario']?></p>
-                    </div>
-            <?php   
+                        <div class="comentario">
+                            <p><?php echo $comentario['nombre']." ".$comentario['apellido']?></p>
+                            <p><?php echo $comentario['fecha']?></p>
+                            <p><?php echo $comentario['comentario']?></p>
+                        </div>
+            <?php
+                    }   
+                } 
+            } else if (!strcmp($_GET['tipo'], 'actividad')) {
+                $comentarios = obtenerComentariosActividad($id_seguimiento, $id_etapa, $id_actividad);
+                // $comentarios = obtenerComentarios(1);
+                if($comentarios->num_rows) {
+                    foreach($comentarios as $comentario) { 
+            ?>
+                        <div class="comentario">
+                            <p><?php echo $comentario['nombre']." ".$comentario['apellido']?></p>
+                            <p><?php echo $comentario['fecha']?></p>
+                            <p><?php echo $comentario['comentario']?></p>
+                        </div>
+            <?php
+                    }   
                 } 
             } 
             ?>
