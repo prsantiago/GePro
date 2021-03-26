@@ -4,6 +4,38 @@
     if(!strcmp($_GET['login'], 'false')) {
         $_SESSION = array();
     }
+
+include 'inc/funciones/funciones.php';
+include_once 'inc/funciones/conexion.php';
+
+// function conteo($nombre_tabla) {
+//     $stmt = $conn->prepare("SELECT MAX(id) FROM ?");
+//     $stmt->bind_param('s', $nombre_tabla);
+//     $stmt->execute();
+//     $stmt->bind_result($resultado);
+//     $stmt->fetch();
+//     $stmt->close();
+//     $conn->close();
+//     return $resultado;
+// }
+
+$stmtprofesores = $conn->prepare("SELECT MAX(id) FROM proyecto_vigente");
+$stmtprofesores->execute();
+$stmtprofesores->bind_result($proyectos);
+$stmtprofesores->fetch();
+$stmtprofesores->close();
+
+$stmtprofesores = $conn->prepare("SELECT MAX(id) FROM profesor");
+$stmtprofesores->execute();
+$stmtprofesores->bind_result($profesores);
+$stmtprofesores->fetch();
+$stmtprofesores->close();
+
+$stmtalumnos = $conn->prepare("SELECT MAX(id) FROM alumno");
+$stmtalumnos->execute();
+$stmtalumnos->bind_result($alumnos);
+$stmtalumnos->fetch();
+$stmtalumnos->close();
 ?>
 
 <div class="bg-primario contenedor-barra">
@@ -40,6 +72,8 @@
 <main class="bg-secundario contenedor-main">
     <div class="contenedor bg-terciario contenido sombra">
         <p><?php print_r($_SESSION); ?></p>
+        <p> <?php echo $proyectos?> Proyectos</p>
+        <p> <?php echo $profesores + $alumnos?> Usuarios</p>
         <h1>GePro</h1>
         <h3>Sistema gestor de proyectos</h3>
         <form id="progreso" class="caja-progreso" method="post">
