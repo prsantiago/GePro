@@ -71,9 +71,11 @@ h4 {
 
 .bg-cuaternario {
     background-color: var(--cuaternario);
+    color: white;
 }
 .bg-quinto {
     background-color: var(--quinto);
+    color: white;
 }
 
 /* Botones */
@@ -338,6 +340,8 @@ table {
 .fechas {
     font-size: 1em;
     text-align: center;
+    color: white;
+    text-decoration: underline;
 }
 
 @media (min-width: 768px) {
