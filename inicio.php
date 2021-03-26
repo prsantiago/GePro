@@ -5,7 +5,7 @@
         <?php include 'inc/templates/logos.php'; ?>
 
         <a href="nuevo-proyecto.php">Nuevo proyecto</a>
-
+        <a href="editar-usuario.php">Editar Usuario</a>
         <a href="index.php?login=false">Cerrar Sesión</a>
     </div>
 </div>

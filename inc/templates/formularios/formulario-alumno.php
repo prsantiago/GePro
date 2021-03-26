@@ -5,7 +5,8 @@
             name="nombre_alumno" 
             type="text" 
             id="nombre_alumno" 
-            placeholder=""
+            placeholder= "Nombre alumno"
+            value = "<?php echo $nombre ?: "";?>"
             required
         >
     </div>
@@ -15,7 +16,8 @@
             name="apellido_alumno" 
             type="text" 
             id="apellido_alumno" 
-            placeholder=""
+            placeholder="Apellido alumno"
+            value = "<?php echo $apellido ?: "";?>"
             required
         >
     </div>
@@ -25,7 +27,8 @@
             name="matricula_alumno" 
             type="text" 
             id="matricula_alumno" 
-            placeholder=""
+            placeholder="Matricula alumno"
+            value = "<?php echo $matricula ?: "";?>"
             required
         >
     </div>
@@ -35,7 +38,8 @@
             name="correo_alumno" 
             type="email" 
             id="correo_alumno" 
-            placeholder=""
+            placeholder="Correo alumno"
+            value = "<?php echo $correo ?: "";?>"
             required
         >
     </div>
@@ -45,7 +49,7 @@
             name="password_alumno" 
             type="password" 
             id="password_alumno" 
-            placeholder=""
+            placeholder="Matricula de alumno"
             required
         >
     </div>
@@ -54,13 +58,14 @@
         <input
             type="password" 
             id="valpass_alumno" 
-            placeholder=""
+            placeholder="Validar matricula de alumno"
             required
         >
     </div>
     <div class="campo">
         <label for="universidad_alumno">Institución a la que perteneces: </label>
-        <select name="universidad_alumno" id="universidad_alumno">
+        <select name="universidad_alumno" id="universidad_alumno" required>
+            <option value = <?php echo $universidad ?: "";?>><?php echo $universidad ?: "---";?></option>
             <option value="UAM">Universidad Autonoma Metropolitana</option>
             <option value="UACM">UACM</option>
             <option value="UNAM">UNAM</option>
@@ -73,7 +78,8 @@
             name="division_alumno" 
             type="text" 
             id="division_alumno" 
-            placeholder=""
+            placeholder="Division alumno"
+            value = "<?php echo $division ?: "";?>"
             required
         >
     </div>
@@ -83,19 +89,22 @@
             name="carrera_alumno" 
             type="text" 
             id="carrera_alumno" 
-            placeholder=""
+            placeholder="Carrera alumno"
+            value = "<?php echo $carrera ?: "";?>"
             required
         >
     </div>
-    <div class="campo">
-        <label for="estado_alumno">Estado del alumno </label>
-        <select name="estado_alumno" id="estado_alumno">
-            <option value="1">Pre-tesista</option>
-            <option value="2">Tesista</option>
-        </select>
-    </div>
+    <?php if (isset($_SESSION['tipo_usuario']) && !(strcmp($_SESSION['tipo_usuario'], 'profesor'))) {?>
+        <div class="campo">
+            <label for="estado_alumno">Estado del alumno </label>
+            <select name="estado_alumno" id="estado_alumno">
+                <option value="1">Pre-tesista</option>
+                <option value="2">Tesista</option>
+            </select>
+        </div>
+    <?php } ?>
 </div>
 <div class="campo enviar">
-    <input name="accion" type="hidden" id="accion" value="crear">
-    <input type="submit" class="boton" value="Crear cuenta de alumno">
+    <input name="accion" type="hidden" id="accion" value= <?php echo (isset($_SESSION['tipo_usuario']) && !(strcmp($_SESSION['tipo_usuario'], 'profesor'))) ? "crear" : "editar";?>>
+    <input type="submit" class="boton" value="<?php echo (isset($_SESSION['tipo_usuario']) && !(strcmp($_SESSION['tipo_usuario'], 'profesor'))) ? "Crear" : "Editar";?> cuenta de alumno">
 </div>

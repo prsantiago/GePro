@@ -5,7 +5,8 @@
             name="nombre_profesor" 
             type="text" 
             id="nombre_profesor" 
-            placeholder=""
+            placeholder="Nombre profesor"
+            value = "<?php echo $nombre ?: "";?>"
             required
         >
     </div>
@@ -15,7 +16,8 @@
             name="apellido_profesor" 
             type="text" 
             id="apellido_profesor" 
-            placeholder=""
+            placeholder="Apellido profesor"
+            value = "<?php echo $apellido ?: "";?>"
             required
         >
     </div>
@@ -25,7 +27,8 @@
             name="matricula_profesor" 
             type="text" 
             id="matricula_profesor" 
-            placeholder=""
+            placeholder="Matricula profesor"
+            value = "<?php echo $matricula ?: "";?>"
             required
         >
     </div>
@@ -35,7 +38,8 @@
             name="correo_profesor" 
             type="email" 
             id="correo_profesor" 
-            placeholder=""
+            placeholder="Correo profesor"
+            value = "<?php echo $correo ?: "";?>"
             required
         >
     </div>
@@ -45,7 +49,7 @@
             name="password_profesor" 
             type="password" 
             id="password_profesor" 
-            placeholder=""
+            placeholder="Password profesor"
             required
         >
     </div>
@@ -54,13 +58,14 @@
         <input  
             type="password" 
             id="valpass_profesor" 
-            placeholder=""
+            placeholder="Validar password Profesor"
             required
         >
     </div>
     <div class="campo">
         <label for="universidad_profesor">Institución a la que perteneces: </label>
-        <select name="universidad_profesor" id="universidad_profesor">
+        <select name="universidad_profesor" id="universidad_profesor" required>
+            <option value = <?php echo $universidad ?: "";?>><?php echo $universidad ?: "---";?></option>>
             <option value="UAM">Universidad Autonoma Metropolitana</option>
             <option value="UACM">UACM</option>
             <option value="UNAM">UNAM</option>
@@ -73,7 +78,8 @@
             name="division_profesor" 
             type="text" 
             id="division_profesor" 
-            placeholder=""
+            placeholder="Division profesor"
+            value = "<?php echo $division ?: "";?>"
             required
         >
     </div>
@@ -83,12 +89,13 @@
             name="departamento_profesor" 
             type="text" 
             id="departamento_profesor" 
-            placeholder=""
+            placeholder="Departamento profesor"
+            value = "<?php echo $departamento ?: "";?>"
             required
         >
     </div>
 </div>
 <div class="campo enviar">
-    <input name="accion" type="hidden" id="accion" value="crear">
-    <input type="submit" class="boton" value="Crear cuenta de profesor">
+<input name="accion" type="hidden" id="accion" value= <?php echo (!isset($_SESSION['tipo_usuario'])) ? "crear" : "editar";?>>
+    <input type="submit" class="boton" value="<?php echo (!isset($_SESSION['tipo_usuario'])) ? "Crear" : "Editar";?> cuenta de profesor">
 </div>

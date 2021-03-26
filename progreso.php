@@ -1,4 +1,5 @@
-<?php session_start(); 
+<?php 
+session_start(); 
 include 'inc/templates/header.php'; 
 include 'inc/funciones/funciones.php';
 include_once 'inc/funciones/conexion.php';
@@ -21,6 +22,7 @@ $_SESSION['id_proceso']=$id_proceso;
         <?php if ($_SESSION['tipo_usuario'] == 'profesor') { ?>
             <a href="inicio.php" class="btn volver">Volver</a>
         <?php } else if ($_SESSION['tipo_usuario'] == 'alumno') { ?>
+            <a href="editar-usuario.php">Editar Usuario</a>
             <a href="index.php?login=false">Cerrar Sesión</a>
         <?php } else { ?>
             <div class="login">
