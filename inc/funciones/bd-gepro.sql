@@ -159,7 +159,7 @@ INSERT INTO proceso VALUES
 (NULL,'Aprobación','1 semana',2),
 (NULL,'Presentación','2 semanas',1);
 
- DELIMITER //
+DELIMITER //
 	CREATE PROCEDURE OBTENER_DETALLES_PROYECTO(id_asesor int)
 	BEGIN
 		SELECT 
@@ -174,7 +174,7 @@ INSERT INTO proceso VALUES
     WHERE
         profesor.id = id_asesor;
 	END//
- DELIMITER ;
+DELIMITER ;
 
 DELIMITER //
     CREATE PROCEDURE NUEVO_COMENTARIO(nombre_usuario varchar(75),apellido_usuario varchar(75), 
@@ -183,35 +183,30 @@ DELIMITER //
         INSERT INTO comentario_vigente (id_seguimiento, nombre, apellido, comentario, fecha)
         VALUES (id_seguimiento, nombre_usuario, apellido_usuario, comentario, NOW());
     END//
- DELIMITER ;  
+ DELIMITER ;    
 
- -- Se ejecuta después de que se creó el proyecto en modelo-proyecto.php
--- DELIMITER //
---     CREATE PROCEDURE EMPEZAR_SEGUIMIENTO(id_proyecto int)
---     BEGIN
---         -- DECLARE Z INT;
---         DECLARE X DATE;
---         DECLARE Y DATE;
---         -- SELECT MAX(id) INTO Z FROM proyecto_vigente;
---         SELECT fechaInicio INTO Y FROM proyecto_vigente WHERE id=id_proyecto;
---         SELECT DATE_ADD(Y, INTERVAL 14 DAY) INTO X;  
---         INSERT INTO seguimiento_vigente VALUES (NULL,id_proyecto,NULL,X,1,1);
---     END//
---  DELIMITER ;   
-
-  -- Se ejecuta después de que se creó el proyecto en modelo-proyecto.php
 DELIMITER //
-    CREATE PROCEDURE EMPEZAR_SEGUIMIENTO()
+    CREATE PROCEDURE NUEVO_PROYECTO(id_asesor1 int, id_asesor2 int, id_alumno int, nombre_proyecto varchar(125),
+                                    fecha varchar(100), descripcion varchar(255), universidad_alumno varchar(10))
     BEGIN
-        DECLARE Z INT;
-        DECLARE X DATE;
-        DECLARE Y DATE;
-        SELECT MAX(id) INTO Z FROM proyecto_vigente;
-        SELECT fechaInicio INTO Y FROM proyecto_vigente WHERE id=Z;
-        SELECT DATE_ADD(Y, INTERVAL 14 DAY) INTO X;  
-        INSERT INTO seguimiento_vigente VALUES (NULL,Z,NULL,X,1,1);
+        INSERT INTO proyecto_vigente (id_asesor1, id_asesor2, id_alumno, proyecto, fechaInicio, descripcion) 
+        VALUES (id_asesor1, id_asesor2, id_alumno, nombre_proyecto, fecha, descripcion);
+        -- INSERT INTO proyecto_vigente (id_asesor1, id_asesor2, id_alumno, proyecto, fechaInicio, descripcion) 
+        -- VALUES (13, NULL, 12, "NUEVO_PROYECTO sin errores", "2021-03-25", "prueba sin errores procedure nuevo_proyecto");
+
+        SELECT @max_proyecto:=MAX(id) from proyecto_vigente;
+        SELECT @id_estado:=id_estado FROM alumno WHERE id = id_alumno;
+        SELECT @estado:=CAST(@id_estado AS CHAR(10));
+        SELECT @id_proyecto:=CAST(@max_proyecto AS CHAR(10));
+        SELECT @clave:=CONCAT(@estado, universidad_alumno, @id_proyecto); 
+        UPDATE proyecto_vigente set clave:=@clave where id=@max_proyecto;
+
+        -- SELECT fechaInicio INTO Y FROM proyecto_vigente WHERE id = id_proyecto;
+        SELECT @fechaInicio:=fechaInicio FROM proyecto_vigente WHERE id = @max_proyecto;
+        SELECT @fechaEntrega:=DATE_ADD(@fechaInicio, INTERVAL 14 DAY);  
+        INSERT INTO seguimiento_vigente VALUES (NULL,@max_proyecto,NULL,@fechaEntrega,1,1);
     END//
- DELIMITER ;     
+ DELIMITER ;  
 
  DELIMITER //
     CREATE PROCEDURE NUEVO_SEGUIMIENTO(idSeg int,idProy int, id_entrega int,id_proceso int,fecha date,aprobado bool)
@@ -245,3 +240,12 @@ DELIMITER //
         END IF;
     END//
  DELIMITER ; 
+
+ DELIMITER //
+    CREATE PROCEDURE BORRAR_PROYECTO(id_proyecto int)
+    BEGIN
+        DELETE FROM comentario_vigente WHERE id_proyecto = id_proyecto;
+        DELETE FROM seguimiento_vigente WHERE id_proyecto = id_proyecto;
+        DELETE FROM proyecto_vigente WHERE id = id_proyecto;
+    END//
+ DELIMITER ;
