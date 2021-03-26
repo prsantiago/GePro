@@ -6,13 +6,13 @@
             type="text" 
             placeholder="Nombre Proyecto" 
             id="nombre"
-            value=""
+            value= "<?php echo $nombre ?: ""?>"
             required    
         >
     </div>
     <div class="campo">
         <label for="id_alumno">Alumno</label><br>
-        <select name="id_alumno" id="id_alumno">
+        <select name="id_alumno" id="id_alumno" required>
             <?php 
             $alumnos = obtenerAlumnosRegistrados("'".$_SESSION['universidad_usuario']."'");
             if($alumnos->num_rows) {
@@ -21,7 +21,7 @@
                 <?php
                 foreach($alumnos as $alumno) { 
                 ?>
-                <option value="<?php echo $alumno['id']?>">
+                <option value="<?php echo $alumno['id']?>" <?php echo $id_alumno ? "selected" : ""?>>
                     <?php echo $alumno['nombre']." ".$alumno['apellido']." --- ".$alumno['matricula']?>
                 </option>
             <?php   
@@ -43,11 +43,11 @@
             $profesores = obtenerProfesoresRegistrados("'".$_SESSION['universidad_usuario']."'");
             if($profesores->num_rows) {
             ?>
-                <option value="<?NULL?>">Seleccione un profesor registrado</option>
+                <option value="">Seleccione un profesor registrado</option>
                 <?php    
                 foreach($profesores as $profesor) { 
                 ?>
-                <option value="<?php echo $profesor['id']?>">
+                <option value="<?php echo $profesor['id']?>" <?php echo $id_coasesor ? "selected" : ""?>>
                     <?php echo $profesor['nombre']." ".$profesor['apellido']." --- ".$alumno['matricula']?>
                 </option>
             <?php   
@@ -69,19 +69,20 @@
             type="date"
             placeholder="Fecha de inicio" 
             id="fecha"
-            value=""
+            value="<?php echo $fecha ?: ""?>"
             required
         >
     </div>
     <div class="campo">
         <label for="descripcion">Descripción</label><br>
         <textarea id="descripcion" rows="4" cols="40" name="descripcion">
-
+            <?php echo $nombre ?: ""?>
         </textarea>
     </div>
 </div>
         
 <div class="campo enviar">
-    <input name="accion" type="hidden" id="accion" value="crear">
-    <input type="submit" class="boton" value="Crear proyecto">
+    <input name="accion" type="hidden" id="accion" value="<?php echo $id_proyecto ? "editar" : "crear"?>">
+    <input name="id_proyecto" type="hidden" id="id_proyecto" value="<?php echo $id_proyecto ?: ""?>">
+    <input type="submit" class="boton" value="<?php echo $id_proyecto ? "Editar" : "Crear"?> proyecto">
 </div>

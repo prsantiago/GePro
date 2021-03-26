@@ -1,4 +1,8 @@
-<?php session_start(); include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
+<?php 
+session_start(); 
+include 'inc/templates/header.php'; 
+include 'inc/funciones/funciones.php';
+?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
