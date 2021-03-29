@@ -3,7 +3,7 @@
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra">
         <?php include 'inc/templates/logos.php'; ?>
-        <a href="index.php" class="btn volver">Volver</a>
+        <a href="index.php?login=false" class="btn volver">Volver</a>
     </div>
 </div>
 

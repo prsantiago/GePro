@@ -56,6 +56,10 @@ h4 {
     font-size: 2.6rem;
 }
 
+th, td {
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
 
 .bg-primario {
     background-color: var(--primario);
@@ -318,8 +322,8 @@ table {
 
 /* Contenido Progreso */
 
-.entregas,
-.procesos {
+.etapas,
+.actividades {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -328,8 +332,8 @@ table {
     /* padding: 1rem 0; */
 }
 
-.entrega, 
-.proceso {
+.etapa, 
+.actividad {
     margin: 0 0.1rem;
     padding: 1rem;
     border: 0.1rem solid var(--cuaternario);
@@ -345,12 +349,34 @@ table {
 }
 
 @media (min-width: 768px) {
-    .entregas,
-    .procesos {
+    .etapas,
+    .actividades {
         flex-direction: row;
     }
 }
 
+/* Comentarios */
+
+.comentario {
+    padding: 0 10.5rem 0 10.5rem;
+}
+
+.com_nombre {
+    font-weight: bold;
+    font-size: 1.8rem;
+    display: inline;
+}
+
+.com_fecha {
+    font-size: 1.2rem;
+    display: inline;
+}
+
+.com_com {
+    text-align: justify;
+    padding-left: 1.5rem;
+    
+}
 
 /* Footer */
 

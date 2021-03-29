@@ -48,7 +48,7 @@
                 foreach($profesores as $profesor) { 
                 ?>
                 <option value="<?php echo $profesor['id']?>" <?php echo $id_coasesor ? "selected" : ""?>>
-                    <?php echo $profesor['nombre']." ".$profesor['apellido']." --- ".$alumno['matricula']?>
+                    <?php echo $profesor['nombre']." ".$profesor['apellido']." --- ".$profesor['matricula']?>
                 </option>
             <?php   
                 } 

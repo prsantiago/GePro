@@ -178,12 +178,12 @@ DELIMITER ;
 
 DELIMITER //
     CREATE PROCEDURE NUEVO_COMENTARIO(nombre_usuario varchar(75),apellido_usuario varchar(75), 
-                                        id_seguimiento int, comentario varchar(255))
+                                        id_proy int, id_etapa int, id_actividad int, comentario varchar(255))
     BEGIN
-        INSERT INTO comentario_vigente (id_seguimiento, nombre, apellido, comentario, fecha)
-        VALUES (id_seguimiento, nombre_usuario, apellido_usuario, comentario, NOW());
+        INSERT INTO comentario
+        VALUES (NULL, id_proy, id_etapa, id_actividad, nombre_usuario, apellido_usuario, comentario, NOW());
     END//
- DELIMITER ;    
+DELIMITER ;    
 
 DELIMITER //
     CREATE PROCEDURE NUEVO_PROYECTO(id_asesor1 int, id_asesor2 int, id_alumno int, nombre_proyecto varchar(125),
@@ -241,7 +241,7 @@ DELIMITER //
     END//
  DELIMITER ; 
 
- DELIMITER //
+DELIMITER //
     CREATE PROCEDURE BORRAR_PROYECTO(id_proyecto int)
     BEGIN
         DELETE FROM comentario_vigente WHERE id_proyecto = id_proyecto;
@@ -249,3 +249,15 @@ DELIMITER //
         DELETE FROM proyecto_vigente WHERE id = id_proyecto;
     END//
  DELIMITER ;
+
+  -- Se ejecuta después de que se finalizó correctamente algún proyecto. Se llama en modelo-progreso
+DELIMITER //
+    CREATE PROCEDURE HISTORICOS(idProy int)
+    BEGIN
+        INSERT INTO proyecto_historico SELECT * FROM proyecto_vigente WHERE id = idProy;
+        INSERT INTO seguimiento_historico SELECT * FROM seguimiento_vigente WHERE id_proyecto = idProy;
+        DELETE FROM seguimiento_vigente WHERE id_proyecto = idProy; 
+        DELETE FROM comentario WHERE id_proyecto = idProy;
+        DELETE FROM proyecto_vigente WHERE id = idProy;
+    END//
+DELIMITER ;

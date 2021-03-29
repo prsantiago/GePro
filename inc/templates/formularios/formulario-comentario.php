@@ -1,9 +1,7 @@
 <div class="campos">
     <div class="campo">
         <label for="comentario">Hacer comentario:</label><br>
-        <textarea name="comentario" rows="4" cols="40">
-
-        </textarea>
+        <textarea name="comentario" rows="4" cols="40" required></textarea>
     </div>
 </div>
         

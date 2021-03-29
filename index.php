@@ -1,9 +1,11 @@
 <?php 
-    session_start();
-    include 'inc/templates/header.php'; 
+session_start();
+include 'inc/templates/header.php'; 
+if(isset($_GET['login'])) {
     if(!strcmp($_GET['login'], 'false')) {
         $_SESSION = array();
     }
+}
 
 include 'inc/funciones/funciones.php';
 include_once 'inc/funciones/conexion.php';

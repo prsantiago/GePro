@@ -1,1 +1,4 @@
-scriptsInsertar.sql
+inc/funciones/scriptsInsertar.sql
+inc/funciones/PHPMailer/
+inc/funciones/conexion.php
+inc/funciones/email_settings.php

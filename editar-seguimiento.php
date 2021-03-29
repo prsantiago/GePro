@@ -13,7 +13,7 @@
         <form id="editar-seguimiento" action="#" method="post">
             <legend>Edite el Seguimiento</legend>
 
-            <input name="fecha-entrega" type="date">
+            <input name="fecha_entrega" type="date">
             <input name="accion" type="hidden" value="editar">
             <input name="id_seguimiento" type="hidden" value="<?php echo $_GET['id']?>">
             <input type="submit" class="boton" value="Cambiar entrega">

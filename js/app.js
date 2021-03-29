@@ -51,7 +51,7 @@ function leerFormularioProfesor(e) {
     } else {
         // Pasa la validacion, crear llamado a Ajax
         const infoContacto = new FormData(formularioProfesor);
-
+        
         insertarProfesorBD(infoContacto, accion_profesor);
     }
 }
@@ -83,7 +83,7 @@ function insertarProfesorBD(datos, accion) {
                     window.location.href = 'inicio.php';
                 }
             } else {
-                alert(respues.error);
+                alert(respuesta.error);
             }
         }
     }
@@ -225,53 +225,6 @@ function validarAlumno(e) {
 }
 
 /* -------------------------------------------------------------------------------------------- */
-/* --------------------------------------- Progreso ------------------------------------------- */
-/* -------------------------------------------------------------------------------------------- */
-
-function leerFormularioProgreso(e) {
-    e.preventDefault();
-
-    // mandar ejecutar Ajax
-    // datos que se envian al servidor
-    // const datos = new FormData(formularioProgreso);
-    // console.log(...datos);
-
-    const clave = document.querySelector('#clave').value,
-    accion = document.querySelector('#accion').value;
-
-    // // mandar ejecutar Ajax
-    // // datos que se envian al servidor
-    const datos = new FormData();
-    datos.append('clave', clave);
-    datos.append('accion', accion);
-
-    // crear el llamado a ajax
-    const xhr = new XMLHttpRequest();
-
-    // abrir la conexión.
-    xhr.open('POST', 'inc/modelos/modelo-proyecto.php', true);
-
-    // retorno de datos
-    xhr.onload = function() {
-        if (this.status === 200) {
-            const respuesta = JSON.parse(xhr.responseText);
-            console.log(respuesta);
-
-            // Si la respuesta es correcta
-            if (respuesta.respuesta === 'correcto') {  
-                alert(respuesta.nombre);                
-                window.location.href = 'progreso.php?id='+respuesta.id_proyecto;
-            } else {
-                // Hubo un error
-                alert(respuesta.error);
-            }
-        }
-    }
-        // Enviar la petición
-    xhr.send(datos);
-}
-
-/* -------------------------------------------------------------------------------------------- */
 /* --------------------------------------- Proyecto ------------------------------------------- */
 /* -------------------------------------------------------------------------------------------- */
 
@@ -383,6 +336,7 @@ function leerformularioComentario(e) {
             // Si la respuesta es correcta
             if (respuesta.respuesta === 'correcto') {  
                 alert('Comentario agregado');
+                window.location.href = 'comentarios.php?etapa='+respuesta.idEtapa+'&actividad='+respuesta.idActividad;
             } else {
                 // Hubo un error
                 alert(respuesta.error);
