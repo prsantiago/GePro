@@ -1,4 +1,8 @@
-<?php session_start(); include 'inc/templates/header.php'; include 'inc/funciones/funciones.php';?>
+<?php 
+session_start(); 
+include 'inc/templates/header.php'; 
+include 'inc/funciones/funciones.php';
+?>
 
 <div class="bg-primario contenedor-barra">
     <div class="contenedor barra-inicio">
@@ -13,7 +17,14 @@
 <main class="bg-secundario contenedor-main">
     <div class="contenedor bg-terciario contenido sombra">
         <p><?php print_r($_SESSION); ?></p>
-        <p class="total-proyectos"><span>2</span> Proyectos</p>
+        <a href="historial_proy.php" class="btn">Historial de proyectos</a>
+        <p class="total-proyectos">
+            <span>
+                <?php $proy = obtenerProyectosVigentes($_SESSION['id_usuario']); 
+                print_r($proy[0]); ?>
+            </span> 
+            Proyectos vigentes
+        </p>
 
         <div class="contenedor-tabla">
             <table id="listado-proyectos" class="listado-proyectos">
@@ -28,7 +39,7 @@
                 <tbody>
                     <?php 
                     $proyectos = obtenerProyectos($_SESSION['id_usuario']);
-                    if($proyectos->num_rows) {
+                    if(!empty($proyectos) && $proyectos->num_rows > 0) {
                         foreach($proyectos as $proyecto) { 
                     ?>
                             <tr>
