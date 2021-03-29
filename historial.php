@@ -21,7 +21,7 @@ $id_proyecto = $_SESSION['id_proyecto'];?>
                 <thead>
                     <tr>
                         <th>Etapa</th>
-                        <th>Proceso</th>
+                        <th>Actividad</th>
                         <th>Fecha de entrega</th>
                         <?php 
                         if ($_SESSION["tipo_usuario"] == 'profesor') {
@@ -35,13 +35,13 @@ $id_proyecto = $_SESSION['id_proyecto'];?>
                 <tbody>
                     <?php 
                     $seguimientos = obtenerSeguimientos($_SESSION['id_proyecto']);
-                    if($seguimientos->num_rows) {
+                    if($seguimientos->num_rows > 0) {
                         foreach($seguimientos as $seguimiento) { 
                     ?>
                             <tr>
                                 <td><?php echo $seguimiento['etapa']?></td>
-                                <td><?php echo $seguimiento['proceso']?></td>
-                                <td><?php echo $seguimiento['entrega']?></td>
+                                <td><?php echo $seguimiento['actividad']?></td>
+                                <td><?php echo $seguimiento['fecha_entrega']?></td>
                                 <?php 
                                 if ($_SESSION["tipo_usuario"] == 'profesor') {
                                 ?>
