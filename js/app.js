@@ -398,13 +398,15 @@ function actualizarStatus(e) {
 
     var activeElement = document.activeElement;
     const fecha_proceso = document.querySelector('#fecha_proceso').value,
-        accion = activeElement.value;
+            comFinal = document.querySelector('#comFinal').value,
+            accion = activeElement.value;
 
     // mandar ejecutar Ajax
     // datos que se envian al servidor
     const datos = new FormData();
-        datos.append('fecha_proceso', fecha_proceso);
-        datos.append('accion', accion);
+    datos.append('fecha_proceso', fecha_proceso);
+    datos.append('comFinal', comFinal);
+    datos.append('accion', accion);
 
     // crear el llamado a ajax
     const xhr = new XMLHttpRequest();
