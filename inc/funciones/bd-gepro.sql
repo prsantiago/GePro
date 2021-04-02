@@ -242,11 +242,11 @@ DELIMITER //
  DELIMITER ; 
 
 DELIMITER //
-    CREATE PROCEDURE BORRAR_PROYECTO(id_proyecto int)
+    CREATE PROCEDURE BORRAR_PROYECTO(idProyecto int)
     BEGIN
-        DELETE FROM comentario_vigente WHERE id_proyecto = id_proyecto;
-        DELETE FROM seguimiento_vigente WHERE id_proyecto = id_proyecto;
-        DELETE FROM proyecto_vigente WHERE id = id_proyecto;
+        DELETE FROM comentario WHERE id_proyecto = idProyecto;
+        DELETE FROM seguimiento_vigente WHERE id_proyecto = idProyecto;
+        DELETE FROM proyecto_vigente WHERE id = idProyecto;
     END//
  DELIMITER ;
 
