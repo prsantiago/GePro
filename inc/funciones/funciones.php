@@ -92,7 +92,7 @@ function obtenerProyectosVigentes($idProf) {
 function obtenerHistorialProyectos($idProf) {
     include 'conexion.php';
     try {
-        return $conn->query("SELECT proyecto_historico.nom_proyecto,alumno.nombre,alumno.apellido,proyecto_historico.fechaInicio,proyecto_historico.fechaFin,proyecto_historico.descripcion,proyecto_historico.comentarioFinal FROM (proyecto_historico INNER JOIN alumno ON proyecto_historico.id_alumno=alumno.id) WHERE proyecto_historico.id_asesor1 = $idProf OR proyecto_historico.id_asesor2 = $idProf");
+        return $conn->query("SELECT proyecto_historico.proyecto,alumno.nombre,alumno.apellido,proyecto_historico.fechaInicio,proyecto_historico.fechaFin,proyecto_historico.descripcion,proyecto_historico.comentarioFinal FROM (proyecto_historico INNER JOIN alumno ON proyecto_historico.id_alumno=alumno.id) WHERE proyecto_historico.id_asesor1 = $idProf OR proyecto_historico.id_asesor2 = $idProf");
     } catch(Exception $e) {
         echo "Error!!!".$e->getMessage()."<br>";
         return false;
@@ -102,7 +102,7 @@ function obtenerHistorialProyectos($idProf) {
 function ObtenerDatosNotificacion($idSeg) {
     $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
     try {
-        return $conn->query("SELECT nom_proyecto,clave,etapa.nombre AS etapa,actividad.nombre AS actividad FROM ((( seguimiento_vigente INNER JOIN proyecto_vigente ON seguimiento_vigente.id_proyecto = proyecto_vigente.id) INNER JOIN etapa ON seguimiento_vigente.id_etapa = etapa.id) INNER JOIN actividad ON seguimiento_vigente.id_actividad = actividad.id) where seguimiento_vigente.id = $idSeg")->fetch_row();
+        return $conn->query("SELECT proyecto,clave,etapa.nombre AS etapa,actividad.nombre AS actividad FROM ((( seguimiento_vigente INNER JOIN proyecto_vigente ON seguimiento_vigente.id_proyecto = proyecto_vigente.id) INNER JOIN etapa ON seguimiento_vigente.id_etapa = etapa.id) INNER JOIN actividad ON seguimiento_vigente.id_actividad = actividad.id) where seguimiento_vigente.id = $idSeg")->fetch_row();
     } catch(Exception $e) {
         echo "Error!!!".$e->getMessage()."<br>";
         return false;
@@ -126,6 +126,19 @@ function ObtenerCorreosConID($idUsuario, $tipoUsuario) {
             return $conn->query("SELECT correo FROM alumno where id = $idUsuario")->fetch_row();
         else if($tipoUsuario=="profesor")
             return $conn->query("SELECT correo FROM profesor where id = $idUsuario")->fetch_row();
+    } catch(Exception $e) {
+        echo "Error!!!".$e->getMessage()."<br>";
+        return false;
+    }
+}
+
+function ObtenerCorreoConIDProyecto($id_proyecto, $tipoUsuario) {
+    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    try {
+        if($tipoUsuario=="alumno")
+            return $conn->query("SELECT profesor.correo FROM (profesor INNER JOIN proyecto_vigente ON profesor.id = proyecto_vigente.id_asesor1) where proyecto_vigente.id = $id_proyecto")->fetch_row();
+        else if($tipoUsuario=="profesor")
+            return $conn->query("SELECT alumno.correo FROM (alumno INNER JOIN proyecto_vigente ON alumno.id = proyecto_vigente.id_alumno) where proyecto_vigente.id = $id_proyecto")->fetch_row();
     } catch(Exception $e) {
         echo "Error!!!".$e->getMessage()."<br>";
         return false;
