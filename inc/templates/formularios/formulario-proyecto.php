@@ -21,7 +21,7 @@
                 <?php
                 foreach($alumnos as $alumno) { 
                 ?>
-                <option value="<?php echo $alumno['id']?>" <?php echo $id_alumno ? "selected" : ""?>>
+                <option value="<?php echo $alumno['id']?>" <?php echo $id_alumno==$alumno['id'] ? "selected" : ""?>>
                     <?php echo $alumno['nombre']." ".$alumno['apellido']." --- ".$alumno['matricula']?>
                 </option>
             <?php   
@@ -47,7 +47,7 @@
                 <?php    
                 foreach($profesores as $profesor) { 
                 ?>
-                <option value="<?php echo $profesor['id']?>" <?php echo $id_coasesor ? "selected" : ""?>>
+                <option value="<?php echo $profesor['id']?>" <?php echo $id_coasesor==$profesor['id'] ? "selected" : ""?>>
                     <?php echo $profesor['nombre']." ".$profesor['apellido']." --- ".$profesor['matricula']?>
                 </option>
             <?php   
@@ -75,9 +75,7 @@
     </div>
     <div class="campo">
         <label for="descripcion">Descripción</label><br>
-        <textarea id="descripcion" rows="4" cols="40" name="descripcion">
-            <?php echo $nombre ?: ""?>
-        </textarea>
+        <textarea id="descripcion" rows="4" cols="40" name="descripcion"><?php echo $nombre ?: ""?></textarea>
     </div>
 </div>
         

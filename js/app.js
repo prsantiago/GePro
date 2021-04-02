@@ -336,14 +336,13 @@ function leerformularioComentario(e) {
             // Si la respuesta es correcta
             if (respuesta.respuesta === 'correcto') {  
                 alert('Comentario agregado');
-                window.location.href = 'comentarios.php?etapa='+respuesta.idEtapa+'&actividad='+respuesta.idActividad;
+                window.location.href = 'comentarios.php?etapa='+respuesta.id_etapa+'&actividad='+respuesta.id_actividad;
             } else {
                 // Hubo un error
                 alert(respuesta.error);
             }
         } else {
-            const respuesta = JSON.parse(xhr.responseText);
-            console.log(respuesta);
+            console.log(xhr.responseText);
         }
     }
         // Enviar la petición
@@ -419,6 +418,8 @@ function actualizarStatus(e) {
         if (this.status === 200) {
             const respuesta = JSON.parse(xhr.responseText);
             console.log(respuesta);
+            
+            // console.log(xhr.responseText);
 
             // Si la respuesta es correcta
             if (respuesta.respuesta === 'correcto') {  
@@ -457,6 +458,7 @@ function leerFormularioEditarSeguimiento(e) {
         if (this.status === 200) {
             const respuesta = JSON.parse(xhr.responseText);
             console.log(respuesta);
+            // console.log(xhr.responseText);
 
             // Si la respuesta es correcta
             if (respuesta.respuesta === 'correcto') {  
