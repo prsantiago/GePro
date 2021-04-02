@@ -3,8 +3,10 @@ include 'inc/templates/header.php';
 include 'inc/funciones/funciones.php';
 $id_seguimiento = $_SESSION['id_seguimiento'];
 $id_proyecto = $_SESSION['id_proyecto'];
-$id_etapa = $_SESSION['id_entrega'];
-$id_actividad = $_SESSION['id_proceso'];
+$etapa = $_GET['etapa'];
+$actividad = $_GET['actividad'];
+$_SESSION['id_etapa']=$etapa;
+$_SESSION['id_actividad']=$actividad;
 ?>
 
 <div class="bg-primario contenedor-barra">
@@ -20,41 +22,39 @@ $id_actividad = $_SESSION['id_proceso'];
         <h1>Comentarios</h1>
         <div class="comentarios">
             <?php 
-            if (!strcmp($_GET['tipo'], 'etapa')) {
-                $comentarios = obtenerComentariosEtapa($id_seguimiento, $id_etapa);
-                // $comentarios = obtenerComentarios(1);
+            if($actividad != 3){
+                $comentarios = obtenerComentariosActividad($id_proyecto, $etapa, $actividad);
                 if($comentarios->num_rows) {
                     foreach($comentarios as $comentario) { 
-            ?>
+                ?>
                         <div class="comentario">
-                            <p><?php echo $comentario['nombre']." ".$comentario['apellido']?></p>
-                            <p><?php echo $comentario['fecha']?></p>
-                            <p><?php echo $comentario['comentario']?></p>
+                            <p class="com_nombre"><?php echo $comentario['nombre']." ".$comentario['apellido'] ?> </p>
+                            <p class="com_fecha">&ensp;[<?php echo $comentario['fecha'];?>]</p> 
+                            <p class="com_com"><?php echo $comentario['comentario']?></p>
                         </div>
-            <?php
-                    }   
+                <?php   
+                    } 
                 } 
-            } else if (!strcmp($_GET['tipo'], 'actividad')) {
-                $comentarios = obtenerComentariosActividad($id_seguimiento, $id_etapa, $id_actividad);
-                // $comentarios = obtenerComentarios(1);
+            }
+            else {
+                $comentarios = obtenerComentariosEtapa($id_proyecto, $etapa);
                 if($comentarios->num_rows) {
-                    foreach($comentarios as $comentario) { 
-            ?>
-                        <div class="comentario">
-                            <p><?php echo $comentario['nombre']." ".$comentario['apellido']?></p>
-                            <p><?php echo $comentario['fecha']?></p>
-                            <p><?php echo $comentario['comentario']?></p>
+                    foreach($comentarios as $comentario) {
+                    ?>
+                    <div class="comentario">
+                            <p class="com_nombre"><?php echo $comentario['nombre']." ".$comentario['apellido']?>
+                            <p class="com_fecha">&ensp;[<?php echo $comentario['fecha']?>]</p> </p>
+                            <p class="com_com"><?php echo $comentario['comentario']?></p>
                         </div>
-            <?php
-                    }   
-                } 
-            } 
+                    <?php
+                    }
+                }
+            }
             ?>
         </div>
 
         <form id="comentario" action="#" method="post">
             <legend>Nuevo comentario</legend>
-
             <?php include 'inc/templates/formularios/formulario-comentario.php'; ?>
         </form>
     </div>
