@@ -3,6 +3,7 @@
 if($_POST['accion'] == 'crear') {
     // Crear un nuevo registro en la base de datos
     require_once('../funciones/conexion.php');
+    require_once('../funciones/email_settings.php');
 
     // Validar las entradas
     $nombre_alumno = filter_var($_POST['nombre_alumno'], FILTER_SANITIZE_STRING);
@@ -21,6 +22,26 @@ if($_POST['accion'] == 'crear') {
     );
     $hash_password = password_hash($password_alumno, PASSWORD_BCRYPT, $opciones);
 
+    $mail->addAddress($correo_alumno,'Usuario');
+    $mail->Subject = '[GePro] Se ha creado una cuenta de alumno para usted';
+    $mail->Body = '<h3>¡Bienvenido! </h3> <h3>Estimado usuario, se le ha creado una cuenta de alumno en el sistema GePro para el seguimiento de proyectos.</h3> 
+        <p>Para ingresar al sistema debe seguir los siguientes pasos:</p> 
+        <ol>
+            <li>Una vez se haya dado de alta un proyecto a su nombre, le llegará un correo con
+            la clave que empleará para visualizar sus avances.</li>
+            <li>Diríjase al portal: página_portal e ingrese la clave del proyecto. </li>
+            <li>Podrá visualizar sus avances y las fechas correspondientes.</li>
+            <li>Para realizar un comentario a su asesor, seleccione la fecha en la actividad
+            que le interesa comentar.</li>
+            <li>Inicie sesión con este correo electrónico ('.$correo_alumno.') y con la 
+            siguiente contraseña <strong>'.$password_alumno.'</strong></p>.</li>
+            <li>De ser posible, cambie su contraseña.</li>
+            <li>Ahora puede comentar.</li>
+        </ol>
+        <p>De haber alguna inconsistencia con sus datos, favor de comunicarse con el asesor responsable.</p><br>
+        <p>Saludos cordiales</p>';
+
+
     try {
         $stmt = $conn->prepare("INSERT INTO alumno (nombre, apellido, matricula, 
                                                     correo, contraseña, universidad,
@@ -30,9 +51,25 @@ if($_POST['accion'] == 'crear') {
         $stmt->execute();
 
         if($stmt->affected_rows == 1) {
+            if($mail->send()){
+                $respuesta = array(
+                    'respuesta' => 'correcto',
+                    'id_insertado' => $stmt->insert_id,
+                    'correo' => 'enviado'
+                );    
+            }
+            else {
+                $respuesta = array(
+                    'respuesta' => 'correcto',
+                    'id_insertado' => $stmt->insert_id,
+                    'correo' => 'NO enviado'
+                ); 
+            }
+        } else {
             $respuesta = array(
-                'respuesta' => 'correcto',
-                'id_usuario' => $stmt->insert_id
+                'respuesta' => 'error',
+                'error' => 'Error al crear alumno',
+                'id_usuario' => $stmt->errno.' : '.$stmt->error
             );
         }
 
