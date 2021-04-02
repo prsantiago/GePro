@@ -3,6 +3,8 @@ session_start();
 if($_POST['accion'] == 'crear') {
     // Crear un nuevo registro en la base de datos
     require_once('../funciones/conexion.php');
+    require_once('../funciones/funciones.php');
+    require_once('../funciones/email_settings.php');
 
     //Validar entradas
     // No sanitizamos id_alumno y id_coasesor porque lo obtenemos directamente de la BD
@@ -15,6 +17,25 @@ if($_POST['accion'] == 'crear') {
     $descripcion = filter_var($_POST['descripcion'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
     $universidad_usuario = $_SESSION['universidad_usuario'];
 
+    //para enviar correo que notifique la creación del proyecto
+    $correo_alumno = ObtenerCorreosConID($id_alumno,'alumno');
+    $correo_asesor = ObtenerCorreosConID($id_asesor1,'profesor');
+    if($id_coasesor != NULL) {
+        $correo_coasesor = ObtenerCorreosConID($id_coasesor,'profesor');
+        $mail->addAddress($correo_coasesor[0],'Coasesor');
+    }
+
+    $mail->addAddress($correo_alumno[0],'Alumno');
+    $mail->addAddress($correo_asesor[0],'Asesor');
+    //título
+    $mail->Subject = '[GePro] Se ha creado un proyecto a su nombre!';
+    $mail->Body = '<h3>Estimado usuario, el proyecto "'. $nombre_proyecto.'", con clave (algo) ha sido creado!.</h3> 
+        <p>Descripción del proyecto: '.$descripcion.'</p>
+        <p>Fecha de inicio: '.$fecha.'</p>
+        <p>Para visualizar los avances de su proyecto ingrese la clave en el portal: nombre_portal.</p>
+        <p>Saludos cordiales</p>';
+
+
     try {
         // Crear el proyecto en la base de datos
         $stmt = $conn->prepare("CALL NUEVO_PROYECTO(?,?,?,?,?,?,?)");
@@ -22,10 +43,19 @@ if($_POST['accion'] == 'crear') {
         $stmt->execute();
         
         if($stmt->errno == 0){ 
-            $respuesta = array(
+            if($mail->send()) {
+                $respuesta = array(
                 'respuesta' => 'correcto',
-                'nombre' => $nombre_proyecto          
-            );
+                'nombre' => $nombre_proyecto,
+                'correo' => 'enviado'
+                );
+            } else{
+                $respuesta = array(
+                'respuesta' => 'correcto',
+                'nombre' => $nombre_proyecto,
+                'correo' => 'NO enviado'
+                );
+            }
         } else {
             $respuesta = array(
                 'respuesta' => 'error',
