@@ -138,6 +138,7 @@ if($_POST['accion'] == 'editar') {
 
 if($_POST['accion'] == 'login') {
     require_once('../funciones/conexion.php');
+    require_once('../funciones/funciones.php');
 
     $usuario = filter_var($_POST['usuario'], FILTER_SANITIZE_EMAIL);
     $password = filter_var($_POST['password'], FILTER_SANITIZE_STRING);
@@ -151,25 +152,35 @@ if($_POST['accion'] == 'login') {
         $stmt->bind_result($nombre_usuario, $apellido_usuario, $id_usuario, $pass_usuario);
         $stmt->fetch();
         if($nombre_usuario){
-            // El usuario existe, verificar el password
-            if(password_verify($password,$pass_usuario)){
-                // Iniciar la sesion
-                session_start();
-                $_SESSION['nombre_usuario'] = $nombre_usuario;
-                $_SESSION['apellido_usuario'] = $apellido_usuario;
-                $_SESSION['id_usuario'] = $id_usuario;
-                $_SESSION['login'] = true;
-                $_SESSION['tipo_usuario'] = 'alumno';
-                // Login correcto
-                $respuesta = array(
-                    'respuesta' => 'correcto',
-                    'usuario' => $nombre_usuario.' '.$apellido_usuario,
-                    'id_proyecto' => $_SESSION['id_proyecto']
-                );
+            // El usuario existe, verificar si corresponde a este proyecto
+            session_start();
+            $id_proyecto = $_SESSION['id_proyecto'];
+            $usuario_proyecto = obtenerAlumnoProyecto($id_proyecto);
+            if($id_usuario == $usuario_proyecto[0]) {
+                // El usuario si es el alumno de este proycto, verificar el password
+                if(password_verify($password,$pass_usuario)){
+                    // Iniciar la sesion
+                    $_SESSION['nombre_usuario'] = $nombre_usuario;
+                    $_SESSION['apellido_usuario'] = $apellido_usuario;
+                    $_SESSION['id_usuario'] = $id_usuario;
+                    $_SESSION['login'] = true;
+                    $_SESSION['tipo_usuario'] = 'alumno';
+                    // Login correcto
+                    $respuesta = array(
+                        'respuesta' => 'correcto',
+                        'usuario' => $nombre_usuario.' '.$apellido_usuario,
+                        'id_proyecto' => $id_proyecto
+                    );
+                } else {
+                    // Login incorrecto, enviar error
+                    $respuesta = array(
+                        'error' => 'Password Incorrecto'
+                    );
+                }
             } else {
                 // Login incorrecto, enviar error
                 $respuesta = array(
-                    'error' => 'Password Incorrecto'
+                    'error' => 'Usuario no tiene este proyecto'
                 );
             }
         } else {

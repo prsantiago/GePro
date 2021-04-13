@@ -167,4 +167,15 @@ function obtenerFechaSeguimientoActual($id_proyecto){
     }
 }
 
+
+function obtenerAlumnoProyecto($id_proyecto) {
+    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    try {
+        return $conn->query("SELECT id_alumno FROM proyecto_vigente WHERE id = $id_proyecto")->fetch_row();
+    } catch(Exception $e) {
+        echo "Error!!!".$e->getMessage()."<br>";
+        return false;
+    }
+}
+
 ?>
