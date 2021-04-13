@@ -55,8 +55,10 @@ $_SESSION['id_actividad']=$id_actividad;
     <div class="bg-terciario contenedor contenido sombra">
         <p><?php print_r($_SESSION); ?></p>
         <h1>Progreso del proyecto</h1>
+        <!-- FIXME: cambiar a color negro los <a> cuando no estén rellenos -->
+        <!-- FIXME: Todos los <a>, una vez que ha sido logueado -->
+        <!-- FIXME: Log in de alumno, solo si es el progreso de su proyecto? -->
         <a href="historial.php" class="btn">Historial del seguimiento</a>
-            <!-- TODO: Comentarios no se ven si el texto está en progreso -->
         <div class="etapas">
             <div id="etapa-1" class="etapa bg-cuaternario">
                 <p>Introducción</p>
@@ -70,7 +72,7 @@ $_SESSION['id_actividad']=$id_actividad;
                     echo $fecha_entrega[0]; ?></p>
                 <?php } }
                 else {?>
-                    <p>En proceso</p>
+                    <a href="comentarios.php?etapa=1&actividad=3" class="btn fechas">En proceso</a>
                 <?php } ?>
             </div>
             <div id="etapa-2" class="etapa <?php if($id_etapa>=2) echo 'bg-cuaternario'?>">
@@ -85,7 +87,7 @@ $_SESSION['id_actividad']=$id_actividad;
                     echo $fecha_entrega[0]; ?></p>
                 <?php } }
                 else if($id_etapa==2){?>
-                    <p>En proceso</p>
+                    <a href="comentarios.php?etapa=2&actividad=3" class="btn fechas">En proceso</a>
                 <?php } ?>
             </div>
             <div id="etapa-3" class="etapa <?php if($id_etapa>=3) echo 'bg-cuaternario'?>">
@@ -100,7 +102,7 @@ $_SESSION['id_actividad']=$id_actividad;
                     echo $fecha_entrega[0]; ?></p>
                 <?php } }
                 else if($id_etapa==3){?>
-                    <p>En proceso</p>
+                    <a href="comentarios.php?etapa=3&actividad=3" class="btn fechas">En proceso</a>
                 <?php } ?>
             </div>
             <div id="etapa-4" class="etapa <?php if($id_etapa>=4) echo 'bg-cuaternario'?>">
@@ -116,7 +118,7 @@ $_SESSION['id_actividad']=$id_actividad;
                     echo $fecha_entrega[0]; ?></p>
                 <?php } }
                 else if($id_etapa==4){?>
-                    <p>En proceso</p>
+                    <a href="comentarios.php?etapa=3&actividad=3" class="btn fechas">En proceso</a>
                 <?php } ?>
             </div>
             <div id="etapa-5" class="etapa <?php if($id_etapa==5) echo 'bg-cuaternario'?>">
@@ -137,7 +139,7 @@ $_SESSION['id_actividad']=$id_actividad;
                         <p><?php  $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_etapa,1);
                             echo $fecha_entrega[0]; ?> </p>
                 <?php }} else { ?>
-                    <p>En proceso</p>
+                    <a href="comentarios.php?etapa=<?php echo $id_etapa ?>&actividad=1" class="btn fechas">En proceso</a>
                 <?php } ?>
             </div>
             <div id="actividad-2" class="actividad <?php if($id_actividad>=2) echo 'bg-cuaternario'?>">
@@ -151,7 +153,7 @@ $_SESSION['id_actividad']=$id_actividad;
                         <p><?php  $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_etapa,2);
                             echo $fecha_entrega[0]; ?> </p>
                 <?php }} else if($id_actividad==2){ ?>
-                    <p>En proceso</p>
+                    <a href="comentarios.php?etapa=<?php echo $id_etapa ?>&actividad=2" class="btn fechas">En proceso</a>
                 <?php } else {
                     $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_etapa,2);
                     if($fecha_entrega[0]!=0) { ?>
@@ -167,7 +169,7 @@ $_SESSION['id_actividad']=$id_actividad;
                         <p><?php  $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_etapa,3);
                             echo $fecha_entrega[0]; ?> </p>
                 <?php }} else if($id_actividad==2){ ?>
-                    <p>En proceso</p>
+                    <a href="comentarios.php?etapa=<?php echo $id_etapa ?>&actividad=2" class="btn fechas">En proceso</a>
                 <?php } else {
                     $fecha_entrega = obtenerFechaSeguimiento($id_proyecto,$id_etapa,2);
                     if($fecha_entrega[0]!=0) { ?>
