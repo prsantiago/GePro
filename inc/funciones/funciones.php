@@ -1,7 +1,7 @@
 <?php
 
 function obtenerProyectos($id_usuario) {
-    include 'conexion.php';
+    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
     try {
         return $conn->query("CALL OBTENER_DETALLES_PROYECTO($id_usuario)");
     } catch(Exception $e) {
@@ -139,6 +139,28 @@ function ObtenerCorreoConIDProyecto($id_proyecto, $tipoUsuario) {
             return $conn->query("SELECT profesor.correo FROM (profesor INNER JOIN proyecto_vigente ON profesor.id = proyecto_vigente.id_asesor1) where proyecto_vigente.id = $id_proyecto")->fetch_row();
         else if($tipoUsuario=="profesor")
             return $conn->query("SELECT alumno.correo FROM (alumno INNER JOIN proyecto_vigente ON alumno.id = proyecto_vigente.id_alumno) where proyecto_vigente.id = $id_proyecto")->fetch_row();
+    } catch(Exception $e) {
+        echo "Error!!!".$e->getMessage()."<br>";
+        return false;
+    }
+}
+
+function obtenerIDProyectos(){
+    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    try {
+        return $conn->query("SELECT id FROM `proyecto_vigente`")->fetch_all();
+    } catch(Exception $e) {
+        echo "Error!!!".$e->getMessage()."<br>";
+        return false;
+    }
+}
+
+function obtenerFechaSeguimientoActual($id_proyecto){
+    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    try {
+        return $conn->query("SELECT id, proxima_entrega FROM seguimiento_vigente 
+                            WHERE id =(SELECT MAX(id) FROM seguimiento_vigente 
+                                        WHERE (id_proyecto = $id_proyecto))")->fetch_row();
     } catch(Exception $e) {
         echo "Error!!!".$e->getMessage()."<br>";
         return false;
