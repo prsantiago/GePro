@@ -6,7 +6,7 @@
             type="text" 
             placeholder="Nombre Proyecto" 
             id="nombre"
-            value= "<?php echo $nombre ?: ""?>"
+            value= "<?php echo !empty($nombre)  ? $nombre : ""?>"
             required    
         >
     </div>
@@ -21,7 +21,7 @@
                 <?php
                 foreach($alumnos as $alumno) { 
                 ?>
-                <option value="<?php echo $alumno['id']?>" <?php echo $id_alumno==$alumno['id'] ? "selected" : ""?>>
+                <option value="<?php echo $alumno['id']?>" <?php echo (!empty($id_alumno) && $id_alumno==$alumno['id']) ? "selected" : ""?>>
                     <?php echo $alumno['nombre']." ".$alumno['apellido']." --- ".$alumno['matricula']?>
                 </option>
             <?php   
@@ -47,7 +47,7 @@
                 <?php    
                 foreach($profesores as $profesor) { 
                 ?>
-                <option value="<?php echo $profesor['id']?>" <?php echo $id_coasesor==$profesor['id'] ? "selected" : ""?>>
+                <option value="<?php echo $profesor['id']?>" <?php echo (!empty($id_coasesor) && $id_coasesor==$profesor['id']) ? "selected" : ""?>>
                     <?php echo $profesor['nombre']." ".$profesor['apellido']." --- ".$profesor['matricula']?>
                 </option>
             <?php   
@@ -69,18 +69,18 @@
             type="date"
             placeholder="Fecha de inicio" 
             id="fecha"
-            value="<?php echo $fecha ?: ""?>"
+            value="<?php echo !empty($fecha) ? $fecha : ""?>"
             required
         >
     </div>
     <div class="campo">
         <label for="descripcion">Descripción</label><br>
-        <textarea id="descripcion" rows="4" cols="40" name="descripcion"><?php echo $nombre ?: ""?></textarea>
+        <textarea id="descripcion" rows="4" cols="40" name="descripcion"><?php echo !empty($descripcion) ? $descripcion : ""?></textarea>
     </div>
 </div>
         
 <div class="campo enviar">
-    <input name="accion" type="hidden" id="accion" value="<?php echo $id_proyecto ? "editar" : "crear"?>">
-    <input name="id_proyecto" type="hidden" id="id_proyecto" value="<?php echo $id_proyecto ?: ""?>">
-    <input type="submit" class="boton" value="<?php echo $id_proyecto ? "Editar" : "Crear"?> proyecto">
+    <input name="accion" type="hidden" id="accion" value="<?php echo !empty($id_proyecto) ? "editar" : "crear"?>">
+    <input name="id_proyecto" type="hidden" id="id_proyecto" value="<?php echo !empty($id_proyecto) ? $id_proyecto : ""?>">
+    <input type="submit" class="boton" value="<?php echo !empty($id_proyecto) ? "Editar" : "Crear"?> proyecto">
 </div>

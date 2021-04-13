@@ -6,7 +6,7 @@
             type="text" 
             id="nombre_profesor" 
             placeholder="Nombre profesor"
-            value = "<?php echo $nombre ?: "";?>"
+            value = "<?php echo !empty($nombre) ? $nombre : "";?>"
             required
         >
     </div>
@@ -17,7 +17,7 @@
             type="text" 
             id="apellido_profesor" 
             placeholder="Apellido profesor"
-            value = "<?php echo $apellido ?: "";?>"
+            value = "<?php echo !empty($apellido) ? $apellido : "";?>"
             required
         >
     </div>
@@ -28,7 +28,7 @@
             type="text" 
             id="matricula_profesor" 
             placeholder="Matricula profesor"
-            value = "<?php echo $matricula ?: "";?>"
+            value = "<?php echo !empty($matricula) ? $matricula : "";?>"
             required
         >
     </div>
@@ -39,7 +39,7 @@
             type="email" 
             id="correo_profesor" 
             placeholder="Correo profesor"
-            value = "<?php echo $correo ?: "";?>"
+            value = "<?php echo !empty($correo) ? $correo : "";?>"
             required
         >
     </div>
@@ -65,7 +65,7 @@
     <div class="campo">
         <label for="universidad_profesor">Institución a la que perteneces: </label>
         <select name="universidad_profesor" id="universidad_profesor" required>
-            <option value = <?php echo $universidad ?: "";?>><?php echo $universidad ?: "---";?></option>>
+            <option value = <?php echo !empty($universidad) ? $universidad : "";?>><?php echo !empty($universidad) ? $universidad : "---";?></option>>
             <option value="UAM">Universidad Autonoma Metropolitana</option>
             <option value="UACM">UACM</option>
             <option value="UNAM">UNAM</option>
@@ -79,7 +79,7 @@
             type="text" 
             id="division_profesor" 
             placeholder="Division profesor"
-            value = "<?php echo $division ?: "";?>"
+            value = "<?php echo !empty($division) ? $division : "";?>"
             required
         >
     </div>
@@ -90,7 +90,7 @@
             type="text" 
             id="departamento_profesor" 
             placeholder="Departamento profesor"
-            value = "<?php echo $departamento ?: "";?>"
+            value = "<?php echo !empty($departamento) ? $departamento : "";?>"
             required
         >
     </div>
