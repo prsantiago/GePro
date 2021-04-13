@@ -40,7 +40,7 @@ if($_POST['accion'] == 'Actividad entregada') {
         $stmt->bind_param('iiiis', $id_seguimiento, $id_proyecto, $id_etapa, $id_actividad, $fecha_proceso);
         $stmt->execute();
         
-        if($stmt->affected_rows == 1){ 
+        if($stmt->errno == 0){ 
             if($mail->send()){
                 $respuesta = array(
                     'respuesta' => 'correcto',
@@ -112,7 +112,7 @@ if($_POST['accion'] == 'Aprobar actividad') {
             $stmt->bind_param('iiiis', $id_seguimiento, $id_proyecto, $id_etapa, $id_actividad, $fecha_proceso);
             $stmt->execute();
 
-            if($stmt->affected_rows == 1){ 
+            if($stmt->errno == 0){ 
                 if($mail->send()){
                     $respuesta = array(
                         'respuesta' => 'correcto',
@@ -157,11 +157,11 @@ if($_POST['accion'] == 'Aprobar actividad') {
             $stmt->bind_param('iiiiss', $id_seguimiento, $id_proyecto, $id_etapa, $id_actividad, $fecha_proceso, $comFinal);
             $stmt->execute();
             
-            if($stmt->affected_rows == 1){ 
+            if($stmt->errno == 0){ 
                 $stmt_historicos = $conn->prepare("CALL HISTORICOS(?)");
                 $stmt_historicos->bind_param('i', $id_proyecto);
                 $stmt_historicos->execute();
-                if($stmt_historicos->affected_rows == 1){
+                if($stmt_historicos->errno == 0){
                     if($mail->send()){
                         $respuesta = array(
                             'respuesta' => 'correcto',
@@ -203,7 +203,7 @@ if($_POST['accion'] == 'Aprobar actividad') {
     echo json_encode($respuesta);
 }
 
-// FIXME: Se puede editar seguimientos sin tener una fecha de entrega, ¿arreglar?
+// FIXME: Se puede editar seguimientos sin tener una fecha de entrega, arreglar
 if ($_POST['accion'] == 'editar') {
     require_once('../funciones/conexion.php');
     require_once('../funciones/funciones.php');
@@ -234,7 +234,7 @@ if ($_POST['accion'] == 'editar') {
         $stmt->bind_param('si', $fecha_entrega, $id_seguimiento);
         $stmt->execute();
 
-        if ($stmt->affected_rows == 1) {
+        if ($stmt->errno == 0) {
             if($mail->send()) {
                 $respuesta = array(
                     'respuesta' => 'correcto',

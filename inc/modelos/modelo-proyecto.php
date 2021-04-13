@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 if($_POST['accion'] == 'crear') {
     // Crear un nuevo registro en la base de datos
     require_once('../funciones/conexion.php');
@@ -100,7 +101,7 @@ if($_POST['accion'] == 'editar') {
         $stmt->bind_param('iiisssi', $id_asesor1, $id_coasesor, $id_alumno, $nombre_proyecto, $fecha, $descripcion, $id_proyecto);
         $stmt->execute();
         
-        if($stmt->affected_rows == 1){ 
+        if($stmt->errno == 0){ 
             $respuesta = array(
                 'respuesta' => 'correcto',
                 'nombre' => $nombre_proyecto          
@@ -139,7 +140,7 @@ if($_GET['accion'] == 'borrar') {
         $stmt->bind_param('i', $id_proyecto);
         $stmt->execute();
         
-        if($stmt->affected_rows == 1){ 
+        if($stmt->errno == 0){ 
             $respuesta = array(
                 'respuesta' => 'correcto',
                 'nombre' => $nombre_proyecto          
