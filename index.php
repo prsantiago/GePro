@@ -76,7 +76,7 @@ $stmtalumnos->close();
         <p><?php print_r($_SESSION); ?></p>
         <p> <?php echo $proyectos?> Proyectos</p>
         <p> <?php echo $profesores + $alumnos?> Usuarios</p>
-        <h1>GePro</h1>
+        <h1>Deni</h1>
         <h3>Sistema gestor de proyectos</h3>
         <form id="progreso" class="caja-progreso" method="post">
             <div class="campo">

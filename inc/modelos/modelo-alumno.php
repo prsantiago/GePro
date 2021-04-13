@@ -69,7 +69,7 @@ if($_POST['accion'] == 'crear') {
             $respuesta = array(
                 'respuesta' => 'error',
                 'error' => 'Error al crear alumno',
-                'id_usuario' => $stmt->errno.' : '.$stmt->error
+                'detalle' => $stmt->errno.' : '.$stmt->error
             );
         }
 
