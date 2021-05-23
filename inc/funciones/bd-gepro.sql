@@ -193,8 +193,17 @@ DELIMITER //
  DELIMITER ; 
 
  DELIMITER //
-    CREATE PROCEDURE HISTORICOS(idProy int)
+    CREATE PROCEDURE FINALIZAR_PROYECTO(idProy int)
     BEGIN
+        DECLARE X INT;
+        DECLARE Y INT;
+        SELECT id_alumno INTO X FROM proyecto_vigente WHERE id = idProy;
+        SELECT id_estado INTO Y FROM alumno WHERE id = X; 
+        IF (Y = 1) THEN
+            UPDATE alumno SET id_estado = 2 WHERE id = X;
+        ELSE 
+            UPDATE alumno SET id_estado = 3 WHERE id = X;
+        END IF;
         INSERT INTO proyecto_historico SELECT * FROM proyecto_vigente WHERE id = idProy;
         INSERT INTO seguimiento_historico SELECT * FROM seguimiento_vigente WHERE id_proyecto = idProy;
         DELETE FROM seguimiento_vigente WHERE id_proyecto = idProy; 

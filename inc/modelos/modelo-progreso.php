@@ -49,14 +49,14 @@ if($_POST['accion'] == 'Actividad entregada') {
                 //Si el correo se envía correctamente se crea esta respuesta para json
                 $respuesta = array(
                     'respuesta' => 'correcto',
-                    'nombre' => 'Status actualizado',
+                    'nombre' => 'Estatus actualizado',
                     'correo' => 'Enviado'
                 );    
             } else {
                 //Si el correo NO se envía correctamente se crea esta respuesta para json
                 $respuesta = array(
                     'respuesta' => 'correcto',
-                    'nombre' => 'Status actualizado',
+                    'nombre' => 'Estatus actualizado',
                     'correo' => 'NO enviado'
                 );
             } 
@@ -64,7 +64,7 @@ if($_POST['accion'] == 'Actividad entregada') {
             //Si el procedimiento no se ejecuta correctamente se crea esta respuesta
             $respuesta = array(
                 'respuesta' => 'error',
-                'error' => 'Error al actualizar el status',
+                'error' => 'Error al actualizar el estatus',
                 'detalle' => $stmt->errno.' : '.$stmt->error
             );
         }
@@ -190,7 +190,7 @@ if($_POST['accion'] == 'Aprobar actividad') {
                 //HISTÓRICOS se encarga de eliminar los comentarios del proyecto y de enviar 
                 //los sus registros en las tablas de seguimiento y proyecto a sus históricos
                 //correspondientes, eliminándolos de las tablas vigentes.
-                $stmt_historicos = $conn->prepare("CALL HISTORICOS(?)");
+                $stmt_historicos = $conn->prepare("CALL FINALIZAR_PROYECTO(?)");
                 $stmt_historicos->bind_param('i', $id_proyecto);
                 $stmt_historicos->execute();
                 if($stmt_historicos->errno == 0){
@@ -276,7 +276,7 @@ if ($_POST['accion'] == 'editar') {
                     'respuesta' => 'correcto',
                     'nombre' => 'Fecha actualizada',
                     'id_seguimiento' => $id_seguimiento,
-                    'correo' => 'enviado a '.$correo_a_usar[0]
+                    'correo' => 'enviado'
                 );
             } else {
                 $respuesta = array(
@@ -290,8 +290,7 @@ if ($_POST['accion'] == 'editar') {
             $respuesta = array(
                 'respuesta' => 'error',
                 'error' => 'Error al actualizar fecha de entrega',
-                'detalle' => $stmt->errno.' : '.$stmt->error,
-                'correo' => $correo_a_usar[0]
+                'detalle' => $stmt->errno.' : '.$stmt->error
             );
         }
 
