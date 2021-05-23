@@ -134,7 +134,7 @@ function insertarAlumnoBD(datos, accion) {
                 document.querySelector('form').reset();             // Resetear el formulario
 
                 if(accion === 'crear') {                            // Acciones al crear alumno
-                    alert("Usuario creado. Correo"+respuesta.correo);
+                    alert("Usuario creado. Correo: "+respuesta.correo);
                     window.location.href = 'nuevo-proyecto.php';
                 } else if(accion === 'editar') {                    // Acciones al editar alumno
                     alert("Usuario editado");
@@ -235,7 +235,7 @@ function leerFormularioProyecto(e) {
             if (respuesta.respuesta === 'correcto') {  
                 document.querySelector('form').reset();                 // Resetear el formulario
                 if (accion === "crear") {                                 // Acción al crear un proyecto
-                    alert("Proyecto creado: "+respuesta.nombre+" .Correo: "+respuesta.correo);
+                    alert("Proyecto creado: "+respuesta.nombre+". Correo: "+respuesta.correo);
                 } else if (accion === "editar") {                          // Acción al editar un proyecto
                     alert("Proyecto editado: "+respuesta.nombre);
                 } 
@@ -446,11 +446,11 @@ function leerformularioRecuperaCuenta(e){
 
             // Si la respuesta es correcta
             if (respuesta.respuesta === 'correcto') {  
-                alert(respuesta.nombre+" Correo: "+respuesta.correo);                
+                alert(respuesta.nombre+". Correo: "+respuesta.correo);                
                 window.location.href = 'index.php?login=false';
             } else {
                 // Hubo un error
-                alert(respuesta.error+" Correo: "+respuesta.correo);
+                alert(respuesta.error+". Correo: "+respuesta.correo);
             }
         } else {
             // const respuesta = JSON.parse(xhr.responseText);
@@ -497,7 +497,7 @@ function leerformularioNuevaPassword(e){
 
                 // Si la respuesta es correcta
                 if (respuesta.respuesta === 'correcto') {  
-                    alert(respuesta.nombre+" Correo: "+respuesta.correo);                
+                    alert(respuesta.nombre+". Correo: "+respuesta.correo);                
                     window.location.href = 'index.php?login=false';
                 } else {
                     // Hubo un error
