@@ -134,7 +134,7 @@ function insertarAlumnoBD(datos, accion) {
                 document.querySelector('form').reset();             // Resetear el formulario
 
                 if(accion === 'crear') {                            // Acciones al crear alumno
-                    alert("Usuario creado");
+                    alert("Usuario creado. Correo"+respuesta.correo);
                     window.location.href = 'nuevo-proyecto.php';
                 } else if(accion === 'editar') {                    // Acciones al editar alumno
                     alert("Usuario editado");
@@ -235,7 +235,7 @@ function leerFormularioProyecto(e) {
             if (respuesta.respuesta === 'correcto') {  
                 document.querySelector('form').reset();                 // Resetear el formulario
                 if (accion === "crear") {                                 // Acción al crear un proyecto
-                    alert("Proyecto creado: "+respuesta.nombre);
+                    alert("Proyecto creado: "+respuesta.nombre+" .Correo: "+respuesta.correo);
                 } else if (accion === "editar") {                          // Acción al editar un proyecto
                     alert("Proyecto editado: "+respuesta.nombre);
                 } 
@@ -306,7 +306,7 @@ function leerformularioComentario(e) {
             console.log(respuesta);
 
             if (respuesta.respuesta === 'correcto') {  
-                alert('Comentario agregado');
+                alert('Comentario agregado. Correo: '+respuesta.correo);
                 window.location.href = 'comentarios.php?etapa='+respuesta.id_etapa+'&actividad='+respuesta.id_actividad;
             } else {
                 alert(respuesta.error);
@@ -373,7 +373,7 @@ function actualizarStatus(e) {
             console.log(respuesta);
 
             if (respuesta.respuesta === 'correcto') {  
-                alert(respuesta.nombre);                               
+                alert(respuesta.nombre+". Correo: "+respuesta.correo);                               
                 window.location.href = 'inicio.php';
             } else {
                 alert(respuesta.error);
@@ -402,7 +402,7 @@ function leerFormularioEditarSeguimiento(e) {
             console.log(respuesta);
 
             if (respuesta.respuesta === 'correcto') {  
-                alert(respuesta.nombre);                
+                alert(respuesta.nombre+". Correo: "+respuesta.correo);                
                 window.location.href = 'historial.php?id='+respuesta.id_seguimiento;
             } else {
                 alert(respuesta.error);
@@ -446,11 +446,11 @@ function leerformularioRecuperaCuenta(e){
 
             // Si la respuesta es correcta
             if (respuesta.respuesta === 'correcto') {  
-                alert(respuesta.nombre);                
+                alert(respuesta.nombre+" Correo: "+respuesta.correo);                
                 window.location.href = 'index.php?login=false';
             } else {
                 // Hubo un error
-                alert(respuesta.error);
+                alert(respuesta.error+" Correo: "+respuesta.correo);
             }
         } else {
             // const respuesta = JSON.parse(xhr.responseText);
@@ -497,7 +497,7 @@ function leerformularioNuevaPassword(e){
 
                 // Si la respuesta es correcta
                 if (respuesta.respuesta === 'correcto') {  
-                    alert(respuesta.nombre);                
+                    alert(respuesta.nombre+" Correo: "+respuesta.correo);                
                     window.location.href = 'index.php?login=false';
                 } else {
                     // Hubo un error
