@@ -1,3 +1,5 @@
+<!-- Muestra el historial de proyectos que el profesor ha asesorado: -->
+<!-- Nombre, Estudiante, Fecha de inicio y término, Descripción, Comentario final -->
 <?php session_start(); 
 include 'inc/templates/header.php'; 
 include 'inc/funciones/funciones.php';
@@ -10,10 +12,9 @@ $id_profesor = $_SESSION['id_usuario'];?>
     </div>
 </div>
 
-
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
-        <p><?php print_r($_SESSION); ?></p>
+        <!-- <p><?php print_r($_SESSION); ?></p> -->
         <h4>Historial de proyectos</h4>
 
         <div class="contenedor-tabla">
@@ -30,12 +31,16 @@ $id_profesor = $_SESSION['id_usuario'];?>
                 </thead>
                 <tbody>
                     <?php 
+                    // Regresa un arreglo con los valores de los proyectos que están en el histórico
+                    // Y checa que si se regresó algo
                     $proyectos = obtenerHistorialProyectos($_SESSION['id_usuario']);
                     if($proyectos->num_rows > 0) {
+                        // Por cada proyecto despliega los valores regresados
                         foreach($proyectos as $proyecto) { 
                     ?>
                             <tr>
                                 <td><?php echo $proyecto['proyecto']?></td>
+                                <!-- <td><?php echo $proyecto['nom_proyecto']?></td> -->
                                 <td><?php echo $proyecto['nombre']." ".$proyecto['apellido']?></td>
                                 <td><?php echo $proyecto['fechaInicio']?></td>
                                 <td><?php echo $proyecto['fechaFin']?></td>

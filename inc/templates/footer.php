@@ -1,7 +1,9 @@
 <footer class="bg-quinto contenedor-footer">
     <div class="contenedor footer">
         <div>
-            <p>Créditos</p>
+			<p>Créditos<br>
+			Peña Rodríguez Santiago&nbsp;&nbsp;&nbsp;&nbsp;
+			Arellano Ruiz Claudia</p>
         </div>
     </div>
 </footer>

@@ -1,3 +1,5 @@
+<!-- Despliega el historial de seguimientos que se tienen del proyecto en cuestión (alumno y profesor)-->
+<!-- Además da la posibilidad de editar la fecha de entrega de algún seguimiento (solo profesor) -->
 <?php session_start(); 
 include 'inc/templates/header.php';
 include 'inc/funciones/funciones.php';
@@ -13,8 +15,8 @@ $id_proyecto = $_SESSION['id_proyecto'];?>
 
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
-        <p><?php print_r($_SESSION); ?></p>
-        <p>Historial de seguimiento de proyecto</p>
+        <!-- <p><?php print_r($_SESSION); ?></p> -->
+        <p><strong>Historial de seguimiento de proyecto</strong></p>
 
         <div class="contenedor-tabla">
             <table id="listado-seguimientos" class="listado-seguimientos">
@@ -23,8 +25,9 @@ $id_proyecto = $_SESSION['id_proyecto'];?>
                         <th>Etapa</th>
                         <th>Actividad</th>
                         <th>Fecha de entrega</th>
+                        <!-- Solo si el usuario es profesor tiene la posibilidad de editar -->
                         <?php 
-                        if ($_SESSION["tipo_usuario"] == 'profesor') {
+                        if (isset($_SESSION["tipo_usuario"]) && $_SESSION["tipo_usuario"] == 'profesor') {
                         ?>
                             <th>Editar<th>
                         <?php
@@ -34,8 +37,12 @@ $id_proyecto = $_SESSION['id_proyecto'];?>
                 </thead>
                 <tbody>
                     <?php 
-                    $seguimientos = obtenerSeguimientos($_SESSION['id_proyecto']);
+                    // Regresa todos los seguimientos registrados de un proyecto en específico
+                    // Además de checar que si se regreso algo
+                    $seguimientos = obtenerSeguimientos($id_proyecto);
                     if($seguimientos->num_rows > 0) {
+                        // Para cada seguimiento se muestra la etapa, actividad, fecha de entrega
+                        // Además del boton para editar la fecha, solo si se es un profesor
                         foreach($seguimientos as $seguimiento) { 
                     ?>
                             <tr>
@@ -43,9 +50,11 @@ $id_proyecto = $_SESSION['id_proyecto'];?>
                                 <td><?php echo $seguimiento['actividad']?></td>
                                 <td><?php echo $seguimiento['fecha_entrega']?></td>
                                 <?php 
-                                if ($_SESSION["tipo_usuario"] == 'profesor') {
+                                if (isset($_SESSION["tipo_usuario"]) && $_SESSION["tipo_usuario"] == 'profesor' && !is_null($seguimiento['fecha_entrega'])) {
                                 ?>
                                     <td>
+                                        <!-- Editar fecha de entraga -->
+                                        <!-- Manda por GET el id del seguimiento -->
                                         <a class="btn-editar btn" href="editar-seguimiento.php?id=<?php echo $seguimiento['id']?>">
                                             <i class="fas fa-pen"></i>
                                         </a>

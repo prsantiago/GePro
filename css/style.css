@@ -15,6 +15,7 @@
 html {
     box-sizing: border-box;
     font-size: 62.5%;
+    height: 100%;
     /** Reset para REMS - 62.5% = 10px de 16px **/
 }
 
@@ -28,6 +29,7 @@ body {
     font-family: 'Lato', sans-serif;
     font-size: 1.6rem;
     line-height: 2;
+    height: 100%;
 }
 
 .contenedor {
@@ -59,6 +61,8 @@ h4 {
 th, td {
     padding-right: 1rem;
     padding-left: 1rem;
+    /* padding-right: 10px;
+    padding-left: 10px; */
 }
 
 .bg-primario {
@@ -75,11 +79,11 @@ th, td {
 
 .bg-cuaternario {
     background-color: var(--cuaternario);
-    color: white;
+    /* color: white; */
 }
 .bg-quinto {
     background-color: var(--quinto);
-    color: white;
+    /* color: white; */
 }
 
 /* Botones */
@@ -112,7 +116,7 @@ th, td {
     color: white;
     font-weight: 700;
     font-size: 1.5rem;
-    padding: 1rem;
+    padding: 1rem 2rem 1rem 2rem;
 }
 
 /* logos */
@@ -124,12 +128,15 @@ th, td {
     .barra .logos,
     .barra-inicio .logos {
         margin: 0;
+        min-height: 7rem;
+        padding: 1rem;
     }
 }
 
 @media (min-width: 992px) {
-    .barra-inicio-sesion .logos {
+    .barra-inicio-sesion .logos .barra-inicio{
         margin: 0;
+        min-height: 7rem;
     }
 }
 
@@ -173,6 +180,7 @@ form legend {
     font-size: 1.2rem;
     transition: background-color .5s ease-in-out;
     flex: 1;
+    font-weight: bold;
 }
 
 .campo input[type="submit"]:hover {
@@ -195,7 +203,9 @@ form legend {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2rem 0rem;
+    /* padding: 2rem 0rem; */
+    padding: 0rem 2rem 0rem 2rem;
+    min-height: 16.9rem;
 }
 
 @media (min-width: 768px) {
@@ -217,6 +227,7 @@ form legend {
 
 .login {
     width: 100%;
+    padding: 0;
 }
 
 .caja-login,
@@ -225,6 +236,7 @@ form legend {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-left: 3rem;
 }
 
 .caja-login {
@@ -233,15 +245,21 @@ form legend {
 
 .caja-login .campo {
     margin-bottom: 1rem;
+    padding-right: 0;
+}
+
+#login-profesor, #login-alumno {
+    padding-bottom: 1rem;
 }
 
 @media (min-width: 768px) {
     .opciones-login {
         flex-direction: row;
+        padding-bottom: 1rem;
     }
 
     .opciones-login .campo:first-child {
-        margin-right: 1.5rem;
+        margin-right: 3rem;
     }
 }
 
@@ -255,17 +273,26 @@ form legend {
     }
     .caja-login .campo:last-of-type {
         margin-right: 0rem;
+        padding-right: 0;
     }
 
-    .caja-login,
+    /* .caja-login,
     .opciones-login {
         justify-content: end;
+    } */
+
+    .caja-login {
+        justify-content: flex-end;
     }
 }
 
 /* main */
 .contenedor-main {
     padding: 2rem 0rem;
+}
+
+main {
+    min-height: calc(100% - 27.9rem);
 }
 
 .contenedor-main .contenedor {
@@ -344,8 +371,16 @@ table {
 .fechas {
     font-size: 1em;
     text-align: center;
-    color: white;
+    /* color: white; */
     text-decoration: underline;
+}
+
+.blanco {
+    color: white;
+}
+
+.negro {
+    color: black;
 }
 
 @media (min-width: 768px) {
@@ -359,6 +394,7 @@ table {
 
 .comentario {
     padding: 0 10.5rem 0 10.5rem;
+    /* padding: 0 105px 0 105px; */
 }
 
 .com_nombre {
@@ -375,7 +411,24 @@ table {
 .com_com {
     text-align: justify;
     padding-left: 1.5rem;
-    
+    /* padding-left: 15px; */
+}
+
+/*  Hipervínculos */
+
+.vinculo {
+    background-color: var(--terciario);
+    text-align: center;
+    color: black;
+    border-radius: 1rem;
+    padding: 3px 6px 3px 6px;
+    text-decoration: none;
+    margin: 1rem;
+}
+
+.vinculo:hover{
+    background-color: var(--quinto);
+    color: white;
 }
 
 /* Footer */
@@ -399,4 +452,15 @@ table {
 
 .contenedor-footer {
     padding: 2rem 0rem;
+    min-height: 11rem;
+}
+
+footer {
+    bottom: 0;
+    left: 0;
+}
+
+footer p{
+    text-align: center;
+    color: #BDC2DA;
 }

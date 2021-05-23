@@ -15,10 +15,8 @@
         $id_proyectos = obtenerIDProyectos();
         foreach ($id_proyectos as $id_proyecto) {
             $seguimiento_actual = obtenerFechaSeguimientoActual($id_proyecto[0]);
-            // echo $seguimiento_actual[0]." ".$seguimiento_actual[1];
-            // echo "<br/>";
-            // if (date("Y-m-d") > $seguimiento_actual[1]) {
-            if ("2021-04-21" > $seguimiento_actual[1]) {
+            if (date("Y-m-d") > $seguimiento_actual[1]) {
+            // if ("2021-05-21" > $seguimiento_actual[1]) {
 
                 // obtener datos del proyecto, etapa y actividad para la notificación
                 $datos_proyectos = ObtenerDatosNotificacion($seguimiento_actual[0]);

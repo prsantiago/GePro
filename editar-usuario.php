@@ -41,7 +41,7 @@ if(!strcmp($tipo_usuario, "alumno")) {
 
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
-        <p><?php print_r($_SESSION); ?></p>
+        <!-- <p><?php print_r($_SESSION); ?></p> -->
 
         <?php 
         if(!strcmp($_SESSION['tipo_usuario'], "alumno")) {

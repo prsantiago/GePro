@@ -18,7 +18,7 @@ $_SESSION['id_actividad']=$actividad;
 
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
-        <p><?php print_r($_SESSION); ?></p>
+        <!--<p><?php print_r($_SESSION); ?></p>-->
         <h1>Comentarios</h1>
         <div class="comentarios">
             <?php 
@@ -42,6 +42,8 @@ $_SESSION['id_actividad']=$actividad;
                     foreach($comentarios as $comentario) {
                     ?>
                     <div class="comentario">
+                            <!-- <p class="com_nombre"><?php echo $comentario['nom_usuario']." ".$comentario['apellido']?>
+                            <p class="com_fecha">&ensp;[<?php echo $comentario['fecha']?>]</p> -->
                             <p class="com_nombre"><?php echo $comentario['nombre']." ".$comentario['apellido']?>
                             <p class="com_fecha">&ensp;[<?php echo $comentario['fecha']?>]</p> </p>
                             <p class="com_com"><?php echo $comentario['comentario']?></p>

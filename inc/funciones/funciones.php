@@ -1,17 +1,20 @@
 <?php
-
+// Llamada a procedure OBTENER_DETALLES_PROYECTO 
 function obtenerProyectos($id_usuario) {
     $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
     try {
         return $conn->query("CALL OBTENER_DETALLES_PROYECTO($id_usuario)");
+        // return $conn->query("SELECT proyecto_vigente.id,proyecto_vigente.clave,proyecto_vigente.nom_proyecto,alumno.nombre,alumno.apellido FROM ((profesor INNER JOIN proyecto_vigente ON proyecto_vigente.id_asesor1=profesor.id) INNER JOIN alumno ON proyecto_vigente.id_alumno=alumno.id) WHERE profesor.id = $id_usuario");
     } catch(Exception $e) {
         echo "Error!!!".$e->getMessage()."<br>";
         return false;
     }
 }
 
+// SELECT para regresar: id, nombre, apellido y matricula de profesor registrado. Se filtra por universidad
 function obtenerProfesoresRegistrados($universidad_usuario) {
-    include 'conexion.php';
+    // include 'conexion.php';
+    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
     try {
         return $conn->query("SELECT id, nombre, apellido, matricula FROM profesor WHERE universidad = $universidad_usuario");
     } catch(Exception $e) {
@@ -20,8 +23,10 @@ function obtenerProfesoresRegistrados($universidad_usuario) {
     }
 }
 
+// SELECT para regresar: id, nombre, apellido y matricula de alumno registrado. Se filtra por universidad
 function obtenerAlumnosRegistrados($universidad_usuario) {
-    include 'conexion.php';
+    require 'conexion.php';
+    // include 'conexion.php';
     try {
         return $conn->query("SELECT id, nombre, apellido, matricula FROM alumno WHERE universidad = $universidad_usuario");
     } catch(Exception $e) {
@@ -30,6 +35,7 @@ function obtenerAlumnosRegistrados($universidad_usuario) {
     }
 }
 
+// SELECT para regresar última fecha de entrega del seguimiento para el proyecto, etapa y actividad dado
 function obtenerFechaSeguimiento($id_proyecto,$id_etapa,$id_actividad){
     $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
     try {
@@ -42,19 +48,22 @@ function obtenerFechaSeguimiento($id_proyecto,$id_etapa,$id_actividad){
     }
 }
 
+// SELECT que regresa id, fecha de entrega, etapa y actividad de todos los seguimientos que tiene un proyecto
 function obtenerSeguimientos($id_proyecto){
     require 'conexion.php';
     try {
         return $conn->query("SELECT seguimiento_vigente.id, seguimiento_vigente.fecha_entrega, etapa.nombre AS etapa, actividad.nombre AS actividad 
                             FROM ((seguimiento_vigente INNER JOIN etapa 
                                     ON seguimiento_vigente.id_etapa = etapa.id) INNER JOIN actividad
-                                        ON seguimiento_vigente.id_actividad = actividad.id) WHERE seguimiento_vigente.id_proyecto = $id_proyecto");
+                                        ON seguimiento_vigente.id_actividad = actividad.id) 
+                            WHERE seguimiento_vigente.id_proyecto = $id_proyecto");
     } catch(Exception $e) {
         echo "Error!!!".$e->getMessage()."<br>";
         return false;
     }
 }
 
+// TODO: Terminar los comentarios
 function obtenerComentariosEtapa($id_proyecto, $idEtapa) {
     include 'conexion.php';
     try {
@@ -176,6 +185,27 @@ function obtenerAlumnoProyecto($id_proyecto) {
         echo "Error!!!".$e->getMessage()."<br>";
         return false;
     }
+}
+
+function obtenerClaveProyecto() {
+    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    try {
+        return $conn->query("SELECT clave FROM proyecto_vigente WHERE id = (SELECT MAX(id) FROM proyecto_vigente)")->fetch_row();
+    } catch(Exception $e) {
+        echo "Error!!!".$e->getMessage()."<br>";
+        return false;
+    }
+}
+
+function generarClaveProyecto($id_alumno, $universidad) {
+    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    $num_proyectos = $conn->query("SELECT MAX(id) FROM proyecto_vigente")->fetch_row();
+    $datos_alumno = $conn->query("SELECT id_estado FROM alumno WHERE id = $id_alumno")->fetch_row();
+
+    $charEstado = $datos_alumno[0] == 1 ? "P" : "T";
+
+    $clave = $charEstado.$universidad.'-'.$num_proyectos[0];
+    return $clave;
 }
 
 ?>

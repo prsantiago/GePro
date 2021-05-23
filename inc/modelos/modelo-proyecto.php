@@ -1,24 +1,25 @@
 <?php
-session_start();
+session_start();        // Se empieza la sesión para traer el valor de las variables de sesión necesarias
 
+// Acción procedure NUEVO_PROYECTO registro de proyecto en la BD
 if($_POST['accion'] == 'crear') {
-    // Crear un nuevo registro en la base de datos
-    require_once('../funciones/conexion.php');
-    require_once('../funciones/funciones.php');
-    require_once('../funciones/email_settings.php');
+    require_once('../funciones/conexion.php');          // Archivo donde se guarda la conexión a la BD
+    require_once('../funciones/funciones.php');         // Archivo donde se almacenan funciones SQL adicionales
+    require_once('../funciones/email_settings.php');    // Archivo con los ajustes para enviar notificación de registro por mail
 
-    //Validar entradas
-    // No sanitizamos id_alumno y id_coasesor porque lo obtenemos directamente de la BD
+    // Sanitizar las entradas enviadas por POST
     $nombre_proyecto = filter_var($_POST['nombre'], FILTER_SANITIZE_STRING);
-    $id_alumno = $_POST['id_alumno'];
-    // session_start();
-    $id_asesor1 = $_SESSION['id_usuario'];
-    $id_coasesor = $_POST['id_coasesor'] ?: NULL;
     $fecha = filter_var($_POST['fecha'], FILTER_SANITIZE_STRING);
     $descripcion = filter_var($_POST['descripcion'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
-    $universidad_usuario = $_SESSION['universidad_usuario'];
+    // No sanitizamos id_alumno y id_coasesor porque lo obtenemos directamente de la BD
+    $id_alumno = $_POST['id_alumno'];
+    $id_coasesor = $_POST['id_coasesor'] ?: NULL;
 
-    //para enviar correo que notifique la creación del proyecto
+    $id_asesor1 = $_SESSION['id_usuario'];
+    $universidad_usuario = $_SESSION['universidad_usuario'];
+    $clave_proy = generarClaveProyecto($id_alumno,$universidad_usuario);
+
+    // Obtiene correos de alumno, asesor y checa si tiene co-asesor para recuperar su correo
     $correo_alumno = ObtenerCorreosConID($id_alumno,'alumno');
     $correo_asesor = ObtenerCorreosConID($id_asesor1,'profesor');
     if($id_coasesor != NULL) {
@@ -26,21 +27,28 @@ if($_POST['accion'] == 'crear') {
         $mail->addAddress($correo_coasesor[0],'Coasesor');
     }
 
+    // Configuración del mail a enviar (destino, tema, contenido)
     $mail->addAddress($correo_alumno[0],'Alumno');
     $mail->addAddress($correo_asesor[0],'Asesor');
     //título
-    $mail->Subject = '[GePro] Se ha creado un proyecto a su nombre!';
-    $mail->Body = '<h3>Estimado usuario, el proyecto "'. $nombre_proyecto.'", con clave (algo) ha sido creado!.</h3> 
+    $mail->Subject = '[Dëni] Se ha creado un proyecto a su nombre!';
+    $mail->Body = '<h3>Estimado usuario, el proyecto "'. $nombre_proyecto.'", con clave "'.$clave_proy.'" ha sido creado!.</h3>
         <p>Descripción del proyecto: '.$descripcion.'</p>
         <p>Fecha de inicio: '.$fecha.'</p>
         <p>Para visualizar los avances de su proyecto ingrese la clave en el portal: nombre_portal.</p>
         <p>Saludos cordiales</p>';
 
 
+    // Se trata de llamar al procedure NUEVO_PROYECTO a través de Prepared Statement
+    // Se checa que el stmt no tenga un número de error
+    //      - Si el mail se pudo enviar, se manda como respuesta: correcto, nombre_proyecto y enviado
+    //      - Si el mail NO se pudo enviar, se manda como respuesta: correcto, nombre_proyecto y NO enviado
+    // Si el query falló, se manda como respuesta: error y el detalle del error (número y descripción)
+    // Se cierra el Prepared Statement y la conexión a BD
+    // Se regresa la respuesta por JSON
     try {
-        // Crear el proyecto en la base de datos
-        $stmt = $conn->prepare("CALL NUEVO_PROYECTO(?,?,?,?,?,?,?)");
-        $stmt->bind_param('iiissss', $id_asesor1, $id_coasesor, $id_alumno, $nombre_proyecto, $fecha, $descripcion, $universidad_usuario);
+        $stmt = $conn->prepare("CALL NUEVO_PROYECTO(?,?,?,?,?,?,?,?)");
+        $stmt->bind_param('iiisssss', $id_asesor1, $id_coasesor, $id_alumno, $nombre_proyecto, $fecha, $descripcion, $universidad_usuario, $clave_proy);
         $stmt->execute();
         
         if($stmt->errno == 0){ 
@@ -48,7 +56,8 @@ if($_POST['accion'] == 'crear') {
                 $respuesta = array(
                 'respuesta' => 'correcto',
                 'nombre' => $nombre_proyecto,
-                'correo' => 'enviado'
+                'correo' => 'enviado',
+                'clave' => $clave_proy
                 );
             } else{
                 $respuesta = array(
@@ -68,7 +77,6 @@ if($_POST['accion'] == 'crear') {
         $stmt->close();
         $conn->close();
     } catch(Exception $e) {
-        // En caso de un error, tomar la exepcion
         $respuesta = array(
             'respuesta' => 'error',
             'error' => $e->getMessage()
@@ -78,23 +86,27 @@ if($_POST['accion'] == 'crear') {
     echo json_encode($respuesta);
 }
 
+// Acción UPDATE un registro de proyecto en la BD
 if($_POST['accion'] == 'editar') {
-    // Crear un nuevo registro en la base de datos
-    require_once('../funciones/conexion.php');
+    require_once('../funciones/conexion.php');      // Archivo donde se guarda la conexión a la BD
 
-    //Validar entradas
-    // No sanitizamos id_alumno y id_coasesor porque lo obtenemos directamente de la BD
+    // Sanitizar las entradas enviadas por POST
     $nombre_proyecto = filter_var($_POST['nombre'], FILTER_SANITIZE_STRING);
-    $id_alumno = $_POST['id_alumno'];
-    // session_start();
-    $id_asesor1 = $_SESSION['id_usuario'];
-    $id_coasesor = $_POST['id_coasesor'] ?: NULL;
     $fecha = filter_var($_POST['fecha'], FILTER_SANITIZE_STRING);
     $descripcion = filter_var($_POST['descripcion'], FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
+    // No sanitizamos id_alumno, id_coasesor y id_proyecto porque lo obtenemos directamente de la BD
+    $id_alumno = $_POST['id_alumno'];
+    $id_coasesor = $_POST['id_coasesor'] ?: NULL;
     $id_proyecto = $_POST['id_proyecto'];
 
+    $id_asesor1 = $_SESSION['id_usuario'];
+
+    // Se trata de realizar el UPDATE a través de Prepared Statement
+    // Se checa que el stmt no tenga un número de error, se manda como respuesta: correcto, nombre_proyecto
+    // Si el query falló, se manda como respuesta: error y el detalle del error (número y descripción)
+    // Se cierra el Prepared Statement y la conexión a BD
+    // Se regresa la respuesta por JSON
     try {
-        // Crear el proyecto en la base de datos
         $stmt = $conn->prepare("UPDATE proyecto_vigente SET id_asesor1 = ?, id_asesor2 = ?, id_alumno = ?, 
                                                             proyecto = ?, fechaInicio = ?, descripcion = ?
                                 WHERE id = ?");
@@ -117,7 +129,6 @@ if($_POST['accion'] == 'editar') {
         $stmt->close();
         $conn->close();
     } catch(Exception $e) {
-        // En caso de un error, tomar la exepcion
         $respuesta = array(
             'respuesta' => 'error',
             'error' => $e->getMessage()
@@ -127,15 +138,19 @@ if($_POST['accion'] == 'editar') {
     echo json_encode($respuesta);
 }
 
+// Acción procedure BORRAR_PROYECTO registro de proyecto en la BD
 if($_GET['accion'] == 'borrar') {
-    // Crear un nuevo registro en la base de datos
-    require_once('../funciones/conexion.php');
+    require_once('../funciones/conexion.php');      // Archivo donde se guarda la conexión a la BD
 
-    //Validar entradas
+    // id_proyecto enviado por GET
     $id_proyecto = $_GET['id'];
 
+    // Se trata de llamar al procedure BORRAR_PROYECTO a través de Prepared Statement
+    // Se checa que el stmt no tenga un número de error, se manda como respuesta: correcto y nombre_proyecto
+    // Si el query falló, se manda como respuesta: error, el detalle del error (número y descripción) y id_proyecto
+    // Se cierra el Prepared Statement y la conexión a BD
+    // Se regresa la respuesta por JSON
     try {
-        // Crear el proyecto en la base de datos
         $stmt = $conn->prepare("CALL BORRAR_PROYECTO(?)");
         $stmt->bind_param('i', $id_proyecto);
         $stmt->execute();
@@ -157,7 +172,6 @@ if($_GET['accion'] == 'borrar') {
         $stmt->close();
         $conn->close();
     } catch(Exception $e) {
-        // En caso de un error, tomar la exepcion
         $respuesta = array(
             'respuesta' => 'error',
             'error' => $e->getMessage()
@@ -167,25 +181,25 @@ if($_GET['accion'] == 'borrar') {
     echo json_encode($respuesta);
 }
 
+// Acción SELECT registro de proyecto de la BD
 if($_POST['accion'] == 'checar') {
-    // Crear un nuevo registro en la base de datos
-    require_once('../funciones/conexion.php');
+    require_once('../funciones/conexion.php');      // Archivo donde se guarda la conexión a la BD
 
+    // Sanitizar las entradas enviadas por POST
     $clave = filter_var($_POST['clave'], FILTER_SANITIZE_STRING);
 
+    // Se trata de realizar el SELECT a través de Prepared Statement
+    // Si la variable nombre_proyecto no está vacía es que si existe el proycto, se manda como respuesta: correcto, nombre_proyecto y id_proyecto
+    // Si no existe el proyecto, se manda error
+    // Se cierra el Prepared Statement y la conexión a BD
+    // Se regresa la respuesta por JSON
     try {
-        // Seleccionar el profesor de la base de datos
         $stmt = $conn->prepare("SELECT proyecto, id FROM proyecto_vigente WHERE clave = ?");
         $stmt->bind_param('s', $clave);
         $stmt->execute();
-        // Loguear el usuario
         $stmt->bind_result($nombre_proyecto, $id_proyecto);
         $stmt->fetch();
         if($nombre_proyecto){
-            // Iniciar la sesion
-            // $_SESSION['nombre_proyecto'] = $nombre_proyecto;
-            // $_SESSION['id_proyecto'] = $id_proyecto;
-            // Login correcto
             $respuesta = array(
                 'respuesta' => 'correcto',
                 'nombre' => $nombre_proyecto,
@@ -200,7 +214,6 @@ if($_POST['accion'] == 'checar') {
         $stmt->close();
         $conn->close();
     } catch(Exception $e) {
-        // En caso de un error, tomar la exepcion
         $respuesta = array(
             'error' => $e->getMessage()
         );

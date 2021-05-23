@@ -9,7 +9,7 @@
 
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
-        <p><?php print_r($_SESSION); ?></p>
+        <!-- <p><?php print_r($_SESSION); ?></p> -->
         <form id="editar-seguimiento" action="#" method="post">
             <legend>Edite el Seguimiento</legend>
 
