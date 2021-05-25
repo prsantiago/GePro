@@ -81,6 +81,8 @@ $_SESSION['id_actividad']=$id_actividad;
         <!-- <p><?php print_r($_SESSION); ?></p> -->
         <h1>Progreso del proyecto</h1>
         <a href="historial.php" class="btn">Historial del seguimiento</a>
+        
+        <h4 class="pad">Etapas</h4>
         <div class="etapas">
             <div id="etapa-1" class="etapa bg-cuaternario">
                 <p class="blanco">Introducción</p>
@@ -187,6 +189,7 @@ $_SESSION['id_actividad']=$id_actividad;
             </div>
         </div>
 
+        <h4>Actividades</h4>
         <div class="actividades">
             <div id="actividad-1" class="actividad bg-cuaternario">
                 <p class="blanco">Entrega</p>
@@ -285,9 +288,14 @@ $_SESSION['id_actividad']=$id_actividad;
                     </div>
                     <input type="date" name="fecha_proceso" id="fecha_proceso" required>
                     <!-- botones -->
-                    <?php if($id_actividad!=4) 
-                    echo '<input type="submit" class="boton" value="Actividad entregada">';?>
-                    <input type="submit" class="boton" value="Aprobar actividad">
+                    <?php 
+                    if($id_actividad!=4) { 
+                    ?>
+                        <input name="Actividad-entregada" type="button" onclick="actualizarStatus('Actividad entregada')" class="btn-entrega" value="Actividad entregada">
+                    <?php 
+                    }
+                    ?>
+                    <input name="Aprobar-actividad" type="button" onclick="actualizarStatus('Aprobar actividad')" class="btn-entrega" value="Aprobar actividad">
                 </form>
             </div>
         <?php } ?>

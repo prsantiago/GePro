@@ -297,6 +297,7 @@ function eliminarProyecto(e) {
 function leerformularioComentario(e) {
     e.preventDefault();
     const datos = new FormData(formularioComentario);
+    console.log(...datos);
 
     const xhr = new XMLHttpRequest();
     xhr.open('POST', 'inc/modelos/modelo-comentario.php', true);
@@ -351,18 +352,20 @@ function leerFormularioProgreso(e) {
 }
 
 
-function actualizarStatus(e) {
-    e.preventDefault();
+function actualizarStatus(accion_str) {
+    // e.preventDefault();
 
-    var activeElement = document.activeElement;
+    // var activeElement = document.activeElement;
     const fecha_proceso = document.querySelector('#fecha_proceso').value,
             comFinal = document.querySelector('#comFinal').value,
-            accion = activeElement.value;
+            accion = accion_str;
 
-    const datos = new FormData();
+    const datos = new FormData(formularioProceso);
     datos.append('fecha_proceso', fecha_proceso);
     datos.append('comFinal', comFinal);
     datos.append('accion', accion);
+    console.log(...datos);
+    
 
     // crear el llamado a ajax
     const xhr = new XMLHttpRequest();
