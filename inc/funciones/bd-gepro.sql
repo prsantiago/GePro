@@ -1,6 +1,6 @@
--- CREATE DATABASE gepro;
+-- CREATE DATABASE deni;
 
--- USE gepro;
+-- USE deni;
 
 CREATE TABLE profesor(
 	id INT NOT NULL auto_increment,
