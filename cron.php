@@ -18,6 +18,7 @@
             if (date("Y-m-d") > $seguimiento_actual[1]) {
             // if ("2021-05-21" > $seguimiento_actual[1]) {
 
+
                 // obtener datos del proyecto, etapa y actividad para la notificación
                 $datos_proyectos = ObtenerDatosNotificacion($seguimiento_actual[0]);
                 // receptor
@@ -26,7 +27,7 @@
                 $mail->addAddress($correo_alumno[0],'Usuario'); // alumno
                 $mail->addAddress($correo_profesor[0],'Usuario'); // profesor
                 //título
-                $mail->Subject = '[GePro] La fecha máxima de entrega se ha pasado!';
+                $mail->Subject = '[Dëni] La fecha máxima de entrega se ha pasado!';
                 $mail->Body = '<h3>Estimado usuario, el proyecto "'. $datos_proyectos[0].'", con clave '.$datos_proyectos[1].' tiene una entrega pendiente.</h3> 
                 <p>La fecha de entrega para la actividad "'.$datos_proyectos[3].'" correspondiente a la etapa "'.$datos_proyectos[2].'" ha expirado.</p><br>
                 <p>Saludos cordiales</p>';

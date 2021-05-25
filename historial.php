@@ -16,7 +16,7 @@ $id_proyecto = $_SESSION['id_proyecto'];?>
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
         <!-- <p><?php print_r($_SESSION); ?></p> -->
-        <p><strong>Historial de seguimiento de proyecto</strong></p>
+        <h4>Historial de seguimiento de proyecto</h4>
 
         <div class="contenedor-tabla">
             <table id="listado-seguimientos" class="listado-seguimientos">

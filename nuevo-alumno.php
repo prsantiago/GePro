@@ -13,7 +13,7 @@
 
 <main class="bg-secundario contenedor-main">
     <div class="bg-terciario contenedor contenido sombra">
-        <p><?php print_r($_SESSION); ?></p>
+        <!-- <p><?php print_r($_SESSION); ?></p> -->
         <h1>Crear alumno</h1>
         <form id="alumno" action="#" method="post">
             <legend>Nuevo alumno</legend>
