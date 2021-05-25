@@ -61,8 +61,6 @@ h4 {
 th, td {
     padding-right: 1rem;
     padding-left: 1rem;
-    /* padding-right: 10px;
-    padding-left: 10px; */
 }
 
 .bg-primario {
@@ -79,11 +77,9 @@ th, td {
 
 .bg-cuaternario {
     background-color: var(--cuaternario);
-    /* color: white; */
 }
 .bg-quinto {
     background-color: var(--quinto);
-    /* color: white; */
 }
 
 /* Botones */
@@ -109,14 +105,18 @@ th, td {
     color: red;
 }
 
-.volver {
+.volver, .btn-entrega {
     background-color: var(--cuaternario);
-    border-radius: 5px;
+    border-radius: 0.5rem;
     text-align: center;
     color: white;
     font-weight: 700;
     font-size: 1.5rem;
     padding: 1rem 2rem 1rem 2rem;
+}
+
+.btn-entrega {
+    margin-top: 1rem;
 }
 
 /* logos */
@@ -203,7 +203,6 @@ form legend {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* padding: 2rem 0rem; */
     padding: 0rem 2rem 0rem 2rem;
     min-height: 16.9rem;
 }
@@ -224,7 +223,6 @@ form legend {
 }
 
 /* barra index */
-
 .login {
     width: 100%;
     padding: 0;
@@ -248,9 +246,10 @@ form legend {
     padding-right: 0;
 }
 
-#login-profesor, #login-alumno {
+#login-profesor,#login-alumno {
     padding-bottom: 1rem;
 }
+
 
 @media (min-width: 768px) {
     .opciones-login {
@@ -276,11 +275,6 @@ form legend {
         padding-right: 0;
     }
 
-    /* .caja-login,
-    .opciones-login {
-        justify-content: end;
-    } */
-
     .caja-login {
         justify-content: flex-end;
     }
@@ -289,6 +283,7 @@ form legend {
 /* main */
 .contenedor-main {
     padding: 2rem 0rem;
+    
 }
 
 main {
@@ -340,11 +335,33 @@ table {
     margin-top: 1rem;
 }
 
-.listado-proyectos {
+.listado-proyectos, .listado-seguimientos {
     width: 100%;
     margin-top: 1rem;
     border-collapse: collapse;
 }
+
+
+/* Historial de proyectos */
+.contenedor-tabla {
+    padding: 0.4rem;
+    text-align: center;
+}
+@media (max-width: 768px) {
+    .contenedor h4 {
+        text-align: center;
+    }
+    .contenedor-tabla {
+        overflow-x: scroll;
+        width: 100%;
+    }
+    #listado-seguimientos {
+        font-size: 1.5rem;
+        padding: 0;
+    }
+}
+
+
 
 
 /* Contenido Progreso */
@@ -371,16 +388,27 @@ table {
 .fechas {
     font-size: 1em;
     text-align: center;
-    /* color: white; */
     text-decoration: underline;
 }
-
 .blanco {
     color: white;
 }
 
 .negro {
     color: black;
+}
+
+.actividades div,
+.etapas div {
+    margin-bottom: 1rem;
+}
+
+#fecha_proceso {
+    margin-bottom: 1rem;
+}
+
+.pad {
+    margin-top: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -394,7 +422,6 @@ table {
 
 .comentario {
     padding: 0 10.5rem 0 10.5rem;
-    /* padding: 0 105px 0 105px; */
 }
 
 .com_nombre {
@@ -411,7 +438,7 @@ table {
 .com_com {
     text-align: justify;
     padding-left: 1.5rem;
-    /* padding-left: 15px; */
+    
 }
 
 /*  Hipervínculos */
@@ -421,11 +448,10 @@ table {
     text-align: center;
     color: black;
     border-radius: 1rem;
-    padding: 3px 6px 3px 6px;
+    padding: 0.3rem 0.6rem 0.3rem 0.6rem;
     text-decoration: none;
     margin: 1rem;
 }
-
 .vinculo:hover{
     background-color: var(--quinto);
     color: white;
