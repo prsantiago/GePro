@@ -449,11 +449,11 @@ function leerformularioRecuperaCuenta(e){
 
             // Si la respuesta es correcta
             if (respuesta.respuesta === 'correcto') {  
-                alert(respuesta.nombre+". Correo: "+respuesta.correo);                
+                alert(respuesta.nombre);                
                 window.location.href = 'index.php?login=false';
             } else {
                 // Hubo un error
-                alert(respuesta.error+". Correo: "+respuesta.correo);
+                alert(respuesta.error);
             }
         } else {
             // const respuesta = JSON.parse(xhr.responseText);

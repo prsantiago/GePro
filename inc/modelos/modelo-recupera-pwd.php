@@ -13,7 +13,7 @@ if($_POST['tipo'] == 'recuperar'){
 	$mail->Subject = '[Dëni] Recuperación de contraseña';
 	//cuerpo
 	
-	$mail->Body = '<p>Si solicitaste recuperar tu contraseña, ingresa a la siguiente página: http://localhost/deni/cambiar-pwd.php</p> 
+	$mail->Body = '<p>Si solicitaste recuperar tu contraseña, ingresa a la siguiente página: [url]/cambiar-pwd.php</p> 
 					<br><p><strong>Si no lo solicitaste, ignora este correo.</strong></p>';
 
 	if($mail->send()){

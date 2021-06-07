@@ -66,10 +66,11 @@
         <label for="universidad_alumno">Institución a la que perteneces: </label>
         <select name="universidad_alumno" id="universidad_alumno" required>
             <option value = <?php echo !empty($universidad) ? $universidad : "";?>><?php echo !empty($universidad) ? $universidad : "---";?></option>
-            <option value="UAM">UAM</option>
+            <option value="UAM-A">UAM-A</option>
+            <option value="UAM-L">UAM-L</option>
             <option value="UACM">UACM</option>
             <option value="UNAM">UNAM</option>
-            <option value="Tec">IPN</option>
+            <option value="IPN">IPN</option>
         </select>
     </div>
     <div class="campo">
