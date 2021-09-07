@@ -486,7 +486,26 @@ footer {
     left: 0;
 }
 
-footer p{
+footer div{
     text-align: center;
     color: #BDC2DA;
+}
+
+#nom-uno, #nom-dos {
+    float: left;
+    text-align: center;
+    color: #BDC2DA;
+}
+
+#nom-uno {
+    padding-right: 1rem;
+}
+#nom-dos {
+    padding-left: 1rem;
+}
+
+@media (max-width: 392px) {
+    #nom-uno, #nom-dos {
+        float: none;
+    }
 }
