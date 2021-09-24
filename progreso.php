@@ -67,7 +67,7 @@ $_SESSION['id_actividad']=$id_actividad;
                 </form>
                 <div class="opciones-login">
                     <div class="campo">
-                        <a class="vinculo" href="recuperar-cuenta.php">Recuperar contraseña</a>
+                        <a class="vinculo" href="recuperar-cuenta.php?user=al">Recuperar contraseña</a>
                     </div>
                 </div> 
             </div>
@@ -269,15 +269,22 @@ $_SESSION['id_actividad']=$id_actividad;
                     }  
                 }?>
             </div>
-            <!-- TODO: Cambiar pre-tesista a tesista -->
-            <div id="actividad-4" class="actividad <?php if($id_actividad==4) echo 'bg-cuaternario'?>">
+            <?php 
+            if($id_etapa == 5){ ?>
+                <div id="actividad-4" class="actividad <?php if($id_actividad==4) echo 'bg-cuaternario'?>">
                 <p <?php if($id_actividad==4) echo 'class="blanco"'; ?>>Presentación</p>
                 <?php 
-                if($id_etapa==5 && $id_actividad==4){ ?>
-                    <p class="blanco">En proceso</p>
+                if($id_etapa==5 && $id_actividad==4){ 
+                    if(isset($_SESSION['login'])){?>
+                        <a href="comentarios.php?etapa=<?php echo $id_etapa ?>&actividad=4" class="btn fechas blanco">En proceso</a>
                 <?php 
-                } ?>
-            </div>
+                    } else { ?>
+                        <p class="blanco">En proceso</p>
+                <?php    }
+                }?>
+                </div>
+             <?php } ?>
+            
         </div>
         <?php if(isset($_SESSION['tipo_usuario']) && !strcmp($_SESSION['tipo_usuario'], 'profesor')) { ?>
             <div class="confirmar-proceso">

@@ -57,10 +57,10 @@ $stmtalumnos->close();
             </form>
             <div class="opciones-login">
                 <div class="campo">
-                    <a class="vinculo" href="crear-cuenta.php">Crea una cuenta de profesor nueva</a>
+                    <a class="vinculo" href="crear-cuenta.php">Crea cuenta nueva de profesor</a>
                 </div>
                 <div class="campo">
-                    <a class="vinculo" href="recuperar-cuenta.php">Recuperar contraseña</a>
+                    <a class="vinculo" href="recuperar-cuenta.php?user=prof">Recuperar contraseña</a>
                 </div>
             </div> 
         </div>
@@ -71,8 +71,8 @@ $stmtalumnos->close();
     <div class="contenedor bg-terciario contenido sombra">
         <!-- <p><?php print_r($_SESSION); ?></p> -->
         <!-- Métricas del uso del sistema, número de proyectos y usuarios (profesores y alumnos)  -->
-        <p> <?php echo $proyectos?> Proyectos</p>               
-        <p> <?php echo $profesores + $alumnos?> Usuarios</p>
+        <p> <b><?php if($proyectos==null) echo 0; else echo $proyectos;?> Proyectos</b></p>
+        <p> <b><?php echo $profesores + $alumnos?> Usuarios</b></p>
         <h1>Dëni</h1>
         <h3>Seguimiento de proyectos</h3>
         <form id="progreso" class="caja-progreso" method="post">

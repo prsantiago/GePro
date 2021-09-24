@@ -17,6 +17,10 @@
                 <input type="email" name="usuario" id="usuario" placeholder="Correo institucional">
             </div>
             <div class="campo">
+                <label for="usuario">Clave: </label>
+                <input type="text" name="clave" id="clave" placeholder="Clave">
+            </div>
+            <div class="campo">
                 <label for="pwd">Nueva contraseña: </label>
                 <input type="password" name="pwd" id="pwd" placeholder="Password">
             </div>
