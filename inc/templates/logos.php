@@ -1,8 +1,8 @@
 <div class="logos">
-    <div>
-        <img src="images\logos.png" alt="UAM">
+    <div class="logo-img">
+        <img src="images\logos.jpg" alt="UAM">
     </div>
-    <div>
+    <div class="manual">
         <a class="vinculo" href="manual.php">Manual de uso</a>
     </div>
 </div>
