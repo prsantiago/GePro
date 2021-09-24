@@ -49,7 +49,7 @@
             name="password_alumno" 
             type="password" 
             id="password_alumno" 
-            placeholder="Matricula de alumno"
+            placeholder="Password de alumno"
             required
         >
     </div>
@@ -58,7 +58,7 @@
         <input
             type="password" 
             id="valpass_alumno" 
-            placeholder="Validar matricula de alumno"
+            placeholder="Validar password de alumno"
             required
         >
     </div>

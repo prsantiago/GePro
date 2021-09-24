@@ -203,7 +203,6 @@ function generarClaveProyecto($id_alumno, $universidad) {
     $datos_alumno = $conn->query("SELECT id_estado FROM alumno WHERE id = $id_alumno")->fetch_row();
 
     $charEstado = $datos_alumno[0] == 1 ? "P" : "T";
-
     $clave = $charEstado.$universidad.'-'.$num_proyectos[0];
     return $clave;
 }
