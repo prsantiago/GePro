@@ -2,7 +2,7 @@
 session_start();        // Se empieza la sesión para traer el valor de las variables de sesión necesarias
 
 // Acción procedure NUEVO_PROYECTO registro de proyecto en la BD
-if($_POST['accion'] == 'crear') {
+if(isset($_POST['accion']) && $_POST['accion'] == 'crear') {
     require_once('../funciones/conexion.php');          // Archivo donde se guarda la conexión a la BD
     require_once('../funciones/funciones.php');         // Archivo donde se almacenan funciones SQL adicionales
     require_once('../funciones/email_settings.php');    // Archivo con los ajustes para enviar notificación de registro por mail
@@ -87,7 +87,7 @@ if($_POST['accion'] == 'crear') {
 }
 
 // Acción UPDATE un registro de proyecto en la BD
-if($_POST['accion'] == 'editar') {
+if(isset($_POST['accion']) && $_POST['accion'] == 'editar') {
     require_once('../funciones/conexion.php');      // Archivo donde se guarda la conexión a la BD
 
     // Sanitizar las entradas enviadas por POST
@@ -139,7 +139,7 @@ if($_POST['accion'] == 'editar') {
 }
 
 // Acción procedure BORRAR_PROYECTO registro de proyecto en la BD
-if($_GET['accion'] == 'borrar') {
+if(isset($_GET['accion']) && $_GET['accion'] == 'borrar') {
     require_once('../funciones/conexion.php');      // Archivo donde se guarda la conexión a la BD
 
     // id_proyecto enviado por GET
@@ -158,7 +158,7 @@ if($_GET['accion'] == 'borrar') {
         if($stmt->errno == 0){ 
             $respuesta = array(
                 'respuesta' => 'correcto',
-                'nombre' => $nombre_proyecto          
+                'id' => $id_proyecto           
             );
         } else {
             $respuesta = array(
@@ -182,7 +182,7 @@ if($_GET['accion'] == 'borrar') {
 }
 
 // Acción SELECT registro de proyecto de la BD
-if($_POST['accion'] == 'checar') {
+if(isset($_POST['accion']) && $_POST['accion'] == 'checar') {
     require_once('../funciones/conexion.php');      // Archivo donde se guarda la conexión a la BD
 
     // Sanitizar las entradas enviadas por POST
