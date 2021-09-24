@@ -46,11 +46,13 @@
                 <option value="">Seleccione un profesor registrado</option>
                 <?php    
                 foreach($profesores as $profesor) { 
+                    if($profesor['id'] != $_SESSION['id_usuario']) {
                 ?>
-                <option value="<?php echo $profesor['id']?>" <?php echo (!empty($id_coasesor) && $id_coasesor==$profesor['id']) ? "selected" : ""?>>
-                    <?php echo $profesor['nombre']." ".$profesor['apellido']." --- ".$profesor['matricula']?>
-                </option>
-            <?php   
+                        <option value="<?php echo $profesor['id']?>" <?php echo (!empty($id_coasesor) && $id_coasesor==$profesor['id']) ? "selected" : ""?>>
+                            <?php echo $profesor['nombre']." ".$profesor['apellido']." --- ".$profesor['matricula']?>
+                        </option>
+            <?php  
+                    } 
                 } 
             } else {
             ?>
