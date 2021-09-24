@@ -4,7 +4,8 @@
 if($_POST['accion'] == 'crear') {
     require_once('../funciones/conexion.php');          // Archvo donde se guarda la conexión a la DB
     require_once('../funciones/email_settings.php');    // Archivo con los ajustes para enviar notificaión de registro por mail
-
+    require_once('../funciones/funciones.php');    // Archivo con las funciones en php
+    
     // Sanitizar las entradas enviadas por POST
     $nombre_alumno = filter_var($_POST['nombre_alumno'], FILTER_SANITIZE_STRING);
     $apellido_alumno = filter_var($_POST['apellido_alumno'], FILTER_SANITIZE_STRING);
@@ -30,14 +31,12 @@ if($_POST['accion'] == 'crear') {
         <ol>
             <li>Una vez que se haya dado de alta un proyecto a su nombre, le llegará un correo con
             la clave que empleará para visualizar sus avances.</li>
-            <li>Diríjase al portal: [página_portal] e ingrese la clave del proyecto. </li>
+            <li>Diríjase al portal: [página_portal_index] e ingrese la clave del proyecto. </li>
             <li>Podrá visualizar sus avances y las fechas correspondientes.</li>
-            <li>Para realizar un comentario a su asesor, seleccione la fecha en la actividad
-            que le interesa comentar.</li>
             <li>Inicie sesión con este correo electrónico ('.$correo_alumno.') y con la 
             siguiente contraseña <strong>'.$password_alumno.'</strong>.</li>
-            <li>Ahora puede comentar.</li>
             <li>De ser posible, cambie su contraseña.</li>
+            <li>Para realizar un comentario a su asesor, seleccione la fecha en la actividad que le interesa comentar.</li>
             <li>También puede editar los datos de su cuenta.</li>
         </ol>
         <p>Esperamos que este sistema le sea de gran utilidad.</p><br>
@@ -51,36 +50,46 @@ if($_POST['accion'] == 'crear') {
     // Se cierra el Prepared Statement y la conexión a BD
     // Se regresa la respuesta por JSON
     try {
-        $stmt = $conn->prepare("INSERT INTO alumno (nombre, apellido, matricula, correo, contraseña, universidad,
-                                                    division, carrera, id_estado) VALUES (?,?,?,?,?,?,?,?,?)");
-        $stmt->bind_param("ssssssssi", $nombre_alumno, $apellido_alumno, $matricula_alumno, $correo_alumno, $hash_password,
-                                        $universidad_alumno, $division_alumno, $carrera_alumno, $estado_alumno);
-        $stmt->execute();
-
-        if($stmt->affected_rows == 1) {
-            if($mail->send()){
-                $respuesta = array(
-                    'respuesta' => 'correcto',
-                    'id_insertado' => $stmt->insert_id,
-                    'correo' => 'enviado'
-                );    
-            }
-            else {
-                $respuesta = array(
-                    'respuesta' => 'correcto',
-                    'id_insertado' => $stmt->insert_id,
-                    'correo' => 'NO enviado'
-                ); 
-            }
-        } else {
+        $duplicado = $conn->prepare("SELECT nombre FROM alumno WHERE correo = ?");
+        $duplicado->bind_param('s', $correo_alumno);
+        $duplicado->execute();
+        $duplicado->bind_result($nombre_al);
+        $duplicado->fetch();
+        if($nombre_al){
             $respuesta = array(
                 'respuesta' => 'error',
-                'error' => 'Error al crear alumno',
-                'detalle' => $stmt->errno.' : '.$stmt->error
-            );
+                'error' => 'El alumno ya ha sido registrado.'
+            ); 
+        } else {
+            $stmt = $conn->prepare("INSERT INTO alumno VALUES (null,?,?,?,?,?,?,?,?,?)");
+            $stmt->bind_param("ssssssssi", $matricula_alumno, $nombre_alumno, $apellido_alumno,  $correo_alumno, $hash_password,$universidad_alumno, $division_alumno, $carrera_alumno, $estado_alumno);
+            $stmt->execute();
+
+            if($stmt->affected_rows == 1) {
+                if($mail->send()){
+                    $respuesta = array(
+                        'respuesta' => 'correcto',
+                        'id_insertado' => $stmt->insert_id,
+                        'correo' => 'enviado'
+                    );    
+                }
+                else {
+                    $respuesta = array(
+                        'respuesta' => 'correcto',
+                        'id_insertado' => $stmt->insert_id,
+                        'correo' => 'NO enviado'
+                    ); 
+                }
+            } else {
+                $respuesta = array(
+                    'respuesta' => 'error',
+                    'error' => 'Error al crear alumno',
+                    'detalle' => $stmt->errno.' : '.$stmt->error
+                );
+            }
+            $stmt->close();
         }
 
-        $stmt->close();
         $conn->close();
     } catch(Exception $e) {
         $respuesta = array(

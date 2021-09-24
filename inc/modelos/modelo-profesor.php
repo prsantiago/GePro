@@ -5,6 +5,7 @@ if(isset($_POST['accion'])) {
     if($_POST['accion'] == 'crear') {
         require_once('../funciones/conexion.php');      // Archivo donde se guarda la conexión a la BD
         require_once('../funciones/email_settings.php');
+        require_once('../funciones/funciones.php');    // Archivo con las funciones en php
 
         // Sanitizar las entradas enviadas por POST
         $nombre_profesor = filter_var($_POST['nombre_profesor'], FILTER_SANITIZE_STRING);
@@ -42,38 +43,46 @@ if(isset($_POST['accion'])) {
         // Se cierra el Prepared Statement y la conexión a BD
         // Se regresa la respuesta por JSON
         try {
-            $stmt = $conn->prepare("INSERT INTO profesor (nombre, apellido, matricula, 
-                                                        correo, contraseña, universidad,
-                                                        division, departamento) VALUES (?,?,?,?,?,?,?,?)");
-            $stmt->bind_param("ssssssss", $nombre_profesor, $apellido_profesor, $matricula_profesor, $correo_profesor, 
-                                            $hash_password, $universidad_profesor, $division_profesor, $departamento_profesor);
-            $stmt->execute();
-
-            if($stmt->affected_rows == 1) {
-                if($mail->send()){
-                    $respuesta = array(
-                        'respuesta' => 'correcto',
-                        'id_insertado' => $stmt->insert_id,
-                        'correo' => 'enviado'
-                    );    
-                }
-                else {
-                    $respuesta = array(
-                        'respuesta' => 'correcto',
-                        'id_insertado' => $stmt->insert_id,
-                        'correo' => 'NO enviado'
-                    ); 
-                }
-            } else {
+            $duplicado = $conn->prepare("SELECT nombre FROM profesor WHERE correo = ?");
+            $duplicado->bind_param('s', $correo_profesor);
+            $duplicado->execute();
+            $duplicado->bind_result($nombre_pro);
+            $duplicado->fetch();
+            if($nombre_pro){
                 $respuesta = array(
                     'respuesta' => 'error',
-                    'error' => 'No se pudo crear usuario',
-                    'detalle' => $stmt->errno.' : '.$stmt->error
-                );
-            }
+                    'error' => 'El profesor ya ha sido registrado.'
+                ); 
+            } else {
+                $stmt = $conn->prepare("INSERT INTO profesor VALUES (null,?,?,?,?,?,?,?,?)");
+                $stmt->bind_param("ssssssss", $matricula_profesor, $nombre_profesor, $apellido_profesor, $correo_profesor, $hash_password, $universidad_profesor, $division_alumno, $departamento_profesor);
+                $stmt->execute();
 
-            $stmt->close();
-            $conn->close();
+                if($stmt->affected_rows == 1) {
+                    if($mail->send()){
+                        $respuesta = array(
+                            'respuesta' => 'correcto',
+                            'id_insertado' => $stmt->insert_id,
+                            'correo' => 'enviado'
+                        );    
+                    }
+                    else {
+                        $respuesta = array(
+                            'respuesta' => 'correcto',
+                            'id_insertado' => $stmt->insert_id,
+                            'correo' => 'NO enviado'
+                        ); 
+                    }
+                } else {
+                    $respuesta = array(
+                        'respuesta' => 'error',
+                        'error' => 'Error al crear profesor',
+                        'detalle' => $stmt->errno.' : '.$stmt->error
+                    );
+                }
+                $stmt->close();
+            }
+                $conn->close();
         } catch(Exception $e) {
             $respuesta = array(
                 'error' => $e->getMessage()
