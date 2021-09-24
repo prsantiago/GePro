@@ -75,6 +75,7 @@ function insertarProfesorBD(datos, accion) {
         if (this.status === 200) {
             const respuesta = JSON.parse(xhr.responseText); // Parseo de la respuesta del back-end
             console.log(respuesta);
+            // console.log(xhr.responseText);
 
             if(respuesta.respuesta === 'correcto') {
                 document.querySelector('form').reset();     // Resetear el formulario
@@ -275,7 +276,7 @@ function eliminarProyecto(e) {
                         // Eliminar el registro del DOM
                         elementoDOM.remove();
                         alert('Proyecto eliminado');
-                        // window.location.href = 'inicio.php';
+                        window.location.href = 'inicio.php';
                     } else {
                         alert('Error al eliminar proyecto');
                         console.log(respuesta);
@@ -471,6 +472,7 @@ function leerformularioNuevaPassword(e){
     // mandar ejecutar Ajax
     // datos que se envian al servidor
     const usuario = document.querySelector('#usuario').value,
+        clave = document.querySelector('#clave').value,
         pwd = document.querySelector('#pwd').value,
         val_pwd = document.querySelector('#val_pwd').value,
         tipo = document.querySelector('#tipo').value;
@@ -482,6 +484,7 @@ function leerformularioNuevaPassword(e){
         // Pasa la validacion, crear llamado a Ajax
         const datos = new FormData();
         datos.append('usuario', usuario);
+        datos.append('clave', clave);
         datos.append('pwd', pwd);
         datos.append('tipo', tipo);
         console.log(...datos)
@@ -494,9 +497,9 @@ function leerformularioNuevaPassword(e){
         // retorno de datos
         xhr.onload = function() {
             if (this.status === 200) {
-                const respuesta = JSON.parse(xhr.responseText);
-                console.log(respuesta);
-                // console.log(xhr.responseText);
+                // const respuesta = JSON.parse(xhr.responseText);
+                // console.log(respuesta);
+                console.log(xhr.responseText);
 
                 // Si la respuesta es correcta
                 if (respuesta.respuesta === 'correcto') {  
