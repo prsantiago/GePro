@@ -1,7 +1,10 @@
 <!-- Nuevo proyecto creado por el profesor -->
 <!-- FIXME: Se podría juntar nuevo.proyecto.php y editar-proyecto.php -->
 <?php 
-session_start(); 
+session_start();
+if(!isset($_SESSION['id_usuario'])){
+    header('Location: index.php?login=false');
+} 
 include 'inc/templates/header.php'; 
 include 'inc/funciones/funciones.php';
 ?>

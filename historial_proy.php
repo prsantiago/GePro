@@ -1,6 +1,10 @@
 <!-- Muestra el historial de proyectos que el profesor ha asesorado: -->
 <!-- Nombre, Estudiante, Fecha de inicio y término, Descripción, Comentario final -->
-<?php session_start(); 
+<?php
+session_start(); 
+if(!isset($_SESSION['id_usuario'])){
+    header('Location: index.php?login=false');
+}
 include 'inc/templates/header.php'; 
 include 'inc/funciones/funciones.php';
 $id_profesor = $_SESSION['id_usuario'];?>
