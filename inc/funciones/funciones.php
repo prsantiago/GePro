@@ -1,7 +1,7 @@
 <?php
 // Llamada a procedure OBTENER_DETALLES_PROYECTO 
 function obtenerProyectos($id_usuario) {
-    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    global $conn;
     try {
         return $conn->query("CALL OBTENER_DETALLES_PROYECTO($id_usuario)");
         // return $conn->query("SELECT proyecto_vigente.id,proyecto_vigente.clave,proyecto_vigente.nom_proyecto,alumno.nombre,alumno.apellido FROM ((profesor INNER JOIN proyecto_vigente ON proyecto_vigente.id_asesor1=profesor.id) INNER JOIN alumno ON proyecto_vigente.id_alumno=alumno.id) WHERE profesor.id = $id_usuario");
@@ -89,7 +89,7 @@ function obtenerComentariosActividad($id_proyecto, $idEtapa, $idActividad) {
 }
 
 function obtenerProyectosVigentes($idProf) {
-    include 'conexion.php';
+    global $conn;
     try {
         return $conn->query("SELECT count(*) FROM proyecto_vigente WHERE id_asesor1 = $idProf OR id_asesor2 = $idProf")->fetch_row();
     } catch(Exception $e) {
@@ -109,7 +109,7 @@ function obtenerHistorialProyectos($idProf) {
 }
 
 function ObtenerDatosNotificacion($idSeg) {
-    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    global $conn;
     try {
         return $conn->query("SELECT proyecto,clave,etapa.nombre AS etapa,actividad.nombre AS actividad FROM ((( seguimiento_vigente INNER JOIN proyecto_vigente ON seguimiento_vigente.id_proyecto = proyecto_vigente.id) INNER JOIN etapa ON seguimiento_vigente.id_etapa = etapa.id) INNER JOIN actividad ON seguimiento_vigente.id_actividad = actividad.id) where seguimiento_vigente.id = $idSeg")->fetch_row();
     } catch(Exception $e) {
@@ -119,7 +119,7 @@ function ObtenerDatosNotificacion($idSeg) {
 }
 
 function ObtenerCorreos($idProy) {
-    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    global $conn;
     try {
         return $conn->query("SELECT alumno.correo, profesor.correo FROM ((alumno INNER JOIN proyecto_vigente ON alumno.id = proyecto_vigente.id_alumno) INNER JOIN profesor ON profesor.id = proyecto_vigente.id_asesor2) WHERE proyecto_vigente.id = $idProy")->fetch_row();
     } catch(Exception $e) {
@@ -129,7 +129,7 @@ function ObtenerCorreos($idProy) {
 }
 
 function ObtenerCorreosConID($idUsuario, $tipoUsuario) {
-    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    global $conn;
     try {
         if($tipoUsuario=="alumno")
             return $conn->query("SELECT correo FROM alumno where id = $idUsuario")->fetch_row();
@@ -142,7 +142,7 @@ function ObtenerCorreosConID($idUsuario, $tipoUsuario) {
 }
 
 function ObtenerCorreoConIDProyecto($id_proyecto, $tipoUsuario) {
-    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    global $conn;
     try {
         if($tipoUsuario=="alumno")
             return $conn->query("SELECT profesor.correo FROM (profesor INNER JOIN proyecto_vigente ON profesor.id = proyecto_vigente.id_asesor1) where proyecto_vigente.id = $id_proyecto")->fetch_row();
@@ -155,7 +155,7 @@ function ObtenerCorreoConIDProyecto($id_proyecto, $tipoUsuario) {
 }
 
 function obtenerIDProyectos(){
-    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    global $conn;
     try {
         return $conn->query("SELECT id FROM `proyecto_vigente`")->fetch_all();
     } catch(Exception $e) {
@@ -165,7 +165,7 @@ function obtenerIDProyectos(){
 }
 
 function obtenerFechaSeguimientoActual($id_proyecto){
-    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    global $conn;
     try {
         return $conn->query("SELECT id, proxima_entrega FROM seguimiento_vigente 
                             WHERE id =(SELECT MAX(id) FROM seguimiento_vigente 
@@ -188,7 +188,7 @@ function obtenerAlumnoProyecto($id_proyecto) {
 }
 
 function obtenerClaveProyecto() {
-    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    global $conn;
     try {
         return $conn->query("SELECT clave FROM proyecto_vigente WHERE id = (SELECT MAX(id) FROM proyecto_vigente)")->fetch_row();
     } catch(Exception $e) {
@@ -198,13 +198,33 @@ function obtenerClaveProyecto() {
 }
 
 function generarClaveProyecto($id_alumno, $universidad) {
-    $conn = new mysqli(DB_HOST, DB_USUARIO, DB_PASSWORD, DB_NOMBRE);
+    global $conn;
     $num_proyectos = $conn->query("SELECT MAX(id) FROM proyecto_vigente")->fetch_row();
     $datos_alumno = $conn->query("SELECT id_estado FROM alumno WHERE id = $id_alumno")->fetch_row();
 
     $charEstado = $datos_alumno[0] == 1 ? "P" : "T";
     $clave = $charEstado.$universidad.'-'.$num_proyectos[0];
     return $clave;
+}
+
+function obtenerProyectosCompletados(){
+    global $conn;
+    try{
+        return $conn->query("SELECT proyecto_historico.proyecto,profesor.nombre as nom_asesor, profesor.apellido as ap_asesor, alumno.nombre,alumno.apellido,proyecto_historico.fechaInicio,proyecto_historico.fechaFin,proyecto_historico.descripcion,proyecto_historico.comentarioFinal FROM ((proyecto_historico INNER JOIN alumno ON proyecto_historico.id_alumno=alumno.id) INNER JOIN profesor ON profesor.id = proyecto_historico.id_asesor1)");
+    } catch(Exception $e){
+        echo "Error!!!".$e->getMessage()."<br>";
+        return false;
+    } 
+}
+
+function obtenerProyectosEnProceso(){
+    global $conn;
+    try{
+        return $conn->query("SELECT proyecto_vigente.proyecto,profesor.nombre as nom_asesor, profesor.apellido as ap_asesor, alumno.nombre,alumno.apellido,proyecto_vigente.fechaInicio,proyecto_vigente.fechaFin,proyecto_vigente.descripcion,proyecto_vigente.comentarioFinal FROM ((proyecto_vigente INNER JOIN alumno ON proyecto_vigente.id_alumno=alumno.id) INNER JOIN profesor ON profesor.id = proyecto_vigente.id_asesor1) WHERE proyecto_vigente.id > 1");
+    } catch(Exception $e){
+        echo "Error!!!".$e->getMessage()."<br>";
+        return false;
+    } 
 }
 
 ?>
