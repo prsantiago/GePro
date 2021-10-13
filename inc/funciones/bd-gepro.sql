@@ -315,6 +315,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `NUEVO_SEGUIMIENTO` (`idSeg` INT, `i
 CREATE DEFINER=`root`@`localhost` PROCEDURE `OBTENER_DETALLES_PROYECTO` (`id_asesor` INT)  BEGIN
         SELECT 
         proyecto_vigente.id,
+        proyecto_vigente.id_asesor2,
         proyecto_vigente.clave,
         proyecto_vigente.proyecto,
         alumno.nombre,
