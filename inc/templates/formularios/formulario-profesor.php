@@ -68,6 +68,9 @@
             <option value = <?php echo !empty($universidad) ? $universidad : "";?>><?php echo !empty($universidad) ? $universidad : "---";?></option>>
             <option value="UAM-A">UAM-A</option>
             <option value="UAM-L">UAM-L</option>
+            <option value="UAM-X">UAM-X</option>
+            <option value="UAM-I">UAM-I</option>
+            <option value="UAM-C">UAM-C</option>
             <option value="UACM">UACM</option>
             <option value="UNAM">UNAM</option>
             <option value="IPN">IPN</option>
