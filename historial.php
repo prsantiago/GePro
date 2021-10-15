@@ -1,6 +1,12 @@
 <!-- Despliega el historial de seguimientos que se tienen del proyecto en cuestión (alumno y profesor)-->
 <!-- Además da la posibilidad de editar la fecha de entrega de algún seguimiento (solo profesor) -->
-<?php session_start(); 
+<?php 
+session_start(); 
+
+/*if(!isset($_SESSION['id_usuario'])){
+    header('Location: index.php?login=false');
+}*/
+
 include 'inc/templates/header.php';
 include 'inc/funciones/funciones.php';
 $id_proyecto = $_SESSION['id_proyecto'];?>
