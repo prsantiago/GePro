@@ -71,13 +71,14 @@ $stmtalumnos->close();
     <div class="contenedor bg-terciario contenido sombra">
         <!-- <p><?php print_r($_SESSION); ?></p> -->
         <!-- Métricas del uso del sistema, número de proyectos y usuarios (profesores y alumnos)  -->
-        <p> <b><?php if($proyectos==null) echo 0; else echo $proyectos;?> Proyectos</b></p>
+        <a class="vin-proy" href="total-proyectos.php"> <b><?php if($proyectos==null) echo 0; else echo $proyectos;?> Proyectos</b></a>
         <p> <b><?php echo $profesores + $alumnos?> Usuarios</b></p>
         <h1>Dëni</h1>
         <h3>Seguimiento de proyectos</h3>
         <form id="progreso" class="caja-progreso" method="post">
             <div class="campo">
-                <label for="clave">Ingrese clave de proyecto: </label>
+                <p>Ingreso alumnos</p>
+                <label for="clave">Introduzca clave de proyecto: </label>
                 <input type="text" name="clave" id="clave" placeholder="" required>
             </div>
             <div class="campo enviar">
