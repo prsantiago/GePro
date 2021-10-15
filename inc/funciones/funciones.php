@@ -210,7 +210,7 @@ function generarClaveProyecto($id_alumno, $universidad) {
 function obtenerProyectosCompletados(){
     global $conn;
     try{
-        return $conn->query("SELECT proyecto_historico.proyecto,profesor.nombre as nom_asesor, profesor.apellido as ap_asesor, alumno.nombre,alumno.apellido,proyecto_historico.fechaInicio,proyecto_historico.fechaFin,proyecto_historico.descripcion,proyecto_historico.comentarioFinal FROM ((proyecto_historico INNER JOIN alumno ON proyecto_historico.id_alumno=alumno.id) INNER JOIN profesor ON profesor.id = proyecto_historico.id_asesor1)");
+        return $conn->query("SELECT proyecto_historico.proyecto,profesor.nombre as nom_asesor, profesor.apellido as ap_asesor, profesor.nombre as nom_asesor2, profesor.apellido as ap_asesor2,alumno.nombre,alumno.apellido,proyecto_historico.fechaInicio,proyecto_historico.fechaFin,proyecto_historico.descripcion FROM (((proyecto_historico INNER JOIN alumno ON proyecto_historico.id_alumno=alumno.id) INNER JOIN profesor ON profesor.id = proyecto_historico.id_asesor2) INNER JOIN profesor ON profesor.id = proyecto_historico.id_asesor1)");
     } catch(Exception $e){
         echo "Error!!!".$e->getMessage()."<br>";
         return false;
@@ -220,7 +220,7 @@ function obtenerProyectosCompletados(){
 function obtenerProyectosEnProceso(){
     global $conn;
     try{
-        return $conn->query("SELECT proyecto_vigente.proyecto,profesor.nombre as nom_asesor, profesor.apellido as ap_asesor, alumno.nombre,alumno.apellido,proyecto_vigente.fechaInicio,proyecto_vigente.fechaFin,proyecto_vigente.descripcion,proyecto_vigente.comentarioFinal FROM ((proyecto_vigente INNER JOIN alumno ON proyecto_vigente.id_alumno=alumno.id) INNER JOIN profesor ON profesor.id = proyecto_vigente.id_asesor1) WHERE proyecto_vigente.id > 1");
+        return $conn->query("SELECT proyecto_vigente.proyecto,profesor.nombre as nom_asesor, profesor.apellido as ap_asesor, profesor.nombre as nom_asesor2, profesor.apellido as ap_asesor2, alumno.nombre,alumno.apellido,proyecto_vigente.fechaInicio,proyecto_vigente.fechaFin,proyecto_vigente.descripcion FROM (((proyecto_vigente INNER JOIN alumno ON proyecto_vigente.id_alumno=alumno.id) INNER JOIN profesor ON profesor.id = proyecto_historico.id_asesor2) INNER JOIN profesor ON profesor.id = proyecto_vigente.id_asesor1) WHERE proyecto_vigente.id > 1");
     } catch(Exception $e){
         echo "Error!!!".$e->getMessage()."<br>";
         return false;
