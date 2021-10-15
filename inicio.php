@@ -2,6 +2,14 @@
 session_start(); 
 include 'inc/templates/header.php'; 
 include 'inc/funciones/funciones.php';
+include_once 'inc/funciones/conexion.php';
+
+if(!isset($_SESSION['id_usuario'])){
+    header('Location: index.php?login=false');
+}
+
+$user = $_SESSION['id_usuario'];
+
 ?>
 
 <div class="bg-primario contenedor-barra">
@@ -22,7 +30,7 @@ include 'inc/funciones/funciones.php';
             <span>
                 <!-- Despliega el número de proyectos vigentes que tiene el profesor -->
                 <?php 
-                $proy = obtenerProyectosVigentes($_SESSION['id_usuario']); 
+                $proy = obtenerProyectosVigentes($user); 
                 print_r($proy[0]); 
                 ?>
             </span> 
@@ -43,7 +51,7 @@ include 'inc/funciones/funciones.php';
                     <?php 
                     // Regresa un arreglo con los datos de los proyectos vigentes que está asesorando
                     // Además de checar si de verdad se regresó algo
-                    $proyectos = obtenerProyectos($_SESSION['id_usuario']);
+                    $proyectos = obtenerProyectos($user);
                     if(!empty($proyectos) && $proyectos->num_rows > 0) {
                         // Para cada proyecto se despliega: clave, nombre, alumno,
                         // botones de acción (mostrar el progreso, editar, borrar)
@@ -52,7 +60,6 @@ include 'inc/funciones/funciones.php';
                             <tr>
                                 <td><?php echo $proyecto['clave']?></td>
                                 <td><?php echo $proyecto['proyecto']?></td>
-                                <!-- <td><?php echo $proyecto['nom_proyecto']?></td> -->
                                 <td><?php echo $proyecto['nombre']." ".$proyecto['apellido']?></td>
                                 <td>
                                     <!-- mostrar progreso -->
@@ -62,6 +69,7 @@ include 'inc/funciones/funciones.php';
                                     </a>
                                     <!-- editar proyecto -->
                                     <!-- Se manda por GET el id del proyecto -->
+                                    <?php if ($proyecto['id_asesor2'] != $user) {?>
                                     <a class="btn-editar btn" href="editar-proyecto.php?id=<?php echo $proyecto['id']?>">
                                         <i class="fas fa-pen"></i>
                                     </a>
@@ -70,11 +78,12 @@ include 'inc/funciones/funciones.php';
                                     <button data-id="<?php echo $proyecto['id']?>" type="button" class="btn-borrar btn">
                                         <i class="fas fa-trash"></i>
                                     </button>
+                                <?php } ?>
                                 </td>
                             </tr>
                     <?php   
                         } 
-                    } 
+                    }
                     ?>
                 </tbody>
             </table>
