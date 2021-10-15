@@ -12,7 +12,7 @@ if($_POST['tipo'] == 'recuperar'){
     //recupera el correo introducido y lo sanitiza
 	$correo = filter_var($_POST['usuario'], FILTER_SANITIZE_EMAIL);
 
-    // verificar que algún usuario se haya dade de alta con el correo proporcionado
+    //verificar que algún usuario se haya dado de alta con el correo proporcionado
     if($user == "prof"){
         $query = $conn->prepare("SELECT nombre FROM profesor WHERE correo = ?");
         $query->bind_param('s', $correo);
@@ -34,17 +34,17 @@ if($_POST['tipo'] == 'recuperar'){
         $stmt = $conn->prepare("CALL GUARDAR_CLAVE(?,?)");
         $stmt->bind_param("ss",$correo,$clave);
         $stmt->execute();
-
+        
         $mail->addAddress($correo,'Usuario');
         //título
         $mail->Subject = '[Dëni] Recuperación de contraseña';
         //cuerpo
         
         $mail->Body = '<p>Si solicitaste recuperar tu contraseña, ingresa a la siguiente página:[url]/cambiar-pwd.php</p> 
-            <br>La clave para realizar el cambio es:<b>'.$clave.'</b>            
+            <br>La clave para realizar el cambio es: <b>'.$clave.'</b>            
             <br><p><strong>Si no lo solicitaste, ignora este correo.</strong></p>';
 
-        if($stmt->errno == 0) {
+        if($stmt->errno == 0){
             if($mail->send()){
                 $respuesta = array(
                             'respuesta' => 'correcto',
@@ -76,7 +76,7 @@ if($_POST['tipo'] == 'recuperar'){
             'correo' => $correo
         );
     }
-
+	
 	echo json_encode($respuesta);
 
 }
@@ -105,31 +105,34 @@ if($_POST['tipo'] == 'cambiar'){
 					<p>Su nueva contraseña es: <strong>'.$password.' </strong></p>';
 
 	try {
+
         //verificar que la clave sea correcta
         $query = $conn->prepare("SELECT clave FROM clave_password WHERE correo = ?");
         $query->bind_param("s", $correo);
         $query->execute();
         $query->bind_result($clave_correcta);
         $query->fetch();
+        $query->close();
 
         if($clave_correcta == $clave){
 
-            $stmt = $conn->prepare("CALL NUEVA_PASSWORD(?,?)");
-            $stmt->bind_param("ss",$hash_password,$correo);
-            $stmt->execute();
+            try {
+            $state = $conn->prepare("CALL NUEVA_PASSWORD(?,?)");
+            $state->bind_param("ss", $hash_password, $correo);
+            $state->execute();
 
-            if($stmt->errno == 0) {
+            if($state->affected_rows == 1) {
                 if($mail->send()){
                     $respuesta = array(
                         'respuesta' => 'correcto',
-                        'nombre' => 'Contraseña cambiada.',
+                        'nombre' => 'Contraseña cambiada',
                         'correo' => 'enviado'
                     );    
                 }
                 else {
                     $respuesta = array(
                         'respuesta' => 'correcto',
-                        'nombre' => 'Contraseña cambiada.',
+                        'nombre' => 'Contraseña cambiada',
                         'correo' => 'NO enviado'
                     ); 
                 }
@@ -137,20 +140,26 @@ if($_POST['tipo'] == 'cambiar'){
                 $respuesta = array(
                     'respuesta' => 'error',
                     'error' => 'Error al cambiar contraseña',
-                    'detalle' => $stmt->errno.' : '.$stmt->error
+                    'detalle' => $state->error
                 );
             }
-           
-            $stmt->close();
-        } else {
+
+            $state->close();
+            $conn->close();
+        } catch(Exception $e) {
+            $respuesta = array(
+                'error' => $e->getMessage()
+            );
+        }
+
+    } else {
             $respuesta = array(
                 'respuesta' => 'error',
                 'error' => 'Error. La clave no es correcta.',
                 'clave correcta' => $clave_correcta
             );
-        }
-        $query->close();
-        $conn->close();
+        } 
+
     } catch(Exception $e) {
         $respuesta = array(
             'error' => $e->getMessage()
