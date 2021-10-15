@@ -17,45 +17,49 @@ if(isset($_POST['accion'])) {
         $division_profesor = filter_var($_POST['division_profesor'], FILTER_SANITIZE_STRING);
         $departamento_profesor = filter_var($_POST['departamento_profesor'], FILTER_SANITIZE_STRING);
 
-        // hashear passwords
-        $opciones = array(
-            'cost' => 12
-        );
-        $hash_password = password_hash($password_profesor, PASSWORD_BCRYPT, $opciones);
+        //revisar que no se encuentre en la base de datos alguien con el mismo correo
+        $duplicado = $conn->prepare("SELECT id FROM profesor WHERE correo = ?");
+        $duplicado->bind_param("s", $correo_profesor);
+        $duplicado->execute();
+        $duplicado->bind_result($id_profesor);   // Asignar resultados a variable
+        $duplicado->fetch();
+        if($id_profesor != null) { //si ya está registrado el correo -> mensaje de error
+            $respuesta = array(
+                'respuesta' => 'error',
+                'error' => 'Ya existe un usuario con este correo'
+            );
+            $duplicado->close(); 
+        } 
+        else {
+            $duplicado->close();
+            // hashear passwords
+            $opciones = array(
+                'cost' => 12
+            );
+            $hash_password = password_hash($password_profesor, PASSWORD_BCRYPT, $opciones);
 
-        //para enviar por correo
-        $mail->addAddress($correo_profesor,'Usuario');
-        $mail->Subject = '[Dëni] Creación de cuenta de profesor';
-        $mail->Body = '<h3>¡Bienvenido! </h3> <h3>Estimado usuario, gracias por registrarse en el Sistema Dëni para el seguimiento de proyectos.</h3> 
-            <p>Para ingresar al sistema:</p> 
-            <ol>
-                <li>Inicie sesión con este correo electrónico ('.$correo_profesor.').</li>
-                <li>Su contraseña es <strong>'.$password_profesor.'</strong>.</li>
-                <li>Ahora puede dar de alta proyectos y alumnos.</li>
-                <li>También puede editar los datos de su cuenta en cualquier momento.</li>
-            </ol>
-            <p>Esperamos que este sistema le sea de gran utilidad.</p><br>
-            <p>Saludos cordiales</p>';
+            //para enviar por correo
+            $mail->addAddress($correo_profesor,'Usuario');
+            $mail->Subject = '[Dëni] Creación de cuenta de profesor';
+            $mail->Body = '<h3>¡Bienvenido! </h3> <h3>Estimado usuario, gracias por registrarse en el Sistema Dëni para el seguimiento de proyectos.</h3> 
+                <p>Para ingresar al sistema:</p> 
+                <ol>
+                    <li>Inicie sesión con este correo electrónico ('.$correo_profesor.').</li>
+                    <li>Su contraseña es <strong>'.$password_profesor.'</strong>.</li>
+                    <li>Ahora puede dar de alta proyectos y alumnos.</li>
+                    <li>También puede editar los datos de su cuenta en cualquier momento.</li>
+                </ol>
+                <p>Esperamos que este sistema le sea de gran utilidad.</p><br>
+                <p>Saludos cordiales</p>';
 
-        // Se trata de realizar el INSERT a través de Prepared Statement
-        // Checamos que una fila haya sido afectada (quiere decir que si se realizó el query), se manda como respuesta: correcto, id_insertado
-        // Si el query fallo, se manda como respuesta: error y el detalle del error (número y descripción)
-        // Se cierra el Prepared Statement y la conexión a BD
-        // Se regresa la respuesta por JSON
-        try {
-            $duplicado = $conn->prepare("SELECT nombre FROM profesor WHERE correo = ?");
-            $duplicado->bind_param('s', $correo_profesor);
-            $duplicado->execute();
-            $duplicado->bind_result($nombre_pro);
-            $duplicado->fetch();
-            if($nombre_pro){
-                $respuesta = array(
-                    'respuesta' => 'error',
-                    'error' => 'El profesor ya ha sido registrado.'
-                ); 
-            } else {
+            // Se trata de realizar el INSERT a través de Prepared Statement
+            // Checamos que una fila haya sido afectada (quiere decir que si se realizó el query), se manda como respuesta: correcto, id_insertado
+            // Si el query fallo, se manda como respuesta: error y el detalle del error (número y descripción)
+            // Se cierra el Prepared Statement y la conexión a BD
+            // Se regresa la respuesta por JSON
+            try {
                 $stmt = $conn->prepare("INSERT INTO profesor VALUES (null,?,?,?,?,?,?,?,?)");
-                $stmt->bind_param("ssssssss", $matricula_profesor, $nombre_profesor, $apellido_profesor, $correo_profesor, $hash_password, $universidad_profesor, $division_alumno, $departamento_profesor);
+                $stmt->bind_param("ssssssss", $matricula_profesor, $nombre_profesor, $apellido_profesor,  $correo_profesor, $hash_password, $universidad_profesor, $division_profesor, $departamento_profesor);
                 $stmt->execute();
 
                 if($stmt->affected_rows == 1) {
@@ -76,17 +80,18 @@ if(isset($_POST['accion'])) {
                 } else {
                     $respuesta = array(
                         'respuesta' => 'error',
-                        'error' => 'Error al crear profesor',
+                        'error' => 'No se pudo crear usuario',
                         'detalle' => $stmt->errno.' : '.$stmt->error
                     );
                 }
+
                 $stmt->close();
-            }
                 $conn->close();
-        } catch(Exception $e) {
-            $respuesta = array(
-                'error' => $e->getMessage()
-            );
+            } catch(Exception $e) {
+                $respuesta = array(
+                    'error' => $e->getMessage()
+                );
+            }
         }
 
         echo json_encode($respuesta);

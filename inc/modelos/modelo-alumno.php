@@ -17,86 +17,101 @@ if($_POST['accion'] == 'crear') {
     $carrera_alumno = filter_var($_POST['carrera_alumno'], FILTER_SANITIZE_STRING);
     $estado_alumno = filter_var($_POST['estado_alumno'], FILTER_SANITIZE_NUMBER_INT);
 
-    // hashear contraseña
-    $opciones = array(
-        'cost' => 12
-    );
-    $hash_password = password_hash($password_alumno, PASSWORD_BCRYPT, $opciones);
+    //revisar que no se encuentre en la base de datos alguien con el mismo correo
+    $duplicado = $conn->prepare("SELECT id FROM alumno WHERE correo = ?");
+    $duplicado->bind_param("s", $correo_alumno);
+    $duplicado->execute();
+    $duplicado->bind_result($id_alumno);   // Asignar resultados a variable
+    $duplicado->fetch();
+    if($id_alumno != null) { //si ya está registrado el correo -> mensaje de error
+        $respuesta = array(
+            'respuesta' => 'error',
+            'error' => 'Ya existe un usuario con este correo'
+        );
+        $duplicado->close(); 
+    } 
+    else {
+        $duplicado->close(); 
+        // hashear contraseña
+        $opciones = array(
+            'cost' => 12
+        );
+        $hash_password = password_hash($password_alumno, PASSWORD_BCRYPT, $opciones);
 
-    // Configuración del mail a enviar (destino, tema, contenido)
-    $mail->addAddress($correo_alumno,'Usuario');
-    $mail->Subject = '[Dëni] Se ha creado una cuenta de alumno para usted';
-    $mail->Body = '<h3>¡Bienvenido! </h3> <h3>Estimado usuario, se le ha creado una cuenta de alumno en el Sistema Dëni para el seguimiento de proyectos.</h3> 
-        <p>Para ingresar al sistema debe seguir los siguientes pasos:</p> 
-        <ol>
-            <li>Una vez que se haya dado de alta un proyecto a su nombre, le llegará un correo con
-            la clave que empleará para visualizar sus avances.</li>
-            <li>Diríjase al portal: [página_portal_index] e ingrese la clave del proyecto. </li>
-            <li>Podrá visualizar sus avances y las fechas correspondientes.</li>
-            <li>Inicie sesión con este correo electrónico ('.$correo_alumno.') y con la 
-            siguiente contraseña <strong>'.$password_alumno.'</strong>.</li>
-            <li>De ser posible, cambie su contraseña.</li>
-            <li>Para realizar un comentario a su asesor, seleccione la fecha en la actividad que le interesa comentar.</li>
-            <li>También puede editar los datos de su cuenta.</li>
-        </ol>
-        <p>Esperamos que este sistema le sea de gran utilidad.</p><br>
-        <p>Saludos cordiales</p>';
+        // Configuración del mail a enviar (destino, tema, contenido)
+        $mail->addAddress($correo_alumno,'Usuario');
+        $mail->Subject = '[Dëni] Se ha creado una cuenta de alumno para usted';
+        $mail->Body = '<h3>¡Bienvenido! </h3> <h3>Estimado usuario, se le ha creado una cuenta de alumno en el Sistema Dëni para el seguimiento de proyectos.</h3> 
+            <p>Para ingresar al sistema debe seguir los siguientes pasos:</p> 
+            <ol>
+                <li>Una vez que se haya dado de alta un proyecto a su nombre, le llegará un correo con
+                la clave que empleará para visualizar sus avances.</li>
+                <li>Diríjase al portal: [página_portal_index] e ingrese la clave del proyecto. </li>
+                <li>Podrá visualizar sus avances y las fechas correspondientes.</li>
+                <li>Inicie sesión con este correo electrónico ('.$correo_alumno.') y con la 
+                siguiente contraseña <strong>'.$password_alumno.'</strong>.</li>
+                <li>De ser posible, cambie su contraseña.</li>
+                <li>Para realizar un comentario a su asesor, seleccione la fecha en la actividad que le interesa comentar.</li>
+                <li>También puede editar los datos de su cuenta.</li>
+            </ol>
+            <p>Esperamos que este sistema le sea de gran utilidad.</p><br>
+            <p>Saludos cordiales</p>';
 
-    // Se trata de realizar el INSERT a través de Prepared Statement
-    // Checamos que una fila haya sido afectada (quiere decir que si se realizó el query)
-    //      - Si el mail se pudo enviar, se manda como respuesta: correcto, id_insertado y enviado
-    //      - Si el mail NO se pudo enviar, se manda como respuesta: correcto, id_insertado y NO enviado
-    // Si el query fallo, se manda como respuesta: error y el detalle del error (número y descripción)
-    // Se cierra el Prepared Statement y la conexión a BD
-    // Se regresa la respuesta por JSON
-    try {
-        $duplicado = $conn->prepare("SELECT nombre FROM alumno WHERE correo = ?");
-        $duplicado->bind_param('s', $correo_alumno);
-        $duplicado->execute();
-        $duplicado->bind_result($nombre_al);
-        $duplicado->fetch();
-        if($nombre_al){
-            $respuesta = array(
-                'respuesta' => 'error',
-                'error' => 'El alumno ya ha sido registrado.'
-            ); 
-        } else {
-            $stmt = $conn->prepare("INSERT INTO alumno VALUES (null,?,?,?,?,?,?,?,?,?)");
-            $stmt->bind_param("ssssssssi", $matricula_alumno, $nombre_alumno, $apellido_alumno,  $correo_alumno, $hash_password,$universidad_alumno, $division_alumno, $carrera_alumno, $estado_alumno);
-            $stmt->execute();
-
-            if($stmt->affected_rows == 1) {
-                if($mail->send()){
-                    $respuesta = array(
-                        'respuesta' => 'correcto',
-                        'id_insertado' => $stmt->insert_id,
-                        'correo' => 'enviado'
-                    );    
-                }
-                else {
-                    $respuesta = array(
-                        'respuesta' => 'correcto',
-                        'id_insertado' => $stmt->insert_id,
-                        'correo' => 'NO enviado'
-                    ); 
-                }
-            } else {
+        // Se trata de realizar el INSERT a través de Prepared Statement
+        // Checamos que una fila haya sido afectada (quiere decir que si se realizó el query)
+        //      - Si el mail se pudo enviar, se manda como respuesta: correcto, id_insertado y enviado
+        //      - Si el mail NO se pudo enviar, se manda como respuesta: correcto, id_insertado y NO enviado
+        // Si el query fallo, se manda como respuesta: error y el detalle del error (número y descripción)
+        // Se cierra el Prepared Statement y la conexión a BD
+        // Se regresa la respuesta por JSON
+        try {
+            $duplicado = $conn->prepare("SELECT nombre FROM alumno WHERE correo = ?");
+            $duplicado->bind_param('s', $correo_alumno);
+            $duplicado->execute();
+            $duplicado->bind_result($nombre_al);
+            $duplicado->fetch();
+            if($nombre_al){
                 $respuesta = array(
                     'respuesta' => 'error',
-                    'error' => 'Error al crear alumno',
-                    'detalle' => $stmt->errno.' : '.$stmt->error
-                );
+                    'error' => 'El alumno ya ha sido registrado.'
+                ); 
+            } else{
+                $stmt = $conn->prepare("INSERT INTO alumno VALUES (null,?,?,?,?,?,?,?,?,?)");
+                $stmt->bind_param("ssssssssi", $matricula_alumno, $nombre_alumno, $apellido_alumno,  $correo_alumno, $hash_password,$universidad_alumno, $division_alumno, $carrera_alumno, $estado_alumno);
+                $stmt->execute();
+
+                if($stmt->affected_rows == 1) {
+                    if($mail->send()){
+                        $respuesta = array(
+                            'respuesta' => 'correcto',
+                            'id_insertado' => $stmt->insert_id,
+                            'correo' => 'enviado'
+                        );    
+                    }
+                    else {
+                        $respuesta = array(
+                            'respuesta' => 'correcto',
+                            'id_insertado' => $stmt->insert_id,
+                            'correo' => 'NO enviado'
+                        ); 
+                    }
+                } else {
+                    $respuesta = array(
+                        'respuesta' => 'error',
+                        'error' => 'Error al crear alumno',
+                        'detalle' => $stmt->errno.' : '.$stmt->error
+                    );
+                }
+                $stmt->close();
             }
-            $stmt->close();
+
+            $conn->close();
+        } catch(Exception $e) {
+            $respuesta = array(
+                'error' => $e->getMessage()
+            );
         }
-
-        $conn->close();
-    } catch(Exception $e) {
-        $respuesta = array(
-            'error' => $e->getMessage()
-        );
     }
-
     echo json_encode($respuesta);
 }
 
