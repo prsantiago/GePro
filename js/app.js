@@ -9,7 +9,8 @@ const formularioProfesor = document.querySelector('#profesor'),                 
       formularioProceso = document.querySelector('#proceso'),                         // progreso.php
       formularioCuenta = document.querySelector('#recuperar-cuenta'),
       formularioPassword = document.querySelector('#nueva-pwd'),
-      borrarProyecto = document.querySelector("#listado-proyectos tbody");            // inicio.php
+      borrarProyecto = document.querySelector("#listado-proyectos tbody"),
+      filtrarProyectos =  document.querySelector('#form_filtros');             
 
 eventListeners();
 
@@ -39,6 +40,8 @@ function eventListeners() {
         formularioPassword.addEventListener('submit', leerformularioNuevaPassword);
     if(borrarProyecto)
         borrarProyecto.addEventListener('click', eliminarProyecto);
+    if(filtrarProyectos)
+        filtrarProyectos.addEventListener('submit', filtrarProy);
 }
 
 /* -------------------------------------------------------------------------------------------- */
@@ -75,7 +78,6 @@ function insertarProfesorBD(datos, accion) {
         if (this.status === 200) {
             const respuesta = JSON.parse(xhr.responseText); // Parseo de la respuesta del back-end
             console.log(respuesta);
-            // console.log(xhr.responseText);
 
             if(respuesta.respuesta === 'correcto') {
                 document.querySelector('form').reset();     // Resetear el formulario
@@ -497,9 +499,9 @@ function leerformularioNuevaPassword(e){
         // retorno de datos
         xhr.onload = function() {
             if (this.status === 200) {
-                // const respuesta = JSON.parse(xhr.responseText);
-                // console.log(respuesta);
-                console.log(xhr.responseText);
+                const respuesta = JSON.parse(xhr.responseText);
+                console.log(respuesta);
+                // console.log(xhr.responseText);
 
                 // Si la respuesta es correcta
                 if (respuesta.respuesta === 'correcto') {  
@@ -520,4 +522,45 @@ function leerformularioNuevaPassword(e){
             
     }
     
+}
+
+/* -------------------------------------------------------------------------------------------- */
+/* ------------------------------ Filtrar Proyectos -------------------------------------- */
+/* -------------------------------------------------------------------------------------------- */
+
+function filtrarProy(e){
+    e.preventDefault();
+    
+    const datos = new FormData(filtrarProyectos);
+    datos.append('tipo', 'filtrar');
+    console.log(...datos);
+
+    // crear el llamado a ajax
+    const xhr = new XMLHttpRequest();
+
+    // abrir la conexión.
+    xhr.open('POST', 'inc/modelos/modelo-filtros.php', true);
+
+    // retorno de datos
+    xhr.onload = function() {
+        if (this.status === 200) {
+            const respuesta = JSON.parse(xhr.responseText);
+            console.log(respuesta);
+
+            // Si la respuesta es correcta
+            if (respuesta.respuesta === 'correcto') {  
+                alert(respuesta.nombre);                
+                //window.location.href = 'index.php?login=false';
+            } else {
+                // Hubo un error
+                alert(respuesta.error);
+            }
+        } else {
+            // const respuesta = JSON.parse(xhr.responseText);
+            console.log(xhr.responseText);
+            // console.log(respuesta);
+        }
+    }
+        // Enviar la petición
+    xhr.send(datos);
 }
