@@ -362,6 +362,16 @@ table {
     padding: 0.4rem;
     text-align: center;
 }
+
+#listado-total tr {
+    border-bottom: 0.1rem solid black;
+    padding-right: 0.1rem;
+}
+
+#listado-total td {
+    font-size: 1.5rem;
+}
+
 @media (max-width: 768px) {
     .contenedor h4 {
         text-align: center;
@@ -370,13 +380,20 @@ table {
         overflow-x: scroll;
         width: 100%;
     }
-    #listado-seguimientos {
+    #listado-total {
         font-size: 1.5rem;
         padding: 0;
     }
 }
 
-
+.ended {
+    color: green;
+    font-weight: bold;
+}
+.progress {
+    color: purple;
+    font-weight: bold;
+}
 
 
 /* Contenido Progreso */
@@ -468,6 +485,60 @@ table {
     margin: 1rem;
 }
 .vinculo:hover{
+    background-color: var(--quinto);
+    color: white;
+}
+
+.vin-proy {
+    text-align: center;
+    color: black;
+    text-decoration: none;
+}
+.vin-proy:hover{
+    color: var(--cuaternario);
+}
+
+
+/* Historial de todos los proyectos */
+.filter {
+    width: 10em;
+}
+#filters {
+    margin: 0;
+    padding-top: 0;
+}
+#form_filtros {
+    margin-top: 0;
+    padding-top: 0;
+}
+.p-filter {
+    margin: 0;
+    padding-right: 2px;
+}
+.filtros {
+    width: 100%;
+}
+#filtros {
+    text-align: center;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    font-weight: bold;
+}
+#filtros:hover {
+    color: var(--cuaternario);
+}
+.asesor {
+    width: 100%;
+}
+#filtro_btn {
+    background-color: var(--terciario);
+    text-align: center;
+    color: black;
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.6rem 0.3rem 0.6rem;
+    margin: 1rem;
+}
+#filtro_btn:hover{
     background-color: var(--quinto);
     color: white;
 }
