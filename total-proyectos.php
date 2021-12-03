@@ -21,9 +21,6 @@ include_once 'inc/funciones/conexion.php';
                     <p class="p-filter">Buscar por:                   
                     <select name="buscar_por">
                         <option value="proyecto">Nombre de Proyecto</option>
-                        <option value="asesor">Nombre de Asesor</option>
-                        <option value="asesor2">Nombre de Co-Asesor</option>
-                        <option value="alumno">Nombre de Alumno</option>
                     </select></p>
                     <p class="p-filter">Nombre a buscar:                   
                     <input type="text" name="nombre_buscar" class="filter" id="name_asesor">
@@ -41,7 +38,6 @@ include_once 'inc/funciones/conexion.php';
                     <tr>
                         <th>Nombre</th>
                         <th>Asesor</th>
-                        <th>Co-Asesor</th>
                         <th>Estudiante</th>
                         <th>Fecha de Inicio</th>
                         <th>Fecha de Término</th>
@@ -61,7 +57,6 @@ include_once 'inc/funciones/conexion.php';
                             <tr>
                                 <td><?php echo $proyecto['proyecto']?></td>
                                 <td><?php echo $proyecto['nom_asesor']." ".$proyecto['ap_asesor'] ?></td>
-                                <td><?php echo $proyecto['nom_asesor2']." ".$proyecto['ap_asesor2'] ?></td>
                                 <td><?php echo $proyecto['nombre']." ".$proyecto['apellido']?></td>
                                 <td><?php echo $proyecto['fechaInicio']?></td>
                                 <td><?php echo $proyecto['fechaFin']?></td>
@@ -81,7 +76,6 @@ include_once 'inc/funciones/conexion.php';
                             <tr>
                                 <td><?php echo $proyecto['proyecto']?></td>
                                 <td><?php echo $proyecto['nom_asesor']." ".$proyecto['ap_asesor'] ?></td>
-                                <td><?php echo $proyecto['nom_asesor2']." ".$proyecto['ap_asesor2'] ?></td>
                                 <td><?php echo $proyecto['nombre']." ".$proyecto['apellido']?></td>
                                 <td><?php echo $proyecto['fechaInicio']?></td>
                                 <td><?php echo $proyecto['fechaFin']?></td>

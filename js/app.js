@@ -545,11 +545,11 @@ function filtrarProy(e){
     xhr.onload = function() {
         if (this.status === 200) {
             const respuesta = JSON.parse(xhr.responseText);
-            console.log(respuesta);
+            // console.log(respuesta);
+            // console.log(xhr.responseText);
 
             // Si la respuesta es correcta
-            if (respuesta.respuesta === 'correcto') {  
-                alert(respuesta.nombre);                
+            if (respuesta.respuesta === 'correcto') {                 
                 //window.location.href = 'index.php?login=false';
 
                 registros = document.querySelectorAll('tbody tr');
@@ -557,6 +557,14 @@ function filtrarProy(e){
                     registro.style.display = 'none';
                 });
 
+                contenido_tabla = document.querySelector('tbody');
+                for (var res in respuesta) {
+                    if (res == 'respuesta') {
+                        continue
+                    }
+                    // while (res != )
+                    console.log(respuesta[res])
+                }
                 
             } else {
                 // Hubo un error
