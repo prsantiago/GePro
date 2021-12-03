@@ -2,7 +2,6 @@
 include 'inc/templates/header.php'; 
 include 'inc/funciones/funciones.php';
 include_once 'inc/funciones/conexion.php';
-
 ?>
 
 <div class="bg-primario contenedor-barra">
@@ -20,17 +19,18 @@ include_once 'inc/funciones/conexion.php';
             <div id="filters" class="asesor">
                 <form id="form_filtros" method="post" autocomplete="off">
                     <p class="p-filter">Buscar por:                   
-                    <select name="filtro_uni">
+                    <select name="buscar_por">
                         <option value="proyecto">Nombre de Proyecto</option>
                         <option value="asesor">Nombre de Asesor</option>
                         <option value="asesor2">Nombre de Co-Asesor</option>
                         <option value="alumno">Nombre de Alumno</option>
                     </select></p>
-                    <p class="p-filter">Nombre de asesor:                   
-                    <input type="text" name="filtro_asesor" class="filter" id="name_asesor"></p>
+                    <p class="p-filter">Nombre a buscar:                   
+                    <input type="text" name="nombre_buscar" class="filter" id="name_asesor">
+                    (Nombre completo de proyecto. Nombre y apellido para asesor/alumno)</p>
                     <div >
                         <input type="hidden" id="tipo" value="filtrar">
-                        <input type="submit" class="" value="Aplicar filtros">
+                        <input type="submit" class="boton" value="Aplicar filtros">
                     </div>
                 </form>
             </div>

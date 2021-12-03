@@ -551,6 +551,13 @@ function filtrarProy(e){
             if (respuesta.respuesta === 'correcto') {  
                 alert(respuesta.nombre);                
                 //window.location.href = 'index.php?login=false';
+
+                registros = document.querySelectorAll('tbody tr');
+                registros.forEach(registro => {
+                    registro.style.display = 'none';
+                });
+
+                
             } else {
                 // Hubo un error
                 alert(respuesta.error);
@@ -561,6 +568,7 @@ function filtrarProy(e){
             // console.log(respuesta);
         }
     }
-        // Enviar la petición
+    
+    // Enviar la petición
     xhr.send(datos);
 }
