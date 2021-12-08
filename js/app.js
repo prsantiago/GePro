@@ -558,11 +558,20 @@ function filtrarProy(e){
                 });
 
                 contenido_tabla = document.querySelector('tbody');
+
+                // Insert a row at the end of table
+                var newRow = contenido_tabla.insertRow();
+
                 for (var res in respuesta) {
                     if (res == 'respuesta') {
                         continue
                     }
-                    // while (res != )
+                    // Insert a cell at the end of the row
+                    var newCell = newRow.insertCell();
+
+                    // Append a text node to the cell
+                    var newText = document.createTextNode(respuesta[res]);
+                    newCell.appendChild(newText);
                     console.log(respuesta[res])
                 }
                 
