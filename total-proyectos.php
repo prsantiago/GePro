@@ -24,7 +24,7 @@ include_once 'inc/funciones/conexion.php';
                     </select></p>
                     <p class="p-filter">Nombre a buscar:                   
                     <input type="text" name="nombre_buscar" class="filter" id="name_asesor">
-                    (Nombre completo de proyecto. Nombre y apellido para asesor/alumno)</p>
+                    (Nombre completo de proyecto)</p>
                     <div >
                         <input type="hidden" id="tipo" value="filtrar">
                         <input type="submit" class="boton" value="Aplicar filtros">

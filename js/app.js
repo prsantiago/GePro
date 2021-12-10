@@ -568,9 +568,14 @@ function filtrarProy(e){
                     }
                     // Insert a cell at the end of the row
                     var newCell = newRow.insertCell();
-
+                    
+                    var newText = '';
                     // Append a text node to the cell
-                    var newText = document.createTextNode(respuesta[res]);
+                    if (respuesta[res] === 'null') {
+                        newText = '';
+                    } else {
+                        newText = document.createTextNode(respuesta[res]);
+                    }
                     newCell.appendChild(newText);
                     console.log(respuesta[res])
                 }
