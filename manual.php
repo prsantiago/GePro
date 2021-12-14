@@ -28,6 +28,7 @@
             <li><a href="documents\Registrar_seguimiento.pdf">Para registrar seguimiento</a></li>
             <li><a href="documents\Revisar_historial_de_seguimiento_como_profesor.pdf">Para revisar historial de seguimiento</a></li>
             <li><a href="documents\Revisar_proyectos_terminados.pdf">Para revisar proyectos terminados</a></li>
+            <li><a href="documents\Filtrar_proyecto.pdf">Para buscar proyectos por nombre</a></li>
         </ul>
         <h2>Instructivo de uso como alumno</h2>
         <ul>
@@ -37,6 +38,7 @@
             <li><a href="documents\Recuperar_contraseña_como_alumno.pdf">Para recuperar contraseña</a></li>
             <li><a href="documents\Revisar_historial_de_seguimiento_como_alumno.pdf">Para revisar historial de seguimiento</a></li>
             <li><a href="documents\Ver_progreso_del_proyecto_como_alumno.pdf">Para ver progreso del proyecto</a></li>
+            <li><a href="documents\Filtrar_proyecto.pdf">Para buscar proyectos por nombre</a></li>
         </ul>
     </div>
 </main>
